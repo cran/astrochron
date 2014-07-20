@@ -5,7 +5,7 @@
 Calculate periodogram for stratigraphic series
 }
 \usage{
-periodogram(dat,padfac=2,demean=T,detrend=F,xmin=0,xmax=Nyq,pl=1,output=0,f0=T,genplot=T,
+periodogram(dat,padfac=2,demean=T,detrend=F,xmin=0,xmax=Nyq,pl=1,output=0,f0=F,genplot=T,
             verbose=T)
 }
 \arguments{

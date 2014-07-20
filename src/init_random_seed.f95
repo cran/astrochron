@@ -6,7 +6,7 @@
           subroutine init_random_seed()
             implicit none
             integer, allocatable :: seed(:)
-            integer :: i, n, un, istat, dt(8), pid, t(2), s
+            integer :: i, n, un, istat, dt(8), pid, getpid, t(2), s
             integer(8) :: count, tms
           
             call random_seed(size = n)

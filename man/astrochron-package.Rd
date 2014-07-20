@@ -10,8 +10,8 @@
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 0.3\cr
-Date: \tab 2014-06-29\cr
+Version: \tab 0.3.1\cr
+Date: \tab 2014-07-19\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~
@@ -31,9 +31,9 @@ Development of 'astrochron' is partially supported by the U.S. National Science 
 
 \emph{Collaborative Research: Evolution of the Climate Continuum- Late Paleogene to Present (OCE 1003603 to S. Meyers and L. Hinnov)}
 
-TO CITE PACKAGE 'astro' IN PUBLICATIONS, PLEASE USE:
+TO CITE PACKAGE 'astrochron' IN PUBLICATIONS, PLEASE USE:
 
-Meyers, S.R. (2014), \emph{astrochron: An R Package for Astrochronology (Version 0.3).}
+Meyers, S.R. (2014), \emph{astrochron: An R Package for Astrochronology (Version 0.3.1).}
 
 Also cite the original research papers that document the relevant algorithms, as referenced on the help pages for specific functions.
 
@@ -43,7 +43,7 @@ Also cite the original research papers that document the relevant algorithms, as
 \keyword{ package }
 \examples{
 %%~~ simple examples of the most important functions ~~
-### EXAMPLES OF SOME FUNCTIONS AVAILABLE IN 'astro':
+### EXAMPLES OF SOME FUNCTIONS AVAILABLE IN 'astrochron':
 
 ### This demo will use a model [series are usually read using the function 'read'.]
 data(modelA)

@@ -5,12 +5,13 @@
 ### function periodogram - (SRM: January 26, 2012; April 28, 2012; 
 ###                         October 10, 2012, November 20, 2012; May 20-24, 2013; 
 ###                         June 5, 2013; June 13, 2013; July 30-31, 2013;
-###                         August 3, 2013; August 7-10, 2013; Nov. 26, 2013)
+###                         August 3, 2013; August 7-10, 2013; Nov. 26, 2013; 
+###                         July 11, 2014; July 19, 2014)
 ###
 ### simple unwindowed periodogram
 ###########################################################################
 
-periodogram <- function (dat,padfac=2,demean=T,detrend=F,xmin=0,xmax=Nyq,pl=1,output=0,f0=T,genplot=T,verbose=T)
+periodogram <- function (dat,padfac=2,demean=T,detrend=F,xmin=0,xmax=Nyq,pl=1,output=0,f0=F,genplot=T,verbose=T)
 {
 
 if(verbose) cat("\n----- CALCULATING PERIODOGRAM FOR STRATIGRAPHIC SERIES -----\n")
@@ -130,11 +131,7 @@ if(verbose)
 ### plot the results
       plot(d,type="l", col="blue",ylab="Value", xlab="Location", main="Stratigraphic Series",bty="n")
       if (pl == 2) {plot(fft.out[,1],fft.out[,3], type="l",col="red", ylab="Power", xlim=c(xmin,xmax),xlab="Frequency", main="Periodogram Power",bty="n")}
-      if (pl == 1 && f0)  
-        { 
-         fft.out <- subset(fft.out,(fft.out[,1] > 0))
-         plot(fft.out[,1],log(fft.out[,3]), type="l",col="red", ylab="Log Power", xlim=c(xmin,xmax), xlab="Frequency", main="Log Periodogram Power",bty="n")
-        }
+      if (pl == 1) plot(fft.out[,1],log(fft.out[,3]), type="l",col="red", ylab="Log Power", xlim=c(xmin,xmax), xlab="Frequency", main="Log Periodogram Power",bty="n")
      plot(fft.out[,1],fft.out[,2], type="l",col="red", ylab="Amplitude", xlim=c(xmin,xmax), xlab="Frequency", main="Periodogram Amplitude",bty="n")
      plot(fft.out[,1],fft.out[,4], type="l",col="red", ylab="Phase", xlim=c(xmin,xmax), xlab="Frequency", main="Periodogram Phase",bty="n")
    }

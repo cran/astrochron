@@ -1,14 +1,14 @@
 Package: astrochron
 Type: Package
 Title: An R Package for Astrochronology
-Version: 0.3
-Date: 2014-04-30
+Version: 0.3.1
+Date: 2014-07-19
 Author: Stephen Meyers
 Maintainer: Stephen Meyers <smeyers@geology.wisc.edu>
 Description: Astrochonologic testing, astronomical time scale development, time series analysis
 Imports: baseline, multitaper, fields
 License: GPL-3
-Packaged: 2014-06-30 15:39:01 UTC; smeyers
+Packaged: 2014-07-19 20:14:42 UTC; smeyers
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-06-30 18:55:46
+Date/Publication: 2014-07-20 07:32:44
