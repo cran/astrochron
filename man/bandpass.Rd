@@ -6,7 +6,7 @@ Bandpass filter stratigraphic series using rectangular, Gaussian or tapered cosi
 }
 \usage{
 bandpass(dat,padfac=2,flow=NULL,fhigh=NULL,win=0,alpha=3,p=0.25,demean=T,
-         detrend=F,xmin=0,xmax=Nyq,addmean=T,genplot=T,verbose=T)
+         detrend=F,addmean=T,output=1,xmin=0,xmax=Nyq,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series for bandpass filtering. First column should be location (e.g., depth), second column should be data value.}
@@ -18,9 +18,10 @@ bandpass(dat,padfac=2,flow=NULL,fhigh=NULL,win=0,alpha=3,p=0.25,demean=T,
   \item{p}{Cosine-tapered window parameter: p is the percent of the data series tapered (choose 0-1).}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
+  \item{addmean}{Add mean value to bandpass result? (T or F)}
+  \item{output}{Output: (1) filtered series, (2) bandpass filter window.}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
-  \item{addmean}{Add mean value to bandpass result? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
@@ -28,11 +29,13 @@ bandpass(dat,padfac=2,flow=NULL,fhigh=NULL,win=0,alpha=3,p=0.25,demean=T,
 bandpassed stratigraphic series.
 }
 
-\seealso{ \code{\link{lowpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, and \code{\link{prewhiteAR1}} }
+\seealso{ \code{\link{lowpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, \code{\link{prewhiteAR1}}, and \code{\link{taner}} }
 
 \examples{
+\donttest{
 # generate example series with 3 precession terms and noise
 ex <- cycles(noisevar=.0004,dt=5)
 # bandpass precession terms using cosine-tapered window 
 res_ex <- bandpass(ex,flow=0.038,fhigh=0.057,win=2,p=.4)
+}
 }

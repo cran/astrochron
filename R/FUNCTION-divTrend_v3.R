@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2014 Stephen R. Meyers
+### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
 ### divTrend: divide data value by linear trend - (SRM: March 29, 2012; Oct. 11, 2012; 

@@ -2,13 +2,13 @@ bibentry("Manual",
 		title="astrochron: An R Package for Astrochronology",
 		author="Stephen R. Meyers",
 		year="2014",
-		note="(Version 0.3.1)",
+		note="(Version 0.4)",
 		url="http://www.geology.wisc.edu/~smeyers",
 
 		textVersion =
 		paste("Meyers, S.R. (2014). ",
-				"astrochron: An R Package for Astrochronology (Version 0.3.1). ",
-				"Available from http://www.geology.wisc.edu/~smeyers",
+				"astrochron: An R Package for Astrochronology. ",
+				"http://cran.r-project.org/package=astrochron",
 				sep=""),
 
 		mheader = "To cite package 'astrochron' in publications use:")

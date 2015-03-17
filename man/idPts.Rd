@@ -5,8 +5,8 @@
 Interactively identify points in x,y plot.
 }
 \usage{
-idPts(dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1,output=F,
-      verbose=T)
+idPts(dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,
+       logx=F,logy=F,plotype=1,output=1,verbose=T)
 }
 \arguments{
   \item{dat1}{Data frame with one or two columns. If one column, dat2 must also be specified.}
@@ -16,8 +16,10 @@ idPts(dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1,
   \item{xmax}{Maximum x-value (column 1) to plot}  
   \item{ymin}{Minimum y-value (column 2) to plot}
   \item{ymax}{Maximum y-value (column 2) to plot}  
+  \item{logx}{Plot x-axis using logarithmic scaling? (T or F)}
+  \item{logy}{Plot y-axis using logarithmic scaling? (T or F)}
   \item{plotype}{Type of plot to generate: 1= points and lines, 2 = points, 3 = lines}
-  \item{output}{Return identified points as a data frame? (T of F)}
+  \item{output}{Return identified points as a data frame? (0) no, (1) return x and y, (2) return index, x and y}
   \item{verbose}{Verbose output? (T or F)}
 }
 

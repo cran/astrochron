@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2014 Stephen R. Meyers
+### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
 ### function prewhiteAR - (SRM: October 3, 2012; Oct. 11, 2012; Oct 15, 2012
@@ -19,7 +19,7 @@ if(order<=0 && aic==F)
       {
         cat("\n**** WARNING: Selecting an order <=0 initiates automatic evaluation out\n")
         cat("              to the maximum possible order permitted by the algorithm,\n")
-        cat("              but you have entered aic=F. Changing to aic=T.\n\n")
+        cat("              but you have entered aic=F. Now changing to aic=T.\n\n")
       }
     aic=T
   }  

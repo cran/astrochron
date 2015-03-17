@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2014 Stephen R. Meyers
+### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
 ### delPts: interactively delete points in plot (SRM: June 10-11, 2013

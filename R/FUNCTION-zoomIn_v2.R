@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2014 Stephen R. Meyers
+### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
 ### zoomIn: explore cross-plot, allow user to zoom into specfied region.

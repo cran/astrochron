@@ -33,6 +33,11 @@ trackFreq(spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmi
 \seealso{ \code{\link{eha}} and \code{\link{traceFreq}} }
 
 \examples{
+\donttest{
+# Check to see if this is an interactive R session, for compliance with CRAN standards.
+# YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
+if(interactive()) {
+
 # Generate example series with 3 terms using function 'cycles'.
 # Then convert from time to space with sedimentation rate that increases from 1 to 5 cm/ka, using
 # function 'sedramp'.
@@ -43,5 +48,8 @@ dat=linterp(sedRamp(cycles(freqs=c(1/100,1/40,1/20),start=1,end=2500,dt=5)))
 out=eha(dat,output=4)
 
 ## Isolate peaks with probability >= 0.9
-#freq=trackFreq(out,0.9)
+freq=trackFreq(out,0.9)
+
+}
+}
 }

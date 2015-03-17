@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2014 Stephen R. Meyers
+### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
 ### Read tune - (SRM: April 26, 2012; October 29, 2012; May 20, 2013; 

@@ -2,16 +2,16 @@
 \alias{astrochron-package}
 \alias{astrochron}
 \docType{package}
-\title{astrochron: An R Package for Astrochronology}
+\title{astrochron: A Computational Tool for Astrochronology}
 \description{
-'astrochron' is a suite of signal processing routines for astrochronology, including data series preparation, spectral analysis, time-frequency analysis, and astrochronologic testing. 
+'astrochron' is a computational tool for astrochronology. It includes routines for astrochronologic testing, astronomical time scale construction, and time series analysis. Also included are a range of statistical analysis and modeling routines that are relevant to time scale development and paleoclimate analysis.
 }
 \details{
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 0.3.1\cr
-Date: \tab 2014-07-19\cr
+Version: \tab 0.4.1\cr
+Date: \tab 2015-03-17\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~
@@ -23,7 +23,7 @@ Maintainer: Stephen Meyers <smeyers@geology.wisc.edu>
 }
 
 \note{
-Please note that this version of astrochron is undergoing BETA TESTING.
+Please note that this version of 'astrochron' is undergoing BETA TESTING.
 
 Development of 'astrochron' is partially supported by the U.S. National Science Foundation:
 
@@ -33,7 +33,7 @@ Development of 'astrochron' is partially supported by the U.S. National Science 
 
 TO CITE PACKAGE 'astrochron' IN PUBLICATIONS, PLEASE USE:
 
-Meyers, S.R. (2014), \emph{astrochron: An R Package for Astrochronology (Version 0.3.1).}
+Meyers, S.R. (2014). \emph{astrochron: An R Package for Astrochronology}. http://cran.r-project.org/package=astrochron 
 
 Also cite the original research papers that document the relevant algorithms, as referenced on the help pages for specific functions.
 
@@ -45,7 +45,7 @@ Also cite the original research papers that document the relevant algorithms, as
 %%~~ simple examples of the most important functions ~~
 ### EXAMPLES OF SOME FUNCTIONS AVAILABLE IN 'astrochron':
 
-### This demo will use a model [series are usually read using the function 'read'.]
+### This demo will use a model (series are usually read using the function 'read').
 data(modelA)
 
 ### Interpolate the model stratigraphic series to its median sampling interval
@@ -74,21 +74,28 @@ target=c(1/405.47,1/126.98,1/96.91,1/37.66,1/22.42,1/18.33)
 asm(freq=freqs,target=target,rayleigh=rayleigh,nyquist=nyquist,sedmin=0.5,sedmax=3,numsed=100,
     linLog=1,iter=100000,output=FALSE)
 
+# Check to see if this is an interactive R session, for compliance with CRAN standards.
+# YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
+if(interactive()) {
+
 ### Interactively track obliquity term in EHA harmonic F-test confidence level results
-# freqs=trackFreq(fCL,fmin=1.2,fmax=2.4,threshold=0.8)
+freqs=trackFreq(fCL,fmin=1.2,fmax=2.4,threshold=0.8)
 
 ### Convert the spatial frequencies to sedimentation rates
-# sedrate=freq2sedrate(freqs,period=37.66)
+sedrate=freq2sedrate(freqs,period=37.66)
 
 ### Convert the sedimentation rate curve to a time-space map
-# time=sedrate2time(sedrate)
+time=sedrate2time(sedrate)
 
 ### Tune the stratigraphic series using the time-space map
-# modelATuned=tune(modelAInterp,time)
+modelATuned=tune(modelAInterp,time)
 
 ### Interpolate the tuned series
-# modelATunedInterp=linterp(modelATuned)
+modelATunedInterp=linterp(modelATuned)
 
 ### Perform Evolutive Harmonic Analysis on the tuned series
-# eha(modelATunedInterp)
+eha(modelATunedInterp)
+
+}
+
 }

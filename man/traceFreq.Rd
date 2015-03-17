@@ -28,6 +28,11 @@ traceFreq(spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,nc
 \seealso{ \code{\link{eha}} and \code{\link{trackFreq}} }
 
 \examples{
+\donttest{
+# Check to see if this is an interactive R session, for compliance with CRAN standards.
+# YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
+if(interactive()) {
+
 # Generate example series with 3 terms using function 'cycles'.
 # Then convert from time to space with sedimentation rate that increases from 1 to 5 cm/ka, using 
 # function 'sedramp'.
@@ -38,5 +43,8 @@ dat=linterp(sedRamp(cycles(freqs=c(1/100,1/40,1/20),start=1,end=2500,dt=5)))
 out=eha(dat,output=3)
 
 ## Interactively track frequency drift
-#freq=traceFreq(out)
+freq=traceFreq(out)
+
+}
+}
 }

@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2014 Stephen R. Meyers
+### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
 ### rankSeries: generate rank stratigraphic series from bedding thickness
@@ -16,7 +16,7 @@ rankSeries <- function (dat,dt=NULL,genplot=T,verbose=T)
   ipts <- length(dat[,1]) 
   if (verbose) cat(" * Number of beds input=", ipts,"\n")
 
-# dd up bed thicknesses
+# add up bed thicknesses
   height=append(0,cumsum(dat[,1]))
                  
 # add and subract small amount from each datum

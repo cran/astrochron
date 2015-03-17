@@ -5,8 +5,8 @@
 EXPERIMENTAL: Calculate Evolutive Average Spectral Misfit with Monte Carlo spectra simulations, as updated in Meyers et al. (2012).
 }
 \usage{
-eAsm(spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,numsed=50,
-     linLog=1,iter=100000,ydir=1,output=4,genplot=F)
+eAsm(spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,
+      numsed=50,linLog=1,iter=100000,ydir=1,output=4,genplot=F)
 }
 \arguments{
   \item{spec}{Time-frequency spectral results to evaluate. Must have the following format: column 
@@ -45,6 +45,7 @@ S.R. Meyers, B.B. Sageman and M.A. Arthur, 2012,
 }
 
 \examples{
+\donttest{
 # use modelA as an example
 data(modelA)
 
@@ -67,5 +68,5 @@ HoSL18.23=extract(res[1],get=18.23,pl=1)
 
 # extract ASM result at 18.23 m
 asm18.23=extract(res[2],get=18.23,pl=0)
-
+}
 }

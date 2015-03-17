@@ -24,8 +24,9 @@ asm(freq,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,numsed=50,
 }
 
 \details{
-This function will caculate the Average Spectral Misfit between a data spectrum and astronomical target spectrum, following Meyers and Sageman (2007), 
-and the improvements of Meyers et al. (2012).  
+This function will caculate the Average Spectral Misfit between a data spectrum and astronomical 
+target spectrum, following the approach outlined in Meyers and Sageman (2007), and the 
+improvements of Meyers et al. (2012). 
 }
 
 \value{
@@ -44,6 +45,7 @@ S.R. Meyers, B.B. Sageman and M.A. Arthur, 2012,
 }
 
 \examples{
+\donttest{
 ## these frequencies are from modelA (type '?astrochron' for more information). Units are cycles/m  
 freq <- c(0.1599833,0.5332776,1.5998329,2.6797201,3.2796575,3.8795948,5.5194235,6.5459830)
 freq <- data.frame(freq)
@@ -62,5 +64,5 @@ fper=c(0.023,0.046,0.042,0.008,0.035,0.004)
 
 asm(freq=freq,target=target,fper=fper,rayleigh=rayleigh,nyquist=nyquist,sedmin=0.5,sedmax=3,
     numsed=100,linLog=1,iter=100000,output=FALSE)
-
+}
 }

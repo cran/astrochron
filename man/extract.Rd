@@ -5,7 +5,7 @@
 Extract record from EHA time-frequency output or eAsm output: Use interactive graphical interface to identify record.
 }
 \usage{
-extract(spec,get=NULL,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=-1,pl=0,
+extract(spec,get=NULL,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,pl=0,
         ncolors=100,genplot=T,verbose=T)
 }
 \arguments{

@@ -13,3 +13,10 @@ peak(dat,level,genplot=T,verbose=T)
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
+
+\examples{
+\donttest{
+ex=cycles(genplot=FALSE)
+peak(ex,level=0.02)
+}
+}

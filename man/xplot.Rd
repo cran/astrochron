@@ -5,7 +5,7 @@
 Generate a Cross-plot with Density Estimates on Axes. Custom axes titles optional.
 }
 \usage{
-xplot(x,y,xlab=NULL,ylab=NULL,main=NULL)
+xplot(x,y,xlab=NULL,ylab=NULL,main=NULL,fill=T)
 }
 \arguments{
   \item{x}{Variable 1}
@@ -13,4 +13,16 @@ xplot(x,y,xlab=NULL,ylab=NULL,main=NULL)
   \item{xlab}{Label for the x-axis, in quotes}
   \item{ylab}{Label for the y-axis, in quotes}
   \item{main}{Label for the plot, in quotes}
+  \item{fill}{Use gray fill for density plots? (T or F)}
+}
+
+\examples{
+\donttest{
+# random numbers from a normal distribution
+ex1<-rnorm(1000)
+# random numbers from an exponential distribution
+ex2<-rexp(1000)
+
+xplot(ex1,ex2)
+}
 }

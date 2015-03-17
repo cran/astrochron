@@ -1,6 +1,6 @@
 useDynLib(astrochron)
 
-importFrom(baseline, baseline)
+importFrom(IDPmisc, rfbaseline)
 importFrom(multitaper, spec.mtm)
 importFrom(multitaper, dpss)
 importFrom(fields, image.plot)       
@@ -34,10 +34,12 @@ export(anchorTime,
        freq2sedrate,
        gausTaper,
        getColor,
+       getLaskar,
        hannTaper,
        headn,
        hilbert,
        idPts,
+       integratePower,
        iso,
        linage,
        linterp,
@@ -45,6 +47,8 @@ export(anchorTime,
        lowpass,
        lowspec,
        mtm,
+       mtmAR,
+       mtmML96,
        noLow,
        noKernel,
        pad,
@@ -65,15 +69,21 @@ export(anchorTime,
        sedRamp,
        sedrate2time,
        sortNave,
+       stepHeat,
        strats,
+       surrogates,
+       taner,
+       testPrecession,
        tones,
        traceFreq,
        trackFreq,
        trim,
        trimAT,
+       trough,
        tune,
        writeCSV,
        writeT,
+       wtMean,
        xplot,
        zoomIn
        ) 
