@@ -2,7 +2,7 @@
 \alias{cb}
 \title{Combine Multiple Vectors}
 \description{
-Take any number of input vectors, bind the columns together, and return as a data.frame
+Bind two vectors together and return result as a data frame. Alternatively, extract specified columns from a data frame, bind them together, and return result as a data frame.
 }
 \usage{
 cb(a,b)

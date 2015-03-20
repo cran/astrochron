@@ -35,7 +35,9 @@ mean square weighted deviation, and probability of fit.
 The following plots are produced:
 
 (1) \%Ar40* versus \%Ar39 released
+
 (2) K/Ca versus \%Ar39 released
+
 (3) Ar/Ar age spectrum, with 2 sigma uncertainties for each step, and weighted mean with 95\% confidence interval (in red)
 
 If the J-value and its uncertainty are input, stepHeat will calculate and include the uncertainty associated with J. The uncertainty is calculated and propagated following equation 18 of Koppers (2002).
@@ -80,7 +82,7 @@ ex <- data.frame(cbind(perAr39,age,sd,KCa,perAr40,Fval,Fsd))
 stepHeat(ex)
 
 # plot without points identified
-stepHeat(ex,size=0,idPts=F,cull=F)
+stepHeat(ex,size=0,idPts=FALSE,cull=FALSE)
 
 }
 }

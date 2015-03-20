@@ -6,11 +6,11 @@
 ###                 ratio it to the total power in the spectrum
 ###                 (SRM: December 13, 2013; December 14, 2013; December 17, 2013;
 ###                   December 18, 2013; December 24, 2013; January 15-16, 2015;
-###                   March 6, 2015)
+###                   March 6, 2015; March 19, 2015)
 ###
 ###########################################################################
 
-integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,fNyq=T,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,ncolors=100,h=6,w=9,ln=F,genplot=T,verbose=T)
+integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,ncolors=100,h=6,w=9,ln=F,genplot=T,verbose=T)
 {
 
 if(verbose) cat("\n----- INTEGRATING POWER SPECTRUM -----\n")
@@ -153,9 +153,8 @@ if(cols > 2)
 # isolate the frequency band that you want to integrate
    ifreq= which( (freq >= flow) & (freq <= fhigh) )
 
-# only count f0 and fNyq once (use 0.5 since fac will double others to get power from neg freqs)
+# only count f0 once (use 0.5 since fac will double others to get power from neg freqs)
    if(f0) sp[1]=sp[1]*0.5
-   if(fNyq) sp[numfreq]=sp[numfreq]*0.5
 
 # perform integration
   bandPwr=double(numrec)

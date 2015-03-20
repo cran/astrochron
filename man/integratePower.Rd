@@ -5,7 +5,7 @@
 Determine the total power within a given bandwidth, and also the ratio of this power to the total power in the spectrum (or up to a specified frequency). If bandwidth is not specified, generate interactive plots for bandwidth selection. For use with the function eha, integratePower can process spectrograms (time-frequency) or single spectra.
 }
 \usage{
-integratePower(spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,fNyq=T,xmin=NULL,
+integratePower(spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmin=NULL,
                xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,ncolors=100,
                h=6,w=9,ln=F,genplot=T,verbose=T)
 }
@@ -19,7 +19,6 @@ integratePower(spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,fNyq=T,xmin=NULL
   \item{fmax}{Integrate total power up to this frequency.}
   \item{unity}{Normalize spectra such that total variance (up to fmax) is unity. (T of F)}
   \item{f0}{Is f(0) included in the spectra? (T or F)}
-  \item{fNyq}{Is the Nyquist frequency included in the spectra? (T or F)}
   \item{xmin}{Minimum frequency for PLOTTING.}
   \item{xmax}{Maximum frequency for PLOTTING.}
   \item{ymin}{Minimum depth/height/time for PLOTTING. Only used if processing time-frequency results.}

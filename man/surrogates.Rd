@@ -40,8 +40,8 @@ ex <- cycles(start=0,end=500,noisevar=.0004,dt=5)
 ran_ex <- surrogates(ex,nsim=1)
 
 # compare periodograms of data and surrogates
-res1 <- periodogram(ex,padfac=0,output=1,genplot=F)
-res2 <- periodogram(ran_ex,padfac=0,output=1,genplot=F)
+res1 <- periodogram(ex,padfac=0,output=1,genplot=FALSE)
+res2 <- periodogram(ran_ex,padfac=0,output=1,genplot=FALSE)
 
 pl(2)
 plot(ex,type="l",main="black=original; red=surrogate")

@@ -3,7 +3,8 @@
 ###
 ###########################################################################
 ### xplot: create cross plot of two variable, with density estimates along
-###        axes - (SRM: April 16, 2014; February 7, 2015; February 15, 2015)
+###        axes - (SRM: April 16, 2014; February 7, 2015; February 15, 2015;
+###                     March 19, 2015)
 ###
 ###########################################################################
 
@@ -21,6 +22,7 @@ xplot <- function (x,y,xlab=NULL,ylab=NULL,main=NULL,fill=T)
   ymax=max(y[,1])
   ymin=min(y[,1])
 
+  dev.new(title=paste("xplot results"),height=6,width=5.6)
   par(fig=c(0,0.8,0,0.8))
   plot(x[,1],y[,1],xlim=c(xmin,xmax),ylim=c(ymin,ymax),cex=1.2,cex.axis=1.2,cex.lab=1.2,xlab="",ylab="")
   if(is.null(xlab)) xlab=colnames(x)

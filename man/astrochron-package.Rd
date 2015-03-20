@@ -10,8 +10,8 @@
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 0.4.1\cr
-Date: \tab 2015-03-17\cr
+Version: \tab 0.4.2\cr
+Date: \tab 2015-03-19\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~

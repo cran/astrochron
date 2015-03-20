@@ -25,7 +25,7 @@ ar1etp(etpdat=NULL,nsim=100,rho=0.9,wtAR=1,sig=90,tbw=2,padfac=5,ftest=F,fmax=0.
 
 \details{
 Note: Setting wtAR=1 will provide equal variance contributions from the etp model and the ar1 model.
-More generally, set wtAR to the square root of the desired variance contribution (wtAR=0.5 will generate an AR1 model with variance that is 25% of the etp model).
+More generally, set wtAR to the square root of the desired variance contribution (wtAR=0.5 will generate an AR1 model with variance that is 25\% of the etp model).
 
 Note: You may use the function etp to generate eccentricity-tilt-precession models.
 }
