@@ -7,11 +7,11 @@
 ###                                      June 13, 2013; July 27, 2013;
 ###                                      April 10, 2014; April 21, 2014;
 ###                                      April 23, 2014; Nov. 19, 2014;
-###                                      February 4, 2015)
+###                                      February 4, 2015; June 1, 2015)
 ###########################################################################
 
 
-idPts <- function (dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,logx=F,logy=F,plotype=1,output=1,verbose=T)
+idPts <- function (dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,logx=F,logy=F,plotype=1,annotate=1,output=1,verbose=T)
 {    
     if(verbose) cat("\n----- INTERACTIVELY IDENTIFY POINTS IN PLOT -----\n")
     dat1 <- data.frame(dat1)
@@ -68,6 +68,10 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, cex, ...)
         points(x[ans], y[ans], pch = pch, cex = cex, col="blue")
         sel[ans] <- TRUE
         res <- c(res, ans)
+        if(annotate==1) text(x[ans],y[ans],round(x[ans],digits=2),col = "blue", pos = 3, offset = 1.2, font=2, xpd = TRUE)
+        if(annotate==1) text(x[ans],y[ans],round(y[ans],digits=2),col = "blue", pos = 3, offset = 0.5, font=2, xpd = TRUE)
+        if(annotate==2) text(x[ans],y[ans],round(x[ans],digits=2),col = "blue", pos = 1, offset = 1.2, font=2, xpd = TRUE)
+        if(annotate==2) text(x[ans],y[ans],round(y[ans],digits=2),col = "blue", pos = 1, offset = 0.5, font=2, xpd = TRUE)
         if(verbose) cat(ans,x[ans],y[ans],"\n")
     }
     res

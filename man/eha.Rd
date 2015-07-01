@@ -25,7 +25,7 @@ eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
   \item{xlab}{Label for x-axis. Default = "Frequency"}
   \item{ylab}{Label for y-axis. Default = "Location"}
-  \item{genplot}{Plotting options. 0= no plots; 1= power, amplitude, f-test, probability; 2=data series, power, amplitude, probability; 3= data series, power, normalized amplitude, filtered (at siglevel) and normalized amplitude}
+  \item{genplot}{Plotting options. 0= no plots; 1= power, amplitude, f-test, probability; 2=data series, power, amplitude, probability; 3= data series, power, normalized amplitude (maximum in each window normalized to unity), normalized amplitude filtered at specified siglevel; 4= data series, normalized power (maximum in each window normalized to unity), normalized amplitude (maximum in each window normalized to unity), normalized amplitude filtered at specified siglevel}
   \item{verbose}{Verbose output? (T or F)}
 }
 

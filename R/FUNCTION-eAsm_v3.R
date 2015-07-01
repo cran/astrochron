@@ -2,7 +2,7 @@
 ### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
-### eAsm function - (SRM: January 13, 2014, January 29, 2015)
+### eAsm function - (SRM: January 13, 2014, January 29, 2015; May 18, 2015)
 ###
 ### wrapper to conduct Evolutive ASM analysis using FORTRAN code
 ###
@@ -46,19 +46,36 @@ eAsm <- function (spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,s
    resHo<-double(numsed*numrec)
    dim(resHo)<-c(numsed,numrec)
 
+  ii=1
   for (i in 1:numrec)
     {
      cat("\n * PROCESSING WINDOW=",i,"; Location=",loc[i],"\n")
 # isolate portion of the results that you want to analyze (part 2: 'sp')
       sp2 = sp[ifreq,i]
+# if no peaks acheive specified siglevel, skip
+      ij=sum(sp2>=siglevel)
+      if(ij==0)
+       {
+         cat("\n**** WARNING: no peaks achieve specified significance level\n")
+         resASM[,i] <- NA
+         resHo[,i] <- 100
+       }
+
+      if(ij>0)
+       {  
 # find peaks, store in freqPeak
-      freqPeak=peak(cbind(freq2,sp2),level=siglevel,genplot=F,verbose=T)[2]
+         freqPeak=peak(cbind(freq2,sp2),level=siglevel,genplot=F,verbose=T)[2]
 # calculate ASM
-      res <- asm(freq=freqPeak,target=target,fper=fper,rayleigh=rayleigh,nyquist=nyquist,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,iter=iter,output=TRUE,genplot=genplot)
-      if(i ==1 )resSed <- res[,1]
-      if(i ==1 )resTerms <- res[,4]
-      resASM[,i] <- res[,2]
-      resHo[,i] <- res[,3]
+         res <- asm(freq=freqPeak,target=target,fper=fper,rayleigh=rayleigh,nyquist=nyquist,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,iter=iter,output=TRUE,genplot=genplot)
+         if(ii==1)
+          {
+            resSed <- res[,1]
+            resTerms <- res[,4]
+            ii=2
+          }  
+         resASM[,i] <- res[,2]
+         resHo[,i] <- res[,3]
+       }
     }
 
 # now plot. 

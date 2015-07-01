@@ -5,7 +5,7 @@
 Tune stratigraphic series to an astronomical target using graphical interface similar to Analyseries 'Linage' routine (Paillard et al, 1996).
 }
 \usage{
-linage(dat,target,extrapolate=F,xmin=NULL,xmax=NULL,tmin=NULL,tmax=NULL,plotype=1,
+linage(dat,target,extrapolate=F,xmin=NULL,xmax=NULL,tmin=NULL,tmax=NULL,size=1,plotype=1,
        output=1,genplot=T)
 }
 \arguments{
@@ -16,6 +16,7 @@ linage(dat,target,extrapolate=F,xmin=NULL,xmax=NULL,tmin=NULL,tmax=NULL,plotype=
   \item{xmax}{Maximum height/depth to plot.}
   \item{tmin}{Minimum time value to plot.}
   \item{tmax}{Maximum time value to plot.}  
+  \item{size}{Multiplicative factor to increase or decrease size of symbols and fonts.}
   \item{plotype}{Type of plot to generate: 1= points and lines, 2 = points, 3 = lines}
   \item{output}{Return which of the following? 1 = tuned stratigraphic series; 2 = age control points; 3 = tuned stratigraphic series and age control points}
   \item{genplot}{Generate additional summary plots (tuned record, time-space map, sedimentation rates)? (T or F)}

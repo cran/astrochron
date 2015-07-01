@@ -2,7 +2,7 @@
 \alias{linterp}
 \title{Piecewise Linear Interpolation of Stratigraphic Series}
 \description{
-Interpolate stratigraphic series onto a envenly sampled grid, using piecewise linear interpolation
+Interpolate stratigraphic series onto a evenly sampled grid, using piecewise linear interpolation
 }
 \usage{
 linterp(dat,dt,start,genplot=T,verbose=T)

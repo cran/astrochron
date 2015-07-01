@@ -4,11 +4,12 @@
 ###########################################################################
 ### delPts: interactively delete points in plot (SRM: June 10-11, 2013
 ###                                           June 13, 2013; June 19, 2013;
-###                                           July 27, 2013; April 3, 2014)
+###                                           July 27, 2013; April 3, 2014;
+###                                           June 15,  2015)
 ####
 ###########################################################################
 
-delPts <- function (dat,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1)
+delPts <- function (dat,del=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1)
 {
    
     cat("\n----- INTERACTIVELY IDENTIFY AND DELETE POINTS IN PLOT -----\n")
@@ -19,18 +20,23 @@ delPts <- function (dat,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype
     ipts <- length(dat[,1]) 
     cat(" * Number of data points=", ipts,"\n")
     
-    cat(" * Select points by clicking\n")
-    cat("   Stop by pressing ESC-key (Mac) or STOP button (Windows)\n")
-    
-    if(is.null(xmin)) xmin=min(dat[,1])
-    if(is.null(xmax)) xmax=max(dat[,1])
-    if(is.null(ymin)) ymin=min(dat[,2])
-    if(is.null(ymax)) ymax=max(dat[,2])
-    par(mfrow=c(1,1))
-    if (plotype == 1) { plot(dat, main="Select data points for deletion (press ESC-key or STOP to exit)",xlim=c(xmin,xmax),ylim=c(ymin,ymax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1,cex=ptsize); lines(dat,col="red") }
-    if (plotype == 2) { plot(dat, main="Select data points for deletion (press ESC-key or STOP to exit)",xlim=c(xmin,xmax),ylim=c(ymin,ymax),bty="n",cex.axis=1.1,cex.lab=1.1,cex=ptsize) }
-    if (plotype == 3) { plot(dat, type="l", main="Select data points for deletion (press ESC-key or STOP to exit)",xlim=c(xmin,xmax),ylim=c(ymin,ymax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1) }
+# skip interactive plot and delete points if del=!NULL
+    if(!is.null(del))  pts=del
 
+# otherwise proceed with interactive plot
+    if(is.null(del))
+     { 
+       cat(" * Select points by clicking\n")
+       cat("   Stop by pressing ESC-key (Mac) or STOP button (Windows)\n")
+    
+       if(is.null(xmin)) xmin=min(dat[,1])
+       if(is.null(xmax)) xmax=max(dat[,1])
+       if(is.null(ymin)) ymin=min(dat[,2])
+       if(is.null(ymax)) ymax=max(dat[,2])
+       par(mfrow=c(1,1))
+       if (plotype == 1) { plot(dat, main="Select data points for deletion (press ESC-key or STOP to exit)",xlim=c(xmin,xmax),ylim=c(ymin,ymax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1,cex=ptsize); lines(dat,col="red") }
+       if (plotype == 2) { plot(dat, main="Select data points for deletion (press ESC-key or STOP to exit)",xlim=c(xmin,xmax),ylim=c(ymin,ymax),bty="n",cex.axis=1.1,cex.lab=1.1,cex=ptsize) }
+       if (plotype == 3) { plot(dat, type="l", main="Select data points for deletion (press ESC-key or STOP to exit)",xlim=c(xmin,xmax),ylim=c(ymin,ymax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1) }
 
 ## this script modified from '?identify' in R
 identifyPch <- function(x, y=NULL, n=length(x), pch=19, cex, ...)
@@ -50,7 +56,8 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, cex, ...)
     res
 }
 
-    pts <- identifyPch(dat[,1],dat[,2], cex=ptsize)
+       pts <- identifyPch(dat[,1],dat[,2], cex=ptsize)
+   }
  
     cat("\nSELECTED DATA POINTS FOR DELETION:\n")
     print(dat[pts,])

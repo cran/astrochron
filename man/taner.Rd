@@ -13,7 +13,7 @@ taner(dat,padfac=2,flow=NULL,fhigh=NULL,roll=10^3,demean=T,detrend=F,addmean=T,
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points.}
   \item{flow}{Lowest frequency cut-off (half power point). If this value is not set (NULL), it will default to -1*fhigh, which will create a lowpass filter.}
   \item{fhigh}{Highest frequency cut-off (half power point).}
-  \item{roll}{Roll-off rate, in dB/octave.  Typical values are 10^3-10^4, but can be larger.}
+  \item{roll}{Roll-off rate, in dB/octave.  Typical values are 10^3 to 10^12, but can be larger.}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{addmean}{Add mean value to bandpass result? (T or F)}

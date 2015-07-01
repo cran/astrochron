@@ -4,7 +4,7 @@
 ###########################################################################
 ### AR1 : make AR1 noise - (SRM: January 24, 2012; April 29, 2012; 
 ###                         April 27-29, 2013; May 20-25, 2013; July 31, 2013;
-###                         November 7, 2014; January 20, 2015)
+###                         November 7, 2014; January 20, 2015; April 9, 2015)
 ###########################################################################
 
 ar1 <- function (npts=1024, dt=1, mean=0, sdev=1, rho=0.9, shuffle=F, nsim=1, genplot=T, verbose=T)
@@ -19,16 +19,16 @@ ar1 <- function (npts=1024, dt=1, mean=0, sdev=1, rho=0.9, shuffle=F, nsim=1, ge
 # start simulation loop
    for (i in 1:nsim)
      { 
-### Generate normal deviates, mean = 0
-      if(!shuffle) { white <- rnorm(npts,sd=sdev) }
+### Generate normal deviates, mean = 0, std dev=1
+      if(!shuffle) { white <- rnorm(npts,mean=0,sd=1) }
       if(shuffle)
         {
 # generate normal deviates
-         r1=rnorm(npts,sd=sdev)
+         r1=rnorm(npts,mean=0,sd=1)
 # sort and output index 
          index=sort.int(r1, method=c("shell"),index.return=T)$ix
 # generate another set of normal deviates
-         r2=rnorm(npts,sd=sdev)
+         r2=rnorm(npts,mean=0,sd=1)
 # now reorder r2 using index
          white=r2[index]
         }
@@ -39,6 +39,11 @@ ar1 <- function (npts=1024, dt=1, mean=0, sdev=1, rho=0.9, shuffle=F, nsim=1, ge
         { 
           red[ii,i] <- rho*red[ii-1,i]+white[ii]
         }
+### standardize to specified mean and variance
+###  note, first mean is function call, second instance is desired mean value
+       red[, i] = red[, i] - mean(red[, i])
+       red[, i] = red[, i] * sdev/sd(red[, i])
+       red[, i] = red[, i] + mean
      }   
     
    if(nsim==1)

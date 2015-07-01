@@ -5,10 +5,11 @@
 Interactively delete points in x,y plot.
 }
 \usage{
-delPts(dat,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1)
+delPts(dat,del=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1)
 }
 \arguments{
   \item{dat}{Data frame with two columns}
+  \item{del}{A vector of indices indicating points to delete. If specified, the interactive plot is disabled.}
   \item{ptsize}{Size of plotted points.}
   \item{xmin}{Minimum x-value (column 1) to plot}
   \item{xmax}{Maximum x-value (column 1) to plot}

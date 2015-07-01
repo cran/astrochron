@@ -3,11 +3,12 @@
 ###
 ###########################################################################
 ### linage: tune stratigraphic series to astronomical target using interface
-###          similar to Analyseries 'Linage' routine (SRM: June 10-13, 2013)
+###          similar to Analyseries 'Linage' routine (SRM: June 10-13, 2013;
+###                                                        June 29-30, 2015)
 ###
 ###########################################################################
 
-linage <- function (dat,target,extrapolate=F,xmin=NULL,xmax=NULL,tmin=NULL,tmax=NULL,plotype=1,output=1,genplot=T)
+linage <- function (dat,target,extrapolate=F,xmin=NULL,xmax=NULL,tmin=NULL,tmax=NULL,size=1,plotype=1,output=1,genplot=T)
 {
     
     cat("\n----- INTERACTIVELY TUNE STRATIGRAPHIC SERIES TO ASTRONOMICAL TARGET -----\n")
@@ -53,7 +54,7 @@ linage <- function (dat,target,extrapolate=F,xmin=NULL,xmax=NULL,tmin=NULL,tmax=
 
 
 ## this script modified from '?identify' in R
-identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
+identifyPch <- function(x, y=NULL, n=length(x), pch=3, ...)
 {
     xy <- xy.coords(x, y); x <- xy$x; y <- xy$y
     sel <- rep(FALSE, length(x)); res <- integer(0)
@@ -81,20 +82,19 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
        if (plotype == 1) {plot(dat, main="Select stratigraphic correlation points",xlim=c(xmin,xmax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1,cex=0.5); lines(dat,col="red")}
        if (plotype == 2) {plot(dat, main="Select stratigraphic correlation points",xlim=c(xmin,xmax),bty="n",cex.axis=1.1,cex.lab=1.1,cex=0.5)}
        if (plotype == 3) {plot(dat, type="l", main="Select stratigraphic correlation points",xlim=c(xmin,xmax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1,cex=0.5)}
-
-       if (itick > 0)
-         {
-           odatpts=ndatpts
-           points(dat[datpts,1],dat[datpts,2],pch=19,col="blue")
-           text(dat[datpts,1],dat[datpts,2],labels=1:itick,cex=0.5,col="white",font=2)
-           datpts <- append(datpts,identifyPch(dat[,1],dat[,2],n=1))
-           ndatpts = length(datpts)    
-           if(odatpts == ndatpts) break    
-         }
        if (itick == 0)
          {
            datpts <- identifyPch(dat[,1],dat[,2],n=1)
            ndatpts = 1
+         }
+       if (itick > 0)
+         {
+           odatpts=ndatpts
+           points(dat[datpts,1],dat[datpts,2],pch=19,col="blue",cex=1*size)
+           text(dat[datpts,1],dat[datpts,2],labels=1:itick,cex=0.5*size,col="white",font=2)
+           datpts <- append(datpts,identifyPch(dat[,1],dat[,2],n=1))
+           ndatpts = length(datpts)    
+           if(odatpts == ndatpts) break    
          }
        itick = itick + 1  
 
@@ -102,16 +102,13 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
        if (plotype == 1) {plot(target, main="Select astronomical target correlation points",xlim=c(tmin,tmax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1,cex=0.5); lines(target,col="red")}
        if (plotype == 2) {plot(target, main="Select astronomical target correlation points",xlim=c(tmin,tmax),bty="n",cex.axis=1.1,cex.lab=1.1,cex=0.5)}
        if (plotype == 3) {plot(target, type="l", main="Select astronomical target correlation points",xlim=c(tmin,tmax),bty="n",lwd=2,cex.axis=1.1,cex.lab=1.1,cex=0.5)}
+       if (ijtick == 0) targetpts <- identifyPch(target[,1],target[,2],n=1)
        if (ijtick > 0)
          {
-           points(target[targetpts,1],target[targetpts,2],pch=19,col="blue")
-           text(target[targetpts,1],target[targetpts,2],labels=1:ijtick,cex=0.5,col="white",font=2)
+           points(target[targetpts,1],target[targetpts,2],pch=19,col="blue",cex=1*size)
+           text(target[targetpts,1],target[targetpts,2],labels=1:ijtick,cex=0.5*size,col="white",font=2)
            targetpts <- append(targetpts,identifyPch(target[,1],target[,2],n=1))
           } 
-       if (ijtick == 0)
-         {
-           targetpts <- identifyPch(target[,1],target[,2],n=1)
-         }
        ijtick = ijtick + 1
        
 # output correlation points (depth/height vs. time) to screen
@@ -123,6 +120,8 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
 # now tune          
     cat("\n * Tuning via piecewise linear interpolation of age control points.\n")
     controlPts = data.frame( cbind(dat[datpts,1],target[targetpts,1]) )
+# sort to ensure increasing order
+    controlPts <- controlPts[order(controlPts[1],na.last=NA,decreasing=F),]
     colnames(controlPts)[1] = 'Depth/Height'
     colnames(controlPts)[2] = 'Time' 
 # note: here we will force tune.R to extrapolate. if extrapolation not desired, we will remove
@@ -136,9 +135,9 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
     if(!extrapolate) 
      {
 # determine number of points removed from start of series, save for plotting purposes
-       remov = nrow(subset(tuned, (tuned[1] < target[targetpts[1],1]))[1] )
+       remov = nrow(subset(tuned, (tuned[1] < target[targetpts[which.min(targetpts)],1]))[1] )
 # now remove points from both start and end if needed
-       tuned = subset(tuned, (tuned[1] >= target[targetpts[1],1]) & (tuned[1] <= target[targetpts[length(targetpts)],1])) 
+       tuned = subset(tuned, (tuned[1] >= target[targetpts[which.min(targetpts)],1]) & (tuned[1] <= target[targetpts[which.max(targetpts)],1])) 
      }  
           
 # final summary plots
@@ -149,28 +148,28 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
          {
            plot(dat, main="Final stratigraphic correlation points",xlim=c(xmin,xmax),bty="n",lwd=2,cex.axis=1.3,cex.lab=1.3,cex.main=1.4,cex=0.5)
            if(plotype == 1) lines(dat,col="red")
-           points(dat[datpts,1],dat[datpts,2],pch=19,col="blue",cex=1.5)
-           text(dat[datpts,1],dat[datpts,2],labels=1:itick,cex=0.8,col="white",font=2)
+           points(dat[datpts,1],dat[datpts,2],pch=19,col="blue",cex=1.5*size)
+           text(dat[datpts,1],dat[datpts,2],labels=1:itick,cex=0.8*size,col="white",font=2)
            plot(target, main="Final astronomical target correlation points",xlim=c(tmin,tmax),bty="n",lwd=2,cex.axis=1.3,cex.lab=1.3,cex.main=1.4,cex=0.5)
            if(plotype == 1) lines(target,col="red")
-           points(target[targetpts,1],target[targetpts,2],pch=19,col="blue",cex=1.5)
-           text(target[targetpts,1],target[targetpts,2],labels=1:ijtick,cex=0.8,col="white",font=2)
+           points(target[targetpts,1],target[targetpts,2],pch=19,col="blue",cex=1.5*size)
+           text(target[targetpts,1],target[targetpts,2],labels=1:ijtick,cex=0.8*size,col="white",font=2)
            plot(tuned, main="Tuned stratigraphic series",bty="n",lwd=2,cex.axis=1.3,cex.lab=1.3,cex.main=1.4,cex=0.5)
            if(plotype == 1) lines(tuned,col="red")
-           points(tuned[(datpts-remov),1],tuned[(datpts-remov),2],pch=19,col="blue",cex=1.5)
-           text(tuned[(datpts-remov),1],tuned[(datpts-remov),2],labels=1:itick,cex=0.8,col="white",font=2)
+           points(tuned[(datpts-remov),1],tuned[(datpts-remov),2],pch=19,col="blue",cex=1.5*size)
+           text(tuned[(datpts-remov),1],tuned[(datpts-remov),2],labels=1:itick,cex=0.8*size,col="white",font=2)
          }
     if (plotype == 3) 
          {
            plot(dat, type="l", main="Final stratigraphic correlation points",xlim=c(xmin,xmax),bty="n",lwd=2,cex.axis=1.3,cex.lab=1.3,cex.main=1.4,cex=0.5)
-           points(dat[datpts,1],dat[datpts,2],pch=19,col="blue",cex=1.5)
-           text(dat[datpts,1],dat[datpts,2],labels=1:itick,cex=0.8,col="white",font=2)
+           points(dat[datpts,1],dat[datpts,2],pch=19,col="blue",cex=1.5*size)
+           text(dat[datpts,1],dat[datpts,2],labels=1:itick,cex=0.8*size,col="white",font=2)
            plot(target, type="l", main="Final astronomical target correlation points",xlim=c(tmin,tmax),bty="n",lwd=2,cex.axis=1.3,cex.lab=1.3,cex.main=1.4,cex=0.5)
-           points(target[targetpts,1],target[targetpts,2],pch=19,col="blue",cex=1.5)
-           text(target[targetpts,1],target[targetpts,2],labels=1:ijtick,cex=0.8,col="white",font=2)
+           points(target[targetpts,1],target[targetpts,2],pch=19,col="blue",cex=1.5*size)
+           text(target[targetpts,1],target[targetpts,2],labels=1:ijtick,cex=0.8*size,col="white",font=2)
            plot(tuned, type="l", main="Tuned stratigraphic series",bty="n",lwd=2,cex.axis=1.3,cex.lab=1.3,cex.main=1.4,cex=0.5)
-           points(tuned[(datpts-remov),1],tuned[(datpts-remov),2],pch=19,col="blue",cex=1.5)
-           text(tuned[(datpts-remov),1],tuned[(datpts-remov),2],labels=1:itick,cex=0.8,col="white",font=2)
+           points(tuned[(datpts-remov),1],tuned[(datpts-remov),2],pch=19,col="blue",cex=1.5*size)
+           text(tuned[(datpts-remov),1],tuned[(datpts-remov),2],labels=1:itick,cex=0.8*size,col="white",font=2)
          }
 
 # generate additional summary plots (time-depth map and sedimentation rates

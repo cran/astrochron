@@ -4,11 +4,11 @@
 ###########################################################################
 ### autoPlot: automatically plot all data in data frame - VERTICAL plots 
 ###          (SRM: Oct. 30, 2012; Jan. 18, 2013; May 20, 2013; June 19, 2013;
-###                June 28, 2013; August 15, 2013)
+###                June 28, 2013; August 15, 2013; April 7, 2015)
 ###
 ###########################################################################
 
-autoPlot <- function (dat,cols=NULL,nrows=NULL,smooth=0,xgrid=1,output=F,verbose=T)
+autoPlot <- function (dat,cols=NULL,nrows=NULL,ydir=-1,smooth=0,xgrid=1,output=F,genplot=T,verbose=T)
 {
 
 cat("\n----- PLOTTING (AND SMOOTHING) STRATIGRAPHIC DATA SERIES-----\n")
@@ -25,6 +25,9 @@ dat <- dat[order(dat[1],na.last=NA,decreasing=F),]
 
 smoothScaled= smooth 
 
+if(ydir == 1) ylimset = c(min(dat[,1]), max(dat[,1]))
+if(ydir == -1) ylimset = c(max(dat[,1]), min(dat[,1]))
+
 # if cols is not explicitly defined, will use all columns in dat
 if(is.null(cols))
   {
@@ -39,18 +42,22 @@ if(!is.null(cols))
   
 if(verbose) cat(" * Number of variables to plot=", ncols,"\n")
 
-if(is.null(nrows))
-  {
-    nrows = ceiling(sqrt(ncols-1))
+if(genplot) 
+ {
+  par(mar = c(4, 2.5, 1, 2))
+  if(is.null(nrows))
+   {
+    if(ncols<=4) nrows = 1
+    if(ncols>4) nrows = ceiling(sqrt(ncols-1))
     ncols1 = nrows
     par(mfrow = c(nrows, ncols1))
-  }
+   }
 
-if(!is.null(nrows))
-  {
+  if(!is.null(nrows))
+   {
     par(mfrow=c(nrows,ceiling(ncols/nrows)))
-  }
-
+   }
+ }
 
 # set up smooth
 smoothed = rep(NA,npts*ncols)
@@ -80,7 +87,11 @@ for (i in 1:ncols)
      }
      
   colnames(smoothed) <- storename        
-  plot(smoothed[,i],xID*-1, cex=0.5, ylab=colnames(dat[1]),xlab=colnames(dat[loc])); lines(smoothed[,i],xID*-1, col="black")
+  if(genplot) 
+   {
+     plot(smoothed[,i],xID, cex=0.5, ylim=ylimset,ylab=colnames(dat[1]),xlab=colnames(dat[loc]))
+     lines(smoothed[,i],xID, col="black")
+   }  
  }
 
 if(output) 

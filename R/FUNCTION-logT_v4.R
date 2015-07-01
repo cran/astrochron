@@ -3,12 +3,12 @@
 ###
 ###########################################################################
 ### function logT - (SRM: January 30, 2012; December 12, 2012; April 24, 2013
-###                       May 20, 2013)
+###                       May 20, 2013; June 16, 2015)
 ###
 ### apply log transformation
 ###########################################################################
 
-logT <- function (dat,c=0,genplot=T,verbose=T) 
+logT <- function (dat,c=0,opt=1,genplot=T,verbose=T) 
 {
 
    if(verbose) cat("\n----- PERFORMING log TRANSFORM OF STRATIGRAPHIC SERIES-----\n")
@@ -17,7 +17,8 @@ logT <- function (dat,c=0,genplot=T,verbose=T)
    npts <- length(dat[,1]) 
    if(verbose) cat(" * Number of data points=", npts,"\n")
 
-   trans <- log(dat[,2] + c )
+   if(opt==1) trans <- log(dat[,2] + c )
+   if(opt==2) trans <- log10(dat[,2] + c )
  
    out <- data.frame(cbind(dat[,1],trans))
 

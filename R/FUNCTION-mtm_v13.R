@@ -7,7 +7,7 @@
 ###                      May 20-21, 2013; May 23, 2013; May 27, 2013; June 5, 2013; 
 ###                      June 13, 2013; August 5, 2013; August 12, 2013; Nov. 26, 2013;
 ###                      July 31, 2014; January 31, 2015; February 1-3, 2015; 
-###                      February 26, 2015; March 6, 2015)
+###                      February 26, 2015; March 6, 2015; June 30, 2015)
 ###
 ### uses multitaper library and built in functions from R
 ###########################################################################
@@ -150,11 +150,20 @@ prob <- pf(FtestRaw,2,dof-2)
 ### generate plots
 if(genplot)
  {
-   if(ar1) par(mfrow=c(3,1))
-   if(!ar1) par(mfrow=c(2,1))
+   if(ar1) 
+    {
+      par(mfrow=c(3,1))
+      if(!CLpwr) mtitle=c("MTM Power (black) & AR1 fit (red)")
+      if(CLpwr) mtitle=c("MTM Power (black); AR1 fit (red); 90%CL, 95%CL, 99%CL (dotted)")
+    }   
+   if(!ar1) 
+    {
+     par(mfrow=c(2,1))
+     mtitle=c("MTM Power")
+    }
    if(pl == 1)
     {
-      plot(freq,log(pwrRaw),type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Log Power",main="MTM Power (black) & AR1 fit (red)",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
+      plot(freq,log(pwrRaw),type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Log Power",main=mtitle,cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
       if(ar1) 
         {
           lines(freq,log(RawAR),xlim=c(xmin,xmax),col="red",lwd=2)
@@ -168,7 +177,7 @@ if(genplot)
     }
    if(pl == 2)
     {
-      plot(freq,pwrRaw,type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Linear Power",main="MTM Power (black) & AR1 fit (red)",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
+      plot(freq,pwrRaw,type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Linear Power",main=mtitle,cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
       if(ar1) 
         {
           lines(freq,RawAR,xlim=c(xmin,xmax),col="red",lwd=2)

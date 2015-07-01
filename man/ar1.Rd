@@ -11,11 +11,11 @@ ar1(npts=1024,dt=1,mean=0,sdev=1,rho=0.9,shuffle=F,nsim=1,genplot,verbose)
 \arguments{
   \item{npts}{number of time series data points}
   \item{dt}{sampling interval}
-  \item{mean}{mean value for Gaussian deviates}
-  \item{sdev}{standard deviation for initial white noise Gaussian deviates}
+  \item{mean}{mean value for AR1 surrogate series}
+  \item{sdev}{standard deviation for AR1 surrogate series}
   \item{rho}{AR(1) coefficient}
-  \item{shuffle}{Apply secondary shuffle of Gaussian deviates before AR modeling.}
-  \item{nsim}{Number of AR1 surrogate series to generate.}
+  \item{shuffle}{Apply secondary shuffle of Gaussian deviates before AR modeling}
+  \item{nsim}{Number of AR1 surrogate series to generate}
   \item{genplot}{generate summary plots (T or F)}
   \item{verbose}{verbose output (T or F)}
 }

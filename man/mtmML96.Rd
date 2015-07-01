@@ -58,7 +58,7 @@ detection in climatic time series}, Clim. Change, 33, 409-445.
 Meyers, S.R., 2012, \emph{Seeing red in cyclic stratigraphy: Spectral noise estimation for
 astrochronology}, Paleoceanography, 27, PA3228.
 
-Patterson, Patterson, M.O., McKay, R., Naish, T., Escutia, C., Jimenez-Espejo, F.J., 
+Patterson, M.O., McKay, R., Naish, T., Escutia, C., Jimenez-Espejo, F.J., 
 Raymo, M.E., Meyers, S.R., Tauxe, L., Brinkhuis, H., and IODP Expedition 318 Scientists,
 2014, \emph{Response of the East Antarctic Ice Sheet to orbital forcing during the 
 Pliocene and Early Pleistocene}, Nature Geoscience, v. 7, p. 841-847.

@@ -6,7 +6,8 @@
 ###                      June 13, 2013; June 26, 2013; July 27, 2013; 
 ###                      August 5, 2013; Nov. 26, 2013; January 13, 2014;
 ###                      February 14, 2014; Nov. 10, 2014; Jan. 31, 2015;
-###                      February 3, 2015; March 6, 2015)
+###                      February 3, 2015; March 6, 2015; April 8, 2015;
+###                      May 24, 2015)
 ###
 ### uses EHA (FORTRAN) library and built-in functions from R
 ###########################################################################
@@ -17,7 +18,6 @@ eha <- function (dat,tbw=2,pad=defaultPad,fmin=0,fmax=Nyq,step=dt*10,win=dt*100,
 # uses fields library for plotting, multitaper library to generate dpss tapers
 
 dat <- data.frame(dat)
-y <- dat[,2]
 mpts <- as.integer( length(dat[,1]) )
 dt <- dat[2,1]-dat[1,1]
 
@@ -29,6 +29,9 @@ dt <- dat[2,1]-dat[1,1]
        dt <- dat[2,1]-dat[1,1]
        mpts <- as.integer( length(dat[,1]) )
      }
+
+   y <- dat[,2]
+
    dtest <- dat[2:mpts,1]-dat[1:(mpts-1),1] 
    epsm=1e-10
    if( (max(dtest)-min(dtest)) > epsm ) 
@@ -268,7 +271,7 @@ if (genplot == 2)
 
 if (genplot == 3)
   {
-# normalize amplitude spectra
+# normalize amplitude spectra to have maxima of unity
     ampNorm<-double(nfreq*nspec)
     dim(ampNorm)<-c(nfreq,nspec)
     ampNorm=t(ampRaw)/(apply(ampRaw,2,max))
@@ -312,6 +315,60 @@ if (genplot == 3)
      }
 # end genplot = 3
    }  
+   
+   if (genplot == 4)
+  {
+# normalize amplitude spectra to have maxima of unity
+    ampNorm<-double(nfreq*nspec)
+    dim(ampNorm)<-c(nfreq,nspec)
+    ampNorm=t(ampRaw)/(apply(ampRaw,2,max))
+    ampNorm=t(ampNorm)
+
+# normalize power spectra to have maxima of unity
+    pwrNorm<-double(nfreq*nspec)
+    dim(pwrNorm)<-c(nfreq,nspec)
+    pwrNorm=t(pwrRaw)/(apply(pwrRaw,2,max))
+    pwrNorm=t(pwrNorm)
+
+# filter at given significance level
+    ampSig<-ampNorm
+    ampSig[prob<siglevel] <- NA
+
+    if (ydir == -1) 
+     {
+       dev.new(title=paste("Data series"),height=6.8,width=2)
+       plot(dat[,2],dat[,1], ylim = c( max(dat[,1]),min(dat[,1]) ),type="l",xlab="Value",ylab=ylab,main="Data Series",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
+       dev.new(title=paste("Time-frequency results"),height=6,width=10)
+       par(mfrow=c(1,3))
+       par(mar = c(3.1, 4.1, 5.1, 0.7))
+       par(mgp = c(2.2,1,0))
+# in this case, reset ylim range.
+# note that useRaster=T is not a viable option, as it will plot the results backwards, even though the
+#  y-axis scale has been reversed!  This option will result in a slower plotting time.
+       ylimset=c( max(height),min(height) )
+       if(pl == 1) image.plot(freq,height,log(pwrNorm),ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Log Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrNorm,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampNorm,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampSig,ylim=ylimset,col=tim.colors(100),xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+     }
+
+    if (ydir == 1) 
+     {
+       dev.new(title=paste("Data series"),height=6.8,width=2)
+       plot(dat[,2],dat[,1],type="l",xlab="Value",ylab=ylab,main="Data Series",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
+       dev.new(title=paste("Time-frequency results"),height=6,width=10)
+       par(mfrow=c(1,3))
+       par(mar = c(3.1, 4.1, 5.1, 0.7))
+       par(mgp = c(2.2,1,0))
+# useRaster=T results in a faster plotting time.
+       if(pl == 1) image.plot(freq,height,log(pwrNorm),col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrNorm,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampNorm,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampSig,col=tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+     }
+# end genplot = 4
+   }  
+   
 # end nspec > 1
 }
 
