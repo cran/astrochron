@@ -2,7 +2,7 @@
 \alias{eha}
 \title{Evolutive Harmonic Analysis}
 \description{
-Evolutive Harmonic Analysis using the Thomson Multitaper Method
+Evolutive Harmonic Analysis using the Thomson Multitaper Method (Thomson, 1982)
 }
 \usage{
 eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
@@ -29,7 +29,11 @@ eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
   \item{verbose}{Verbose output? (T or F)}
 }
 
-\seealso{ \code{\link{extract}}, \code{\link{trackFreq}} and \code{\link{traceFreq}} }
+\seealso{ \code{\link{extract}}, \code{\link{lowspec}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, \code{\link{trackFreq}} and \code{\link{traceFreq}} }
+
+\references{
+Thomson, D. J., 1982, \emph{Spectrum estimation and harmonic analysis}, Proc. IEEE, 70, 1055-1096, doi:10.1109/PROC.1982.12433.
+}
 
 \examples{
 \donttest{

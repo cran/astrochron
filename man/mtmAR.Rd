@@ -37,4 +37,4 @@ mtmAR(dat,tbw=3,ntap=NULL,order=1,method="mle",CItype=1,padfac=5,demean=T,detren
 Thomson, D. J., L. J. Lanzerotti, and C. G. Maclennan, 2001, \emph{The interplanetary magnetic field: Statistical properties and discrete modes}, J. Geophys.Res., 106, 15,941-15,962, doi:10.1029/2000JA000113.
 }
 
-\seealso{ \code{\link{spec.mtm}}, \code{\link{mtm}}, \code{\link{mtmML96}}, \code{\link{lowspec}}, and \code{\link{periodogram}} }
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, and \code{\link{spec.mtm}}}

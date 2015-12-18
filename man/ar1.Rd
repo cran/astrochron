@@ -5,7 +5,7 @@
 Generate AR(1) surrogates. Implement shuffling algorithm of Meyers (2012) if desired.
 }
 \usage{
-ar1(npts=1024,dt=1,mean=0,sdev=1,rho=0.9,shuffle=F,nsim=1,genplot,verbose)
+ar1(npts=1024,dt=1,mean=0,sdev=1,rho=0.9,shuffle=F,nsim=1,genplot=T,verbose=T)
 
 }
 \arguments{

@@ -34,7 +34,7 @@ A data frame containing:
 Sedimentation rate (cm/ka), ASM (cycles/ka), Null hypothesis significance level (0-100 percent), Number of astronomical terms fit.
 }
 
-\seealso{ \code{\link{eAsm}} }
+\seealso{ \code{\link{eAsm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, \code{\link{timeOpt}}, and \code{\link{timeOptSim}} }
 
 \references{
 S.R. Meyers and  B.B. Sageman, 2007,

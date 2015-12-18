@@ -2,7 +2,7 @@
 \alias{lowspec}
 \title{Robust Locally-Weighted Regression Spectral Background Estimation}
 \description{
-LOWSPEC: Robust Locally-Weighted Regression Spectral Background Estimation
+LOWSPEC: Robust Locally-Weighted Regression Spectral Background Estimation (Meyers, 2012)
 }
 \usage{
 lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
@@ -15,7 +15,7 @@ lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
   \item{tbw}{MTM time-bandwidth product (2 or 3 permitted)}
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points.}
   \item{detrend}{Remove linear trend from data series? This detrending is performed following AR1 prewhitening. (T or F)}
-  \item{siglevel}{Significance level for peak identification.}
+  \item{siglevel}{Significance level for peak identification. (0-1)}
   \item{setrho}{Define AR1 coefficient for pre-whitening (otherwise calculated). If set to 0, no pre-whitening is applied.}
   \item{lowspan}{Span for LOWESS smoothing of prewhitened signal, usually fixed to 1. If using value <1, the method is overly conservative with a reduced false positive rate.}
   \item{b_tun}{Robustness weight parameter for LOWSPEC. By default, this will be estimated internally.}
@@ -24,7 +24,7 @@ lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
-  \item{sigID}{Identify signficant frequencies on power and probabilty plots? (T or F)}
+  \item{sigID}{Identify significant frequencies on power and probabilty plots? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
@@ -80,7 +80,7 @@ D.J. Thomson, 1982,
 \emph{Spectrum estimation and harmonic analysis}: IEEE Proceedings, v. 70, p. 1055-1096.
 }
 
-\seealso{ \code{\link{spec.mtm}}, \code{\link{rfbaseline}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, and \code{\link{periodogram}} }
+\seealso{ \code{\link{eha}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, \code{\link{rfbaseline}}, and \code{\link{spec.mtm}}}
 
 
 \examples{

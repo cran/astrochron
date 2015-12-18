@@ -2,7 +2,7 @@
 \alias{mtm}
 \title{Multitaper Method Spectral Analysis}
 \description{
-Multitaper Method (MTM) Spectral Analysis
+Multitaper Method (MTM) Spectral Analysis (Thomson, 1982)
 }
 \usage{
 mtm(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,siglevel=0.9,ar1=T,output=0,
@@ -15,14 +15,14 @@ mtm(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,siglevel=0.9,ar1=T,output=0,
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points.}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
-  \item{siglevel}{Significance level for peak identification.}
+  \item{siglevel}{Significance level for peak identification. (0-1)}
   \item{ar1}{Estimate conventional AR(1) noise spectrum and confidence levels? (T or F)}
   \item{CLpwr}{Plot AR(1) noise confidence levels on power spectrum? (T or F)}
-  \item{output}{What should be returned as a data frame? (0=nothing; 1=spectrum + CLs + AR1 fit; 2=sig peak freqs; 3=sig peak freqs + prob; 4=all)}
+  \item{output}{What should be returned as a data frame? (0=nothing; 1=spectrum + CLs + AR1 fit; 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL; 4=internal variables from spec.mtm). Option 4 is intended for expert users, and should generally be avoided.}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
-  \item{sigID}{Identify signficant frequencies on power and probabilty plots? (T or F)}
+  \item{sigID}{Identify significant frequencies on power and probabilty plots? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
@@ -32,7 +32,7 @@ Rahim, K.J. and Burr W.S. and Thomson, D.J., 2014, \emph{Appendix A: Multitaper 
 Thomson, D. J., 1982, \emph{Spectrum estimation and harmonic analysis}, Proc. IEEE, 70, 1055-1096, doi:10.1109/PROC.1982.12433.
 }
 
-\seealso{ \code{\link{spec.mtm}}, \code{\link{lowspec}}, and \code{\link{periodogram}} }
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, and \code{\link{spec.mtm}}}
 
 \examples{
 \donttest{

@@ -1,8 +1,8 @@
 \name{eAsm}
 \alias{eAsm}
-\title{EXPERIMENTAL: Evolutive Average Spectral Misfit}
+\title{Evolutive Average Spectral Misfit}
 \description{
-EXPERIMENTAL: Calculate Evolutive Average Spectral Misfit with Monte Carlo spectra simulations, as updated in Meyers et al. (2012).
+Calculate Evolutive Average Spectral Misfit with Monte Carlo spectra simulations, as updated in Meyers et al. (2012).
 }
 \usage{
 eAsm(spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,
@@ -31,7 +31,7 @@ eAsm(spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,
 Please see function asm for details.
 }
 
-\seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}} and \code{\link{eha}} }
+\seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{eha}}, \code{\link{testPrecession}}, \code{\link{timeOpt}}, and \code{\link{timeOptSim}} }
 
 \references{
 S.R. Meyers and  B.B. Sageman, 2007,

@@ -41,9 +41,12 @@ When nsim is > 0, the function will output the correlation coefficients for each
 }
 
 
+\seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{timeOpt}}, and \code{\link{timeOptSim}} }
+
+
 \references{
-C. Zeeden, S.R. Meyers, L.J. Lourens, and F.J. Hilgen, 2015 (accepted),
-\emph{Testing astronomically tuned age models}: Paleoceanography.
+C. Zeeden, S.R. Meyers, L.J. Lourens, and F.J. Hilgen, 2015,
+\emph{Testing astronomically tuned age models}: Paleoceanography, 30, doi:10.1002/2014PA002762.
 
 J. Laskar, P. Robutel, F. Joutel, M. Gastineau, A.C.M. Correia, and B. Levrard, B., 2004, 
 \emph{A long term numerical solution for the insolation quantities of the Earth}: 

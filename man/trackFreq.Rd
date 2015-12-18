@@ -47,8 +47,8 @@ dat=linterp(sedRamp(cycles(freqs=c(1/100,1/40,1/20),start=1,end=2500,dt=5)))
 # EHA anlaysis, output probability results
 out=eha(dat,output=4)
 
-## Isolate peaks with probability >= 0.9
-freq=trackFreq(out,0.9)
+## Isolate peaks with probability >= 0.8
+freq=trackFreq(out,0.8)
 
 }
 }

@@ -16,15 +16,15 @@ mtmML96(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,medsmooth=0.2,
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points.}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
-  \item{medsmooth}{ML96 median smoothing parameter (1 = use 100 percent of spectrum, 0.20 use 20 percent)}
+  \item{medsmooth}{ML96 median smoothing parameter (1 = use 100 percent of spectrum; 0.20 = use 20 percent)}
   \item{opt}{Optimization method for robust AR1 model estimation (1=Brent's method:fast, 2=Gauss-Newton:fast, 3=grid search:slow)}
   \item{linLog}{Optimize AR1 model fit using (1) linear power or (2) log(power)?}
-  \item{siglevel}{Significance level for peak identification.}
-  \item{output}{What should be returned as a data frame? (0=nothing; 1=spectrum + CLs + AR1 fit + median smoothed spectrum; 2=sig peak freqs; 3=sig peak freqs + prob; 4=all)}
+  \item{siglevel}{Significance level for peak identification. (0-1)}
+  \item{output}{What should be returned as a data frame? (0=nothing; 1=spectrum + CLs + AR1 fit + median smoothed spectrum; 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL)}
   \item{CLpwr}{Plot ML96 AR(1) noise confidence levels on power spectrum? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
-  \item{sigID}{Identify signficant frequencies on power and probabilty plots? (T or F)}
+  \item{sigID}{Identify significant frequencies on power and probabilty plots? (T or F)}
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
@@ -71,7 +71,7 @@ http://www.meteo.psu.edu/holocene/public_html/Mann/tools/MTM-RED/
 Tukey, J.W., 1977, \emph{Exploratory Data Analysis}, Addison.
 }
 
-\seealso{ \code{\link{runmed}}, \code{\link{spec.mtm}}, \code{\link{mtmAR}}, \code{\link{lowspec}}, and \code{\link{periodogram}} }
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{periodogram}}, \code{\link{runmed}}, and \code{\link{spec.mtm}}}
 
 \examples{
 \donttest{

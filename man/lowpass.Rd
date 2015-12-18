@@ -24,7 +24,7 @@ lowpass(dat,padfac=2,fcut=NULL,win=0,demean=T,detrend=F,addmean=T,alpha=3,p=0.25
   \item{verbose}{Verbose output? (T or F)}
 }
 
-\seealso{ \code{\link{bandpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, and \code{\link{prewhiteAR1}} }
+\seealso{ \code{\link{bandpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, \code{\link{prewhiteAR1}}, and \code{\link{taner}} }
 
 \examples{
 \donttest{

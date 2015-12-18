@@ -1,8 +1,8 @@
 \name{eAsmTrack}
 \alias{eAsmTrack}
-\title{EXPERIMENTAL: Track ASM Null Hypothesis significance level minima in eASM results}
+\title{Track ASM Null Hypothesis significance level minima in eASM results}
 \description{
-EXPERIMENTAL: Track ASM Null Hypothesis significance level minima in eASM results.
+Track ASM Null Hypothesis significance level minima in eASM results.
 }
 \usage{
 eAsmTrack(res,threshold=.5,ydir=-1,genplot=T,verbose=T)
@@ -20,3 +20,5 @@ eAsmTrack(res,threshold=.5,ydir=-1,genplot=T,verbose=T)
 \details{
 Please see function eAsm for details.
 }
+
+\seealso{ \code{\link{asm}}, \code{\link{eAsm}}, and \code{\link{eha}} }

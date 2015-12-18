@@ -6,17 +6,17 @@ The stepHeat function will evaluate data from stepwise heating experiments, prod
 a weighted mean age with uncertainty, and other helpful statistics/plots (with interactive graphics for data culling). 
 The function includes the option to generate results using the approach of IsoPlot 3.70 (Ludwig, 2008) or ArArCALC (Koppers, 2002).}
 \usage{
-stepHeat(dat,unc=1,lambda=5.463e-10,J=NULL,Jsd=NULL,CI=2,cull=T,del=NULL,output=F,
+stepHeat(dat,unc=1,lambda=5.463e-10,J=NULL,Jsd=NULL,CI=2,cull=-1,del=NULL,output=F,
          idPts=T,size=NULL,unit=1,setAr=95,color="black",genplot=T,verbose=T)
 }
 \arguments{
-  \item{dat}{dat must be a data frame with six columns, as follows: (1) \%Ar39 released, (2) date, (3) date uncertainty (one or two sigma), (4) K/Ca, (5) \%Ar40*, (6) F, and (7) F uncertainty (one or two sigma). NOTE: F is the ratio Ar40*/Ar39K (see Koppers, 2002).}
-  \item{unc}{What is the uncertainty on your input dates? (1) one sigma, or (2) 2 sigma. DEFAULT is one sigma. This also applies to the F uncertainty, and the J-value uncertainty (if specified) }
+  \item{dat}{dat must be a data frame with seven columns, as follows: (1) \%Ar39 released, (2) date, (3) date uncertainty (one or two sigma), (4) K/Ca, (5) \%Ar40*, (6) F, and (7) F uncertainty (one or two sigma). NOTE: F is the ratio Ar40*/Ar39K (see Koppers, 2002).}
+  \item{unc}{What is the uncertainty on your input dates? (1) one sigma, or (2) two sigma. DEFAULT is one sigma. This also applies to the F uncertainty, and the J-value uncertainty (if specified) }
   \item{lambda}{Total decay constant of K40, in units of 1/year. The default value is 5.463e-10/year (Min et al., 2000).}
   \item{J}{Neutron fluence parameter}
   \item{Jsd}{Uncertainty for J-value (neutron fluence parameter; as one or two sigma)}
   \item{CI}{Which convention would you like to use for the 95\% confidence intervals? (1) ISOPLOT (Ludwig, 2008), (2) ArArCALC (Koppers, 2002)}
-  \item{cull}{Would you like to remove one or more dates using the graphical interface? (T or F)}
+  \item{cull}{Would you like select dates with a graphical interface? (0=no, 1=select points to retain, -1=select points to remove)}
   \item{del}{A vector of indices indicating dates to remove from weighted mean calculation. If specified, this takes precedence over cull.}
   \item{output}{Return weighted mean results as new data frame? (T or F)}
   \item{idPts}{Identify datum number on each point? (T or F)}
@@ -29,7 +29,7 @@ stepHeat(dat,unc=1,lambda=5.463e-10,J=NULL,Jsd=NULL,CI=2,cull=T,del=NULL,output=
 }
 
 \details{
-This function performs weighted mean age calculations, including estimation of age uncertainties, 
+This function performs weighted mean age calculations for step-heating data, including estimation of age uncertainties, 
 mean square weighted deviation, and probability of fit. 
 
 The following plots are produced:
@@ -42,6 +42,13 @@ The following plots are produced:
 
 If the J-value and its uncertainty are input, stepHeat will calculate and include the uncertainty associated with J. The uncertainty is calculated and propagated following equation 18 of Koppers (2002).
 
+A NOTE regarding confidence intervals: There are two conventions that can be used to calculate the confidence intervals, selected with the option 'CI':
+
+(1) ISOPLOT convention (Ludwig, 2008). When the probability of fit is >= 0.15, the confidence interval is based on 1.96*sigma.  When the probability of fit is < 0.15, the confidence interval is based on t*sigma*sqrt(MSWD). 
+
+(2) ArArCALC convention (Koppers, 2002). When MSWD <=1, the confidence interval is based on 1.96*sigma. When MSWD > 1, the confidence interval is based on 1.96*sigma*sqrt(MSWD).
+
+ADDITIONAL ADVICE: Use the function readMatrix to load your data in R (rather than the function read).
 }
 
 \references{
@@ -82,7 +89,7 @@ ex <- data.frame(cbind(perAr39,age,sd,KCa,perAr40,Fval,Fsd))
 stepHeat(ex)
 
 # plot without points identified
-stepHeat(ex,size=0,idPts=FALSE,cull=FALSE)
+stepHeat(ex,size=0,idPts=FALSE,cull=0)
 
 }
 }

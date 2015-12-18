@@ -4,14 +4,16 @@
 \docType{package}
 \title{astrochron: A Computational Tool for Astrochronology}
 \description{
-'astrochron' is a computational tool for astrochronology. It includes routines for astrochronologic testing, astronomical time scale construction, and time series analysis. Also included are a range of statistical analysis and modeling routines that are relevant to time scale development and paleoclimate analysis.
+This software provides routines for astrochronologic testing, astronomical time scale 
+construction, and time series analysis. Also included are a range of statistical analysis 
+and modeling routines that are relevant to time scale development and paleoclimate analysis.
 }
 \details{
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 0.4.3\cr
-Date: \tab 2015-07-01\cr
+Version: \tab 0.5\cr
+Date: \tab 2015-12-18\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~
@@ -23,15 +25,15 @@ Maintainer: Stephen Meyers <smeyers@geology.wisc.edu>
 }
 
 \note{
-Please note that this version of 'astrochron' is undergoing BETA TESTING.
+Please note that this software is undergoing BETA TESTING.
 
-Development of 'astrochron' is partially supported by the U.S. National Science Foundation:
+Development of the 'astrochron' package is partially supported by the U.S. National Science Foundation:
 
 \emph{CAREER: Deciphering the Beat of a Timeless Rhythm - The Future of Astrochronology (EAR 1151438 to S. Meyers)}
 
 \emph{Collaborative Research: Evolution of the Climate Continuum- Late Paleogene to Present (OCE 1003603 to S. Meyers and L. Hinnov)}
 
-TO CITE PACKAGE 'astrochron' IN PUBLICATIONS, PLEASE USE:
+TO CITE THIS PACKAGE IN PUBLICATIONS, PLEASE USE:
 
 Meyers, S.R. (2014). \emph{astrochron: An R Package for Astrochronology}. http://cran.r-project.org/package=astrochron 
 
@@ -43,7 +45,7 @@ Also cite the original research papers that document the relevant algorithms, as
 \keyword{ package }
 \examples{
 %%~~ simple examples of the most important functions ~~
-### EXAMPLES OF SOME FUNCTIONS AVAILABLE IN 'astrochron':
+### EXAMPLES OF SOME FUNCTIONS AVAILABLE IN THIS SOFTWARE:
 
 ### This demo will use a model (series are usually read using the function 'read').
 data(modelA)
@@ -75,7 +77,7 @@ asm(freq=freqs,target=target,rayleigh=rayleigh,nyquist=nyquist,sedmin=0.5,sedmax
     linLog=1,iter=100000,output=FALSE)
 
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
-# YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
+# YOU SHOULD SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {
 
 ### Interactively track obliquity term in EHA harmonic F-test confidence level results
