@@ -18,7 +18,7 @@ mtm(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,siglevel=0.9,ar1=T,output=0,
   \item{siglevel}{Significance level for peak identification. (0-1)}
   \item{ar1}{Estimate conventional AR(1) noise spectrum and confidence levels? (T or F)}
   \item{CLpwr}{Plot AR(1) noise confidence levels on power spectrum? (T or F)}
-  \item{output}{What should be returned as a data frame? (0=nothing; 1=spectrum + CLs + AR1 fit; 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL; 4=internal variables from spec.mtm). Option 4 is intended for expert users, and should generally be avoided.}
+  \item{output}{What should be returned as a data frame? (0=nothing; 1= power spectrum + harmonic CL + AR1 CL + AR1 fit + 90\%-99\% AR1 power levels (ar1 must be set to TRUE to output AR model results); 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL; 4=internal variables from spec.mtm). Option 4 is intended for expert users, and should generally be avoided.}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}

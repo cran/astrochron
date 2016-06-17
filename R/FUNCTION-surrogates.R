@@ -2,7 +2,7 @@
 ### Copyright (C) 2015 Stephen R. Meyers
 ###
 ###########################################################################
-### function ebiSurrogate : generate random phase surrogates as in Ebisuzaki W. (1997),
+### function surrogates : generate random phase surrogates as in Ebisuzaki W. (1997),
 ###       A method to estimate the statistical significance of a correlation 
 ###       when the data are serially correlated. J Climate, 10, 2147-2153.
 ###                                 (SRM: Dec 6-11, 2012; May 28-29, 2013; 

@@ -6,10 +6,10 @@ TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in
 }
 \usage{
 timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,
-        roll=NULL,targetE=NULL,targetP=NULL,output=0,genplot=T,verbose=T)
+        roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
 }
 \arguments{
-  \item{dat}{Stratigraphic series for modulation assessment. First column should be depth or height (in meters), second column should be data value.}
+  \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
   \item{sedmin}{Minimum sedimentation rate for investigation (cm/ka).}
   \item{sedmax}{Maximum sedimentation rate for investigation (cm/ka).}
   \item{numsed}{Number of sedimentation rates to investigate in optimization grid.}
@@ -20,6 +20,7 @@ timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,
   \item{roll}{Taner filter roll-off rate, in dB/octave.}  
   \item{targetE}{A vector of eccentricity periods to evaluate (in ka). These must be in order of decreasing period, with a first value of 405 ka.}
   \item{targetP}{A vector of precession periods to evaluate (in ka). These must be in order of decreasing period.}
+  \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{output}{Which results would you like to return to the console? (0) no output; (1) return sedimentation rate grid, r^2_envelope, r^2_power, r^2_opt; (2) return optimal time series, bandpassed series, envelope, reconstructed eccentricity model}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}

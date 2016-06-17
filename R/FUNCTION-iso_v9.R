@@ -5,7 +5,7 @@
 ### iso: isolate a portion of the data set for analysis 
 ###       - (SRM: January 30, 2012; March 29, 2012; Nov. 14, 2012; 
 ###               May 20, 2013; August 13, 2013; April 3, 2014; April 9-10, 2014
-###               May 15, 2014; Nov. 19, 2014; February 4, 2015)
+###               May 15, 2014; Nov. 19, 2014; February 4, 2015; May 11, 2016)
 ###########################################################################
 
 iso <- function (dat,xmin=NULL,xmax=NULL,col=2,logx=F,logy=F,genplot=T,verbose=T)
@@ -52,23 +52,31 @@ iso <- function (dat,xmin=NULL,xmax=NULL,col=2,logx=F,logy=F,genplot=T,verbose=T
 
   newpts=length(dat[,1])
   if(verbose) cat(" * Number of data points following culling=",newpts,"\n")
+
+# determine if any missing entries (NA) exist
+     numNA=sum(is.na(dat))
+     if(numNA > 0) 
+       {
+         cat("\n  WARNING:", numNA,"empty entries are present in your data frame.\n")
+       } 
   
 if(length(dat)==2 && genplot==T)
  {
 
+  plotdat = subset(dat, !(dat[2] == "NA"))
 ### plots
   par(mfrow=c(2,2))
   if(logx && logy) setlog="xy"
   if(logx && !logy) setlog="x"
   if(!logx && logy) setlog="y"
   if(!logx && !logy) setlog=""
-  plot(dat,cex=0.5,xlab="Location",ylab="Value",main="Stratigraphic Series",log=setlog); lines(dat)
+  plot(plotdat,cex=0.5,xlab="Location",ylab="Value",main="Stratigraphic Series",log=setlog); lines(plotdat)
 ### plot the denisty and the histogram together
-  hist(dat[,2],freq=F,xlab="Value",main="Distribution of Isolated Values"); lines(density(dat[,2], bw="nrd"),col="red"); grid()
+  hist(plotdat[,2],freq=F,xlab="Value",main="Distribution of Isolated Values"); lines(density(plotdat[,2], bw="nrd"),col="red"); grid()
 ### boxplot
-  boxplot(dat[,2],ylab="Value",main="Boxplot for Isolated Values")
+  boxplot(plotdat[,2],ylab="Value",main="Boxplot for Isolated Values")
 ### Normal probabilty plot (Normal Q-Q Plot)
-  qqnorm(dat[,2]); qqline(dat[,2], col="red");grid()
+  qqnorm(plotdat[,2]); qqline(plotdat[,2], col="red");grid()
 
   } 
   
@@ -82,8 +90,9 @@ if(length(dat)>2 && genplot==T)
 #    for (i in 2:ncols1) 
     for (i in 2:(ncols1+1)) 
       {
+        plotdat = subset(dat[,i], !(dat[,i] == "NA"))
         xlab = names(dat)[i]
-        hist(dat[,i],freq=F,xlab=xlab,main=""); lines(density(dat[,i], bw="nrd"),col="red"); grid()
+        hist(plotdat,freq=F,xlab=xlab,main=""); lines(density(plotdat, bw="nrd"),col="red"); grid()
       }
   }  
   

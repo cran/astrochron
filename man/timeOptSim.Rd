@@ -6,10 +6,10 @@ Perform Monte Carlo AR1 simulations to evaluate significance of TimeOpt results,
 }
 \usage{
 timeOptSim(dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,
-       roll=NULL,targetE=NULL,targetP=NULL,output=0,genplot=T,verbose=T)
+       roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
 }
 \arguments{
-  \item{dat}{Stratigraphic series for modulation assessment. First column should be depth or height (in meters), second column should be data value.}
+  \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
   \item{sedrate}{Sedimentation rate for investigation (cm/ka).}
   \item{numsim}{Number of Monte Carlo AR1 simulations}
   \item{rho}{AR1 coefficient to use in simulations. By default this will be estimated from the stratigraphic series.}
@@ -19,6 +19,7 @@ timeOptSim(dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,
   \item{roll}{Taner filter roll-off rate, in dB/octave.}
   \item{targetE}{A vector of eccentricity periods to evaluate (in ka). These must be in order of decreasing period, with a first value of 405 ka.}
   \item{targetP}{A vector of precession periods to evaluate (in ka). These must be in order of decreasing period.}
+  \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{output}{Return: (0) nothing; (1) p-value; (2) output simulation r^2_opt results}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}

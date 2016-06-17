@@ -8,7 +8,7 @@
 ###                      June 13, 2013; August 5, 2013; August 12, 2013; Nov. 26, 2013;
 ###                      July 31, 2014; January 31, 2015; February 1-3, 2015; 
 ###                      February 26, 2015; March 6, 2015; June 30, 2015; Sept. 10, 2015;
-###                      December 14, 2015)
+###                      December 14, 2015; May 20, 2016)
 ###
 ### uses multitaper library and built in functions from R
 ###########################################################################
@@ -324,12 +324,15 @@ if (output==1)
       }
    if(ar1)
      {
-       spectrum <- data.frame(cbind(freq,pwrRaw,prob*100,chiCLRawAR*100,RawAR))
+       spectrum <- data.frame(cbind(freq,pwrRaw,prob*100,chiCLRawAR*100,RawAR,AR1_90,AR1_95,AR1_99))
        colnames(spectrum)[1] <- 'Frequency'
        colnames(spectrum)[2] <- 'Power'
        colnames(spectrum)[3] <- 'Harmonic_CL'
        colnames(spectrum)[4] <- 'AR1_CL'
        colnames(spectrum)[5] <- 'AR1_fit'
+       colnames(spectrum)[6] <- 'AR1_90_power'
+       colnames(spectrum)[7] <- 'AR1_95_power'
+       colnames(spectrum)[8] <- 'AR1_99_power'
      }  
    return(spectrum)
  }

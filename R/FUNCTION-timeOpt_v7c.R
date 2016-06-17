@@ -6,10 +6,11 @@
 ###                          Oct. 21, 2014; Jan. 8, 2015; March 9, 2015; 
 ###                          Sept. 29-30, 2015; October 20-21, 2015; 
 ###                          October 26, 2015; November 19, 2015;
-###                          December 17, 2015)
+###                          December 17, 2015; February 7, 2016; 
+###                          February 16, 2016; March 2, 2016)
 ###########################################################################
 
-timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,output=0,genplot=T,verbose=T)
+timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
 {
 
 if(verbose) cat("\n----- TimeOpt: Assessment of Amplitude Modulation & Bundling-----\n")
@@ -43,6 +44,14 @@ if (verbose)
    cat(" * Stratigraphic series length (meters):",(npts-1)*dx,"\n")
    cat(" * Sampling interval (meters):",dx,"\n\n")
  }
+
+# detrend
+if (detrend) 
+  {
+    lm.1 <- lm(dat[,2] ~ dat[,1])
+    dat[2] <- dat[2] - (lm.1$coeff[2]*dat[1] + lm.1$coeff[1])
+    if(verbose) cat(" * Linear trend subtracted. m=",lm.1$coeff[2],"b=",lm.1$coeff[1],"\n")
+  }
 
 # standardize data series
    dat[2]=dat[2]-colMeans(dat[2])
@@ -287,8 +296,11 @@ if(genplot == T || output == 2)
     it <- seq(1,npts,by=1)    
     time = (dx/ans[ptRp,1]) * (it-1)
     ts[1] = time 
-    
+
+# filter record    
     bp = taner(ts,padfac=2,flow=flow,fhigh=fhigh,roll=roll,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
+# get filter window
+    bpWin= taner(ts,padfac=2,flow=flow,fhigh=fhigh,roll=roll,demean=T,detrend=F,addmean=F,genplot=F,verbose=F,output=2)
     hil = hilbert(bp,padfac=2,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
  
 # perform fitting at optimal sedimentation rate for plotting
@@ -303,13 +315,16 @@ if(genplot)
       par(mfrow=c(3,2))
 # plot least squares fitting results
       plot(100*ans[,1],ans[,2],cex=.75,cex.lab=1.2,cex.main=1.3,col="red",xlab="",ylab="",main=expression(paste(bold("Fit: "),{"r"^2}["envelope"]," (red) and ",{"r"^2}["power"]," (gray)")))
+# plot red numbers on left axis
+      axis(2,col.axis="red")
       mtext(expression("r"^2),side=2,line=2,cex=0.9)
       mtext("Sedimentation rate (cm/ka)",side=1,line=2.3,cex=0.8)
       par(new=T)
       plot(100*ans[,1],ans[,3],col="#00000064",xlab="",ylab="",type="l",axes=F,lwd=2)
       axis(4, ylim=c(0,max(ans[,3])),lwd=1,col="black")
         
-      plot(100*ans[,1],rPwr,cex=.75,cex.lab=1.2,cex.main=1.3,col="red",xlab="",ylab="",main=expression(paste(bold("Optimal Fit: "),{"r"^2}["opt"])))
+      plot(100*ans[,1],rPwr,type="l",lwd=2,cex.lab=1.2,cex.main=1.3,col="black",xlab="",ylab="",main=expression(paste(bold("Optimal Fit: "),{"r"^2}["opt"])))
+#      points(100*ans[,1],rPwr,cex=.75,pch=21,bg="white")
       mtext(expression({"r"^2}["opt"]),side=2,line=1.9,cex=0.9)
       mtext("Sedimentation rate (cm/ka)",side=1,line=2.3,cex=0.8)
 
@@ -339,14 +354,14 @@ if(genplot)
 # remove f(0) for log plot of power
      fft = subset(fft,(fft[,1] > 0))
      plot(fft[,1],fft[,3],cex.lab=1.2,cex.main=1.3,xlim=c(0,0.1),type="l",xlab="",ylab="",main="Power Spectrum (black=linear; gray=log)")
+     lines(bpWin[,1],bpWin[,2]*max(fft[,3]),col="blue")
      mtext("Power",side=2,line=2,cex=0.9)
      mtext("Frequency (cycles/ka)",side=1,line=2.3,cex=0.8)
 # plot a second y-axis
      par(new=TRUE)
      plot(fft[,1],log(fft[,3]),xlim=c(0,0.1),type="l",yaxt="n",col="gray",xlab="",ylab="")
      abline(v=1/targetTot, col="red",lty=3)
-     abline(v=c(flow,fhigh), col="blue",lty=2)
-     
+#     abline(v=c(flow,fhigh), col="blue",lty=2)   
  }
      
 # return sedimentation rate grid, envelope, spectral power, envelope*spectral power 

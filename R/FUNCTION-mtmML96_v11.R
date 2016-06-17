@@ -5,7 +5,7 @@
 ### mtmML96 function - (SRM: December 22, 2013; July 31, 2014; January 31, 2015;
 ###                          February 1, 2015; February 5, 2015; February 22, 2015;
 ###                          February 26, 2015; March 6, 2015; September 10, 2015;
-###                          December 14-15, 2015)
+###                          December 14-15, 2015; May 20, 2016)
 ###
 ### Perform Mann and Lees (1996) robust red noise mtm analysis, with some modifications.
 ### Uses multitaper library and built in functions from R.
@@ -229,13 +229,11 @@ dof = (2*ntap)
 chiMedAR <-  (pwrRaw/pwrMedAR) * dof
 chiCLMedAR <- pchisq(chiMedAR, df=dof)
 
-# 90, 95 and 99% CL for power plot
-    if(CLpwr)
-     {
-       MedAR1_90 <- pwrMedAR*qchisq(0.9, df=dof)/dof
-       MedAR1_95 <- pwrMedAR*qchisq(0.95, df=dof)/dof
-       MedAR1_99 <- pwrMedAR*qchisq(0.99, df=dof)/dof
-    }
+# 90, 95 and 99% CL for power
+MedAR1_90 <- pwrMedAR*qchisq(0.9, df=dof)/dof
+MedAR1_95 <- pwrMedAR*qchisq(0.95, df=dof)/dof
+MedAR1_99 <- pwrMedAR*qchisq(0.99, df=dof)/dof
+
 
 ### f-test CL
 dof=2*ntap
@@ -371,13 +369,16 @@ if(sigID && (ii-1) > 0)
 
 if (output==1) 
  {
-       spectrum <- data.frame(cbind(freq,pwrRaw,prob*100,chiCLMedAR*100,pwrMedAR,pwrMedian))
+       spectrum <- data.frame(cbind(freq,pwrRaw,prob*100,chiCLMedAR*100,pwrMedAR,MedAR1_90,MedAR1_95,MedAR1_99,pwrMedian))
        colnames(spectrum)[1] <- 'Frequency'
        colnames(spectrum)[2] <- 'Power'
        colnames(spectrum)[3] <- 'Harmonic_CL'
        colnames(spectrum)[4] <- 'AR1_CL'
        colnames(spectrum)[5] <- 'AR1_fit'
-       colnames(spectrum)[6] <- 'Median_Smoothed_Power'
+       colnames(spectrum)[6] <- 'AR1_90_power'
+       colnames(spectrum)[7] <- 'AR1_95_power'
+       colnames(spectrum)[8] <- 'AR1_99_power'       
+       colnames(spectrum)[9] <- 'Median_Smoothed_Power'
    return(spectrum)
  }
 

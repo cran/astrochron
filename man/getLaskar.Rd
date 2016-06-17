@@ -5,11 +5,12 @@
 Download Laskar et al. (2004, 2011a, 2011b) astronomical solutions.
 }
 \usage{
-getLaskar(sol="la04")
+getLaskar(sol="la04",verbose=T)
 }
 
 \arguments{
   \item{sol}{A character string that specifies the astronomical solution to download: "la04","la10a","la10b","la10c","la10d","la11"}
+  \item{verbose}{Verbose output? (T or F)}
 }
 
 \details{

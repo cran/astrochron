@@ -12,8 +12,8 @@ and modeling routines that are relevant to time scale development and paleoclima
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 0.5\cr
-Date: \tab 2015-12-18\cr
+Version: \tab 0.6\cr
+Date: \tab 2016-06-16\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~
@@ -35,7 +35,7 @@ Development of the 'astrochron' package is partially supported by the U.S. Natio
 
 TO CITE THIS PACKAGE IN PUBLICATIONS, PLEASE USE:
 
-Meyers, S.R. (2014). \emph{astrochron: An R Package for Astrochronology}. http://cran.r-project.org/package=astrochron 
+Meyers, S.R. (2014). \emph{Astrochron: An R Package for Astrochronology}. http://cran.r-project.org/package=astrochron 
 
 Also cite the original research papers that document the relevant algorithms, as referenced on the help pages for specific functions.
 

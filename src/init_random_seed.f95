@@ -1,4 +1,4 @@
-! This Fortran 95 code modified by SRM (Jan. 12, 2014) from:
+! This Fortran 95 code modified by SRM (Jan. 12, 2014; Feb. 16, 2016) from:
 ! http://gcc.gnu.org/onlinedocs/gfortran/RANDOM_005fSEED.html#RANDOM_005fSEED
 ! note that f95 uses '!' instead of 'c' for comments, and typically appends
 ! '&' to continued lines.
@@ -6,7 +6,8 @@
           subroutine init_random_seed()
             implicit none
             integer, allocatable :: seed(:)
-            integer :: i, n, un, istat, dt(8), pid, getpid, t(2), s
+!           integer :: i, n, un, istat, dt(8), pid, getpid, t(2), s
+            integer :: i, n, dt(8), pid, getpid, t(2), s
             integer(8) :: count, tms
           
             call random_seed(size = n)

@@ -7,7 +7,7 @@ importFrom(fields, image.plot)
 importFrom(fields, tim.colors)
 importFrom("grDevices", "boxplot.stats", "colors", "dev.new", "dev.off", "gray", "jpeg", "pdf", "png", "rainbow", "xy.coords")
 importFrom("graphics", "abline", "axis", "boxplot", "grid", "hist", "identify", "image", "layout", "lines", "locator", "mtext", "par", "plot", "points", "polygon", "rect", "segments", "text")
-importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm", "predict", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var")
+importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm", "predict", "na.omit", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var")
 importFrom("utils", "download.file", "head", "read.table", "write.table")
 
 export(anchorTime,
@@ -70,12 +70,14 @@ export(anchorTime,
        repl0,
        replEps,
        resample,
+       rmNA,
        s,
        sedRamp,
        sedrate2time,
        sortNave,
        stepHeat,
        strats,
+       surrogateCor,
        surrogates,
        taner,
        testPrecession,

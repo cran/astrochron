@@ -1,12 +1,12 @@
 bibentry("Manual",
-		title="astrochron: An R Package for Astrochronology",
+		title="Astrochron: An R Package for Astrochronology",
 		author="Stephen R. Meyers",
 		year="2014",
 		url="http://cran.r-project.org/package=astrochron",
 
 		textVersion =
 		paste("Meyers, S.R. (2014). ",
-				"astrochron: An R Package for Astrochronology. ",
+				"Astrochron: An R Package for Astrochronology. ",
 				"http://cran.r-project.org/package=astrochron",
 				sep=""),
 

@@ -6,10 +6,10 @@
 ###                             Oct. 19, 2014; Jan. 13, 2015; March 9, 2015
 ###                             June 8, 2015; Sept. 30, 2015; 
 ###                             October 20-21, 2015; November 19, 2015;
-###                             December 17, 2015)
+###                             December 17, 2015; February 7, 2016; February 25, 2016)
 ###########################################################################
 
-timeOptSim <- function (dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,output=0,genplot=T,verbose=T)
+timeOptSim <- function (dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
 {
 
 if(verbose) cat("\n----- TimeOpt Monte Carlo Simulation -----\n")
@@ -30,7 +30,7 @@ cormethod=1
        npts <- length(dat[,1])
      }
    dtest <- dat[2:npts,1]-dat[1:(npts-1),1] 
-   epsm=1e-10
+   epsm=1e-9
    if( (max(dtest)-min(dtest)) > epsm ) 
      {
        cat("\n**** ERROR: sampling interval is not uniform.\n")
@@ -43,6 +43,14 @@ if (verbose)
    cat(" * Stratigraphic series length (meters):",(npts-1)*dx,"\n")
    cat(" * Sampling interval (meters):",dx,"\n\n")
  }
+
+# detrend
+if (detrend) 
+  {
+    lm.1 <- lm(dat[,2] ~ dat[,1])
+    dat[2] <- dat[2] - (lm.1$coeff[2]*dat[1] + lm.1$coeff[1])
+    if(verbose) cat(" * Linear trend subtracted. m=",lm.1$coeff[2],"b=",lm.1$coeff[1],"\n")
+  }
 
 # standardize data series
    dat[2]=dat[2]-colMeans(dat[2])
@@ -104,7 +112,7 @@ if(fit == 2)
     }  
    if(is.null(fhigh))
     {
-      fhigh = 0.011
+      fhigh = 0.0115
       if(verbose) cat(" * Using default fhigh =",fhigh,"\n")
      }
    if(is.null(roll))
