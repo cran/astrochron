@@ -12,8 +12,8 @@ and modeling routines that are relevant to time scale development and paleoclima
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 0.6\cr
-Date: \tab 2016-06-16\cr
+Version: \tab 0.6.5\cr
+Date: \tab 2016-09-05\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~

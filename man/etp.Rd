@@ -7,12 +7,12 @@ By default, the Laskar et al. (2004) solutions will be downloaded. Alternatively
 specify the astronomical solution.
 }
 \usage{
-etp(tmin=0,tmax=1000,dt=1,eWt=1,oWt=1,pWt=1,esinw=T,solution=NULL,standardize=T,
+etp(tmin=NULL,tmax=NULL,dt=1,eWt=1,oWt=1,pWt=1,esinw=T,solution=NULL,standardize=T,
      genplot=T,verbose=T)
 }
 \arguments{
-  \item{tmin}{Start time (ka before present, J2000) for ETP.}
-  \item{tmax}{End time (ka before present, J2000) for ETP.}
+  \item{tmin}{Start time (ka before present, J2000) for ETP. Default value is 0 ka, unless the data frame 'solution' is specified, in which case the first time datum is used.}
+  \item{tmax}{End time (ka before present, J2000) for ETP. Default value is 1000 ka, unless the data frame 'solution' is specified, in which case the last time datum is used.}
   \item{dt}{Sample interval for ETP (ka). Minimum = 1 ka.}
   \item{eWt}{Relative weight applied to eccentricity solution.}
   \item{oWt}{Relative weight applied to obliquity solution.}

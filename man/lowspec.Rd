@@ -6,7 +6,7 @@ LOWSPEC: Robust Locally-Weighted Regression Spectral Background Estimation (Meye
 }
 \usage{
 lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
-         lowspan,b_tun,output=0,CLpwr=T,xmin,xmax,pl=1,sigID=F,genplot=T,
+         lowspan,b_tun,output=0,CLpwr=T,xmin,xmax,pl=1,sigID=T,genplot=T,
          verbose=T)
 }
 \arguments{
@@ -41,7 +41,7 @@ the spectral background using the LOWESS-based (Cleveland, 1979) procedure of Ru
 NOTE: If you choose to pre-whiten before running LOWSPEC (rather than using the default AR1 pre-whitening), 
 specify setrho=0.
 
-Candidiate astronomical cycles are subsequently idenitified via isolation of those frequencies 
+Candidiate astronomical cycles are subsequently identified via isolation of those frequencies 
 that achieve the required (e.g., 90 percent) LOWSPEC confidence level and MTM harmonic F-test 
 confidence level. Allowance is made for the smoothing inherent in the MTM power spectral estimate 
 as compared to the MTM harmonic spectrum. That is, an F-test peak is reported if it achieves the 

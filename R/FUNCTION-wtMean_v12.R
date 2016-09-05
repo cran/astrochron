@@ -6,7 +6,7 @@
 ###                              (SRM: March 16, 2012; Sept. 22-25, 2014; 
 ###                               February 6-7, 2015; February 10-15, 2015;
 ###                               February 24-28, 2015; March 1, 2015;
-###                               September 11-13, 2015)
+###                               September 11-13, 2015; August 22, 2016)
 ###
 ###########################################################################
 
@@ -50,7 +50,7 @@ wtMean <- function (dat,sd=NULL,unc=1,lambda=5.463e-10,J=NULL,Jsd=NULL,CI=2,cull
 # standard deviation is in second column of input
   if(dim(data.frame(dat))[2] == 2) pltype=1
 
-# standard deviation is in second column, K/Ar is in third, %Ar40* is in fourth, F is in fifth, F std. dev. is in sixth
+# standard deviation is in second column, K/Ca is in third, %Ar40* is in fourth, F is in fifth, F std. dev. is in sixth
   if(dim(data.frame(dat))[2] == 6) pltype=2
 
   if(dim(data.frame(dat))[2] > 6) stop("**** ERROR: your data frame has too many columns. Did you intend to use the function stepHeat?")  

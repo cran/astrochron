@@ -7,7 +7,7 @@ Mann and Lees (1996) robust red noise MTM analysis. This function implements sev
 \usage{
 mtmML96(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,medsmooth=0.2,
          opt=1,linLog=2,siglevel=0.9,output=0,CLpwr=T,xmin=0,xmax=Nyq,
-         sigID=F,pl=1,genplot=T,verbose=T)
+         sigID=T,pl=1,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series for MTM spectral analysis. First column should be location (e.g., depth), second column should be data value.}
@@ -45,6 +45,17 @@ reduced compared to the original ML96 approach. For example, simulations using r
 parameters to those in Meyers, 2012) yield median false positive rates of 1.7\%, 7.3\% and 13.4\%, for the 99\%, 
 95\% and 90\% confidence levels (respectively). This compares with 4.7\%, 11.4\% and 17.8\% using 
 the original approach (see Table 2 of Meyers, 2012).
+
+Candidiate astronomical cycles are identified via isolation of those frequencies 
+that achieve the required (e.g., 90 percent) "robust red noise" confidence level and MTM harmonic F-test 
+confidence level. Allowance is made for the smoothing inherent in the MTM power spectral estimate 
+as compared to the MTM harmonic spectrum. That is, an F-test peak is reported if it achieves the 
+required MTM harmonic confidence level, while also achieving the required robust red noise confidence level 
+within +/- half the power spectrum bandwidth resolution. One additional criterion is included to 
+further reduce the false positive rate, a requirement that significant F-tests must occur on a local 
+power spectrum high, which is parameterized as occurring above the local robust red noise background estimate.
+See Meyers (2012) for futher information.
+
 
 NOTE: If the (fast) Brent or Gauss-Newton methods fail, use the (slow) grid search approach.
 
