@@ -1,12 +1,12 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### function peak : find maxima of peaks in series, report those that exceed
 ###                  a threshold value - (SRM: March 1-29, 2012; 
 ###                                  April 25, 2012; May 22, 2013; May 23, 2013; 
 ###                                  June 5, 2013; June 14, 2013; January 31, 2015;
-###                                  February 3, 2015; August 17, 2015)
+###                                  February 3, 2015; August 17, 2015; March 20, 2017)
 ###
 ###########################################################################
 
@@ -27,7 +27,7 @@ if(ncols == 2) { x <- dat[,1]; y <- dat[,2] }
 # FORTRAN wrapper
 peakID <- function (npts,y) 
  { 
-    F_dat = .Fortran('peak_r',PACKAGE='astrochron',
+    F_dat = .Fortran('peak_r',
     
     npts=as.integer(npts),y=as.double(y),
     

@@ -5,7 +5,8 @@
 ### function testPrecession - (SRM: July 10, 2013; August 9, 2013; August 14, 2013;
 ###                         Sept. 16-17, 2014; Jan. 8, 2015; Jan. 20-22, 2015;
 ###                         Jan. 29, 2015; February 4, 2015; February 23, 2015;
-###                         March 11, 2015; September 10, 2015; July 22, 2016)
+###                         March 11, 2015; September 10, 2015; July 22, 2016;
+###                         October 26, 2016)
 ###
 ### Perform astrochonologic testing as in Zeeden et al. (2015)
 ###########################################################################
@@ -99,13 +100,20 @@ testPrecession <- function(dat,nsim=1000,gen=1,rho=NULL,esinw=NULL,output=T,genp
 # generate plot comparing data results to eccentricty target
    if(genplot)
     {
-     dev.new(height=7,width=8)
+     dev.new(title = "testPrecession Amplitude Modulation Assessment", height=7,width=8)
      par(mfrow=c(2,1))
-     plot(prec_BP,type="l")
+     ymaxPlot=max(prec_BP[,2],prec_BP_Hil[,2],prec_BP_Hil_Lowpass[,2])
+     yminPlot=min(prec_BP[,2],prec_BP_Hil[,2],prec_BP_Hil_Lowpass[,2])
+     plot(prec_BP,type="l",xlab="Time (kiloyears)",ylab="Climate Proxy Value",main="Filtered record (black), instantaneous AM (red) and lowpassed AM (blue)",ylim=c(yminPlot,ymaxPlot))
      lines(prec_BP_Hil,col="red")
      lines(prec_BP_Hil_Lowpass,col="blue")
-     plot(s(prec_BP_Hil_Lowpass),type="l",col="blue",xlab="Time (kiloyears)",ylab="Standardized variables",main="Comparison of theoretical (black) and observed (blue) modulation",lwd=2)
-     lines(s(ecc),lwd=2)
+# standardize for plot
+     s_prec_BP_Hil_Lowpass=s(prec_BP_Hil_Lowpass)
+     s_ecc=s(ecc)
+     ymaxPlot=max(s_prec_BP_Hil_Lowpass[,2],s_ecc[,2])
+     yminPlot=min(s_prec_BP_Hil_Lowpass[,2],s_ecc[,2])
+     plot(s_prec_BP_Hil_Lowpass,type="l",col="blue",xlab="Time (kiloyears)",ylab="Standardized Variables",main="Comparison of theoretical (black) and observed (blue) modulation",ylim=c(yminPlot,ymaxPlot),lwd=2)
+     lines(s_ecc,lwd=2)
     }
    
 # calculate spearman rank correlation coefficient, and pearson (for comparison) 
@@ -120,6 +128,7 @@ testPrecession <- function(dat,nsim=1000,gen=1,rho=NULL,esinw=NULL,output=T,genp
        cat("\n**** ERROR: correlation must be positive to proceed.\n")
        stop("**** TERMINATING NOW!")
     }
+
 
 if(nsim>0)
 {   
@@ -139,10 +148,19 @@ if(nsim>0)
          } 
        sur=ar1(npts=npts,dt=dt,mean=0,sdev=1,rho=rho,shuffle=F,nsim=nsim,genplot=F,verbose=T)
     }
+
+   if(verbose) 
+    {  
+      cat("\n * PLEASE WAIT: Performing", nsim,"simulations\n")
+      cat("\n0%       25%       50%       75%       100%\n")
+# create a progress bar
+      progress = utils::txtProgressBar(min = 0, max = nsim, style = 1, width=43)
+    }
      
    simcor=double(nsim)
    for (i in 1:nsim)
     {
+      if(verbose) utils::setTxtProgressBar(progress, i)
       surdat=data.frame(cbind(dat[,1],sur[,i]))
       sur_BP=taner(surdat,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,verbose=F)
 # determine instantaneous amplitude
@@ -152,15 +170,16 @@ if(nsim>0)
 
 # calculate spearman rank correlation coefficient 
       simcor[i]=cor(sur_BP_Hil_Lowpass[,2],ecc[,2],method=c("spearman"))
-      if(verbose) {cat("SIMULATION",i,"Correlation =",simcor[i],"\n") }
+#      if(verbose) {cat("SIMULATION",i,"Correlation =",simcor[i],"\n") }
      }
 
      if(genplot)
       {
-        dev.new(height=4,width=6)
+        dev.new(title = "testPrecession Monte Carlo Results", height = 5, width = 6)
         par(mfrow=c(1,1))
-        plot(density(simcor, bw="nrd0"),xlim=c(-1,1),type="l",col="red",main="Monte Carlo Results",lwd=2)
-        grid()
+        plot(density(simcor, bw="nrd0"),xlim=c(-1,1),type="l",col="black",xlab="Correlation Coefficient",main="testPrecession Monte Carlo Results",cex.lab=1.1,lwd=2)
+        polygon(density(simcor),col="red",border=NA)
+#        grid()
         abline(v=datcor,col="blue",lwd=2,lty=3)
         mtext(round(datcor,digits=5),side=3,line=0,at=datcor,cex=1,font=4,col="blue")
       }  
@@ -179,6 +198,8 @@ if(nsim>0)
 
 # end nsim>0 section
 } 
+ 
+if(verbose) close(progress) 
  
 if(nsim==0)
   { 

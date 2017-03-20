@@ -1,12 +1,12 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2016 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### lowspec function - (SRM: September 28, 2012; October 8,11,15 2012; May 20-21, 2013; 
 ###                           May 23-25, 2013; May 27, 2013; June 5, 2013; June 13, 2013;
 ###                           June 21, 2013; Nov. 26. 2013; January 31, 2015; 
 ###                           February 1-3, 2015; February 26, 2015; March 5-6, 2015;
-###                           September 10, 2015; August 21-22, 2016)
+###                           September 10, 2015; August 21-22, 2016; March 20, 2017)
 ###
 ### "Seeing red" algorithm as an R function
 ###########################################################################
@@ -208,7 +208,7 @@ probmax = res[,3]
 # FORTRAN wrapper
 peakfilter <- function (numpeak,nfreq,tbwRay,siglevel,freqloc,probmax,freq,background,pwr,cl) 
  { 
-    F_dat = .Fortran('peakfilter_r',PACKAGE='astrochron',
+    F_dat = .Fortran('peakfilter_r',
     
     numpeak=as.integer(numpeak),nfreq=as.integer(nfreq),tbwRay=as.double(tbwRay),
     siglevel=as.double(siglevel),freqloc=as.integer(freqloc),probmax=as.double(probmax),

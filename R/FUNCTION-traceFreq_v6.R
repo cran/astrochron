@@ -1,14 +1,15 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### traceFreq: trace frequency drift using graphical interface 
 ###                      (SRM: June 12-14, 2013; June 16, 2013; June 26, 2013
-###                            December 8, 2013; January 16, 2015)
+###                            December 8, 2013; January 16, 2015; 
+###                            February 16, 2017)
 ###  
 ###########################################################################
 
-traceFreq <- function (spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,ncolors=100,pl=1,ln=F)
+traceFreq <- function (spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,ncolors=100,path=1,pl=0)
 {
 
     cat("\n----            FREQUENCY DOMAIN MINIMAL TUNING:              ----\n")
@@ -21,6 +22,7 @@ traceFreq <- function (spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL
 
 # assign frequencies from first column of spec
   freq=spec[,1]
+  rows=length(freq)
 
   cols=length(spec)
 # assign locations for each spectrum (column headers)
@@ -33,14 +35,23 @@ traceFreq <- function (spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL
 # assign specta
   sp=as.matrix( spec[2:cols] )
 
-  if(ln) sp=log(sp)
+  if(pl==1) sp=log(sp)
+  if(pl==2)
+   {
+# normalize each window to have maximum of unity
+    spNorm<-double(rows*cols)
+    dim(spNorm)<-c(rows,cols)
+    spNorm=t(sp)/(apply(sp,2,max))
+# transpose and reassign to sp    
+    sp=t(spNorm)
+   }
   if(is.null(xmin)) xmin = min(freq)
   if(is.null(xmax)) xmax = max(freq)
   if(is.null(ymin)) ymin = min(loc)
   if(is.null(ymax)) ymax = max(loc)
-  if(pl==1) pltype="o"
-  if(pl==2) pltype="l"
-  if(pl==3) pltype="p"
+  if(path==1) pltype="o"
+  if(path==2) pltype="l"
+  if(path==3) pltype="p"
 
 # set up plot
   dev.new(height=h,width=w)

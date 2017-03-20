@@ -3,13 +3,14 @@
 ###
 ###########################################################################
 ### readMatrix - (SRM: May 2, 2014; September 28, 2014; January 22, 2015; 
-###               March 1, 2015; August 6, 2015; September 10, 2015; September 16, 2015)
+###               March 1, 2015; August 6, 2015; September 10, 2015; 
+###               September 16, 2015; November 18, 2016)
 ###
 ### Read a matrix from file 
 ### The file can include any number of columns, each representing a different variable.
 ###########################################################################
 
-readMatrix <- function (file=NULL,d=1,h="auto",output=1,genplot=F)
+readMatrix <- function (file=NULL,d=1,h="auto",check=T,output=1,genplot=F)
 {
 
    cat("\n----- READ MATRIX FROM DATA FILE -----\n")
@@ -125,7 +126,9 @@ readMatrix <- function (file=NULL,d=1,h="auto",output=1,genplot=F)
 
    cols <- length(dat[1,])
    cat(" * Number of columns=",cols,"\n")
-   
+
+  if(check)
+   {   
 # check to see if any of the rows are all NA entries
 #  logical will default to FALSE
    delRow <- logical(npts)
@@ -157,6 +160,7 @@ readMatrix <- function (file=NULL,d=1,h="auto",output=1,genplot=F)
        {
          cat("\n  WARNING:", numNA,"empty (NA) entries are still present in your data frame.\n")
        } 
+     }
 
 if(genplot) 
   {

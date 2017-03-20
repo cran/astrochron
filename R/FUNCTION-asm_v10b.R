@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### asm function - (SRM: August 23, 2012; Sept 1, 2012; May 20, 2013; 
 ###                      June 5-7, 2013; July 2, 2013; January 13, 2014
-###                      January 15, 2014; June 27, 2014)
+###                      January 15, 2014; June 27, 2014; March 20, 2017)
 ###
 ### conduct ASM analysis using FORTRAN code
 ###
@@ -82,7 +82,7 @@ asm <- function (freq,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,numsed
 ### wrapper for FORTRAN code   
  asm1.8 <- function (freq,numfreq,target,numtarg,fper,rayleigh,nyquist,sedmin,sedmax,numsed,linLog,ispecgen,irepl,isetfreq,iter)
   {
-    F_dat = .Fortran('asm18_r', PACKAGE='astrochron',
+    F_dat = .Fortran('asm18_r',
                 freq=as.double(freq),numfreq=as.integer(numfreq),target=as.double(target),
                 numtarg=as.integer(numtarg),fper=as.double(fper),rayleigh=as.double(rayleigh),
                 nyquist=as.double(nyquist),sedmin=as.double(sedmin),sedmax=as.double(sedmax),

@@ -6,7 +6,7 @@ Frequency-domain minimal tuning: Use interactive graphical interface to trace fr
 }
 \usage{
 traceFreq(spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,ncolors=100,
-          pl=1,ln=F)
+          path=1,pl=0)
 }
 \arguments{
   \item{spec}{Time-frequency spectral results to evaluate. Must have the following format: column 
@@ -21,8 +21,8 @@ traceFreq(spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,nc
   \item{ymin}{Minimum depth/height to plot.}
   \item{ymax}{Maximum depth/height to plot.}  
   \item{ncolors}{Number of colors to use in plot.}
-  \item{pl}{How do you want to represent the spatial frequency path?: 1=lines and points; 2=lines; 3=points}
-  \item{ln}{Plot natural log of spectral results? (T or F)}
+  \item{path}{How do you want to represent the spatial frequency path?: 1=lines and points; 2=lines; 3=points}
+  \item{pl}{An option for the color plots: 0=linear scale; 1=plot log of value, 2=normalize to maximum value} 
 }
 
 \seealso{ \code{\link{eha}} and \code{\link{trackFreq}} }

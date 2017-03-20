@@ -2,7 +2,7 @@
 \alias{bandpass}
 \title{Bandpass Filter Stratigraphic Series}
 \description{
-Bandpass filter stratigraphic series using rectangular, Gaussian or tapered cosine window
+Bandpass filter stratigraphic series using rectangular, Gaussian or tapered cosine (a.k.a. Tukey) window
 }
 \usage{
 bandpass(dat,padfac=2,flow=NULL,fhigh=NULL,win=0,alpha=3,p=0.25,demean=T,
@@ -13,9 +13,9 @@ bandpass(dat,padfac=2,flow=NULL,fhigh=NULL,win=0,alpha=3,p=0.25,demean=T,
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points.}
   \item{flow}{Lowest frequency to bandpass.}
   \item{fhigh}{Highest frequency to bandpass.}
-  \item{win}{Window type for bandpass filter: 0 = rectangular , 1= Gaussian, 2= Cosine-tapered window.}
+  \item{win}{Window type for bandpass filter: 0 = rectangular , 1= Gaussian, 2= Cosine-tapered window (a.k.a. Tukey window).}
   \item{alpha}{Gaussian window parameter: alpha is 1/stdev, a measure of the width of the Dirichlet kernel. Choose alpha >= 2.5.}
-  \item{p}{Cosine-tapered window parameter: p is the percent of the data series tapered (choose 0-1).}
+  \item{p}{Cosine-tapered (Tukey) window parameter: p is the percent of the data series tapered (choose 0-1).}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{addmean}{Add mean value to bandpass result? (T or F)}

@@ -6,7 +6,8 @@ TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in
 }
 \usage{
 timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,
-        roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
+        roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,
+        verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
@@ -14,13 +15,14 @@ timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,
   \item{sedmax}{Maximum sedimentation rate for investigation (cm/ka).}
   \item{numsed}{Number of sedimentation rates to investigate in optimization grid.}
   \item{linLog}{Use linear or logarithmic scaling for sedimentation rate grid spacing? (0=linear, 1=log; default value  is 1)}
-  \item{fit}{Test for (1) precession amplitude modulation or (2) short eccentricity amplitude modulation? Option 2 is experimental!}
+  \item{fit}{Test for (1) precession amplitude modulation or (2) short eccentricity amplitude modulation?}
   \item{flow}{Low frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{fhigh}{High frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{roll}{Taner filter roll-off rate, in dB/octave.}  
   \item{targetE}{A vector of eccentricity periods to evaluate (in ka). These must be in order of decreasing period, with a first value of 405 ka.}
   \item{targetP}{A vector of precession periods to evaluate (in ka). These must be in order of decreasing period.}
   \item{detrend}{Remove linear trend from data series? (T or F)}
+  \item{title}{A character string (in quotes) specifying the title for the graphics window (optional)}
   \item{output}{Which results would you like to return to the console? (0) no output; (1) return sedimentation rate grid, r^2_envelope, r^2_power, r^2_opt; (2) return optimal time series, bandpassed series, envelope, reconstructed eccentricity model}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}

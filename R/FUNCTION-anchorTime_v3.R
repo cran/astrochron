@@ -1,8 +1,8 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2016 Stephen R. Meyers
 ###
 ###########################################################################
-### anchorTime function - (SRM: November 23, 2012; June 10, 2013)
+### anchorTime function - (SRM: November 23, 2012; June 10, 2013; October 13, 2016)
 ###
 ### This script will anchor a floating time series to a radioisotopic age (or otherwise)
 ###  it centers a time series on a given (floating) time datum and 
@@ -12,6 +12,8 @@
 anchorTime <- function (dat,time,age,timeDir=1,flipOut=F,verbose=T,genplot=T)
 {
    dat <- data.frame(dat)
+   time=as.numeric(time)
+   age=as.numeric(age)
    npts <- length(dat[,1]) 
    if(verbose)   { cat("\n----- ANCHOR FLOATING ASTROCHRONOLOGY-----\n") }   
    if(verbose)   { cat(" * Number of data points=", npts,"\n") }

@@ -6,7 +6,8 @@ Evolutive Harmonic Analysis using the Thomson Multitaper Method (Thomson, 1982)
 }
 \usage{
 eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
-    sigID=F,ydir=1,output=0,pl=1,xlab,ylab,genplot=2,verbose=T)
+    sigID=F,ydir=1,output=0,pl=1,palette=1,centerZero=T,ncolors=100,xlab,ylab,
+    genplot=2,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series to analyze. First column should be location (e.g., depth), second column should be data value.}
@@ -23,6 +24,9 @@ eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
   \item{ydir}{Direction for y-axis in EHA plots (depth,height,time). -1 = values increase downwards (slower plotting), 1 = values increase upwards}
   \item{output}{Return output as new data frame? 0=no; 1=all results; 2=power; 3=amplitude; 4=probability; 5=significant frequencies (only for one spectrum); 6=significant frequencies and their probabilities (only for one spectrum)}
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red (if values are negative and positive, white is centered on zero)}
+  \item{centerZero}{Center color scale on zero (use an equal number of postive and negative color divisions)? (T or F)}
+  \item{ncolors}{Number of colors steps to use in palette.}
   \item{xlab}{Label for x-axis. Default = "Frequency"}
   \item{ylab}{Label for y-axis. Default = "Location"}
   \item{genplot}{Plotting options. 0= no plots; 1= power, amplitude, f-test, probability; 2=data series, power, amplitude, probability; 3= data series, power, normalized amplitude (maximum in each window normalized to unity), normalized amplitude filtered at specified siglevel; 4= data series, normalized power (maximum in each window normalized to unity), normalized amplitude (maximum in each window normalized to unity), normalized amplitude filtered at specified siglevel}

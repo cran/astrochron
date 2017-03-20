@@ -1,13 +1,12 @@
 \name{plotEha}
 \alias{plotEha}
-\title{Create color time-frequency plots from eha results}
+\title{Create color time-frequency plots from eha results. Also a general purpose 3D plotting routine.}
 \description{
-Create color time-frequency plots from eha results.
+Create color time-frequency plots from eha results. Also a general purpose 3D plotting routine.
 }
 \usage{
-plotEha(spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,pl=0,norm=NULL,
-        xaxis=c("Frequency (cycles/ka)"),yaxis=c("Time (ka)"),ncolors=100,colorscale=F,
-        filetype=0,output=T,verbose=T)
+plotEha(spec,xmin,xmax,ymin,ymax,h=6,w=4,ydir=1,pl=0,norm,palette=1,
+        centerZero=T,ncolors=100,colorscale=F,xlab,ylab,filetype=0,output=T,verbose=T)
 }
 \arguments{
   \item{spec}{Time-frequency spectral results to evaluate. Must have the following format: column 
@@ -20,12 +19,14 @@ plotEha(spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,pl=0,norm=NU
   \item{h}{Height of plot in inches.}
   \item{w}{Width of plot in inches.}
   \item{ydir}{Direction for y-axis in plots (depth or height). -1 = values increase downwards (slower plotting!), 1 = values increase upwards.} 
-  \item{pl}{An option for the color plots (0=do nothing; 1=plot log of value [useful for plotting power], 2=normalize to maximum value [useful for plotting amplitude], 3=use normalization provided in norm.} 
+  \item{pl}{An option for the color plots (0=linear scale; 1=plot log of value [useful for plotting power], 2=normalize to maximum value [useful for plotting amplitude], 3=use normalization provided in norm.} 
   \item{norm}{Optional amplitude normalization divisor, consisting of a single column dataframe. This option is provided in case you'd like to normalize a set of EHA results using the same scheme (e.g., before and after removal of spectral lines).}
-  \item{xaxis}{Label for x-axis.}
-  \item{yaxis}{Label for y-axis.}
-  \item{ncolors}{Number of colors to use in plot.}
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red (if values are negative and positive, white is centered on zero)}
+  \item{centerZero}{Center color scale on zero (use an equal number of postive and negative color divisions)? (T or F)}
+  \item{ncolors}{Number of colors steps to use in palette.}
   \item{colorscale}{Include a color scale in the plot? (T or F)}
+  \item{xlab}{Label for x-axis. Default = "Frequency"}
+  \item{ylab}{Label for y-axis. Default = "Location"}
   \item{filetype}{Generate .pdf, .jpeg or .png file? (0=no; 1=pdf; 2=jpeg; 3=png)}
   \item{output}{If amplitude is normalized (pl = 2), output normalization used? (T or F)}
   \item{verbose}{Verbose output? (T or F)}

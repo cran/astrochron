@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### Read function - (SRM: January 24, 2012; updated January 31, 2012; 
@@ -8,12 +8,12 @@
 ###                  May 17, 2013; June 5, 2013; June 28, 2013; July 26-27, 2013;
 ###                  Nov. 27, 2013; January 14, 2014; June 25, 2014; January 22, 2015;
 ###                  August 6, 2015; September 11, 2015; September 16, 2015; 
-###                  October 8, 2015)
+###                  October 8, 2015; November 19, 2016; March 20, 2017)
 ###
 ### Read a time series file. 
 ###########################################################################
 
-read <- function (file=NULL,d=1,h="auto",srt=T,ave=T,genplot=T)
+read <- function (file=NULL,d=1,h="auto",check=T,srt=T,ave=T,genplot=T)
 
 {
 
@@ -131,6 +131,11 @@ read <- function (file=NULL,d=1,h="auto",srt=T,ave=T,genplot=T)
    cols=length(dat[1,])
    cat(" * Number of variables (columns)=",cols-1," (excluding depth/height/time)\n")
 
+# note: if check is disabled sorting and averaging are also disabled 
+   if(!check) cat("\n  WARNING: data checking disabled. Sorting, duplicate averaging and empty entry removal are also disabled.\n")
+   if(check)
+    {
+    
 ### if we have more than two columns: 
    if (cols > 2)
     {
@@ -174,7 +179,9 @@ read <- function (file=NULL,d=1,h="auto",srt=T,ave=T,genplot=T)
 ### function dup: average duplicates/triplicates/etc.
 dup <- function (ipts,x,y)
  {
-    F_dat = .Fortran('dupmean_r',PACKAGE='astrochron',ipts=as.integer(ipts),x=as.double(x),
+    F_dat = .Fortran('dupmean_r',
+    
+    ipts=as.integer(ipts),x=as.double(x),
     y=as.double(y),npts=integer(1),xout=double(ipts),yout=double(ipts))
 
 # return the results
@@ -236,6 +243,10 @@ dup <- function (ipts,x,y)
          cat("\n  WARNING:", numNA,"empty entries are still present in your data frame.\n")
        } 
 
+# end check section
+    }
+  
+  
 ### now evaluate sampling statistics
      t1<-dat[1:(npts-1),1]
      t2<-dat[2:(npts),1]
@@ -259,11 +270,11 @@ if(genplot && cols==2)
       plot(dat, cex=.5,xlab=xlab,ylab=ylab,main="Stratigraphic Series")
       lines(dat)
 ### plot the density and the histogram together
-      hist(dat[,2],freq=F,xlab=ylab,main=paste("Distribution of",ylab)); grid(); lines(density(dat[,2], bw="nrd0"),col="red")
+      hist(dat[,2],freq=F,xlab=ylab,main=paste("Distribution of",ylab)); grid(); lines(density(dat[,2], bw="nrd0",na.rm=T),col="red",lwd=2)
 ### boxplot
       boxplot(dat[,2],ylab=ylab,main=paste("Boxplot of",ylab))
 ### Normal probabilty plot (Normal Q-Q Plot)
-      qqnorm(dat[,2],main=paste("Normal Q-Q plot of",ylab)); qqline(dat[,2], col="red"); grid()
+      qqnorm(dat[,2],main=paste("Normal Q-Q plot of",ylab)); qqline(dat[,2], col="red",lwd=2); grid()
     }
    if(class(dat[,2]) != "numeric" && class(dat[,2]) != "integer")
     {
@@ -282,7 +293,7 @@ if(genplot && cols>2)
         plotdat = subset(dat[,i], !(dat[,i] == "NA"))
         if(class(dat[,i]) == "numeric" || class(dat[,i]) == "integer")
           {
-            hist(plotdat,freq=F,xlab=xlab,main=""); lines(density(plotdat, bw="nrd0"),col="red")
+            hist(plotdat,freq=F,xlab=xlab,main=""); lines(density(plotdat, bw="nrd0",na.rm=T),col="red",lwd=2)
           } 
         if(class(dat[,i]) != "numeric" && class(dat[,i]) != "integer")
           {

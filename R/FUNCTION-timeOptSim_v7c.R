@@ -1,12 +1,13 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2016 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOptSim - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014;
 ###                             Oct. 19, 2014; Jan. 13, 2015; March 9, 2015
 ###                             June 8, 2015; Sept. 30, 2015; 
 ###                             October 20-21, 2015; November 19, 2015;
-###                             December 17, 2015; February 7, 2016; February 25, 2016)
+###                             December 17, 2015; February 7, 2016; 
+###                             February 25, 2016; October 18-26, 2016)
 ###########################################################################
 
 timeOptSim <- function (dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
@@ -218,7 +219,13 @@ if(verbose)
 #######################################################################################
 # Monte Carlo Simulation
 
-if(verbose) {  cat("\n * PLEASE WAIT: Performing", numsim,"simulations \n") }
+if(verbose) 
+  {  
+    cat("\n * PLEASE WAIT: Performing", numsim,"simulations\n")
+    cat("\n0%       25%       50%       75%       100%\n")
+# create a progress bar
+    progress = utils::txtProgressBar(min = 0, max = numsim, style = 1, width=43)
+  }
 
 #  create output array, dimension appropriately
 #  simres will contain envelope, power, envelope*power
@@ -229,6 +236,7 @@ dim(simres) <- c(numsim,3)
 isim=0
 for (isim in 1:numsim) 
   {
+  if(verbose) utils::setTxtProgressBar(progress, isim)
 # generate AR1 noise
     sim = ar1(npts, dx, mean=0, sdev=1, rho=rho, genplot=F, verbose=F)
 # recenter and standardize
@@ -270,6 +278,8 @@ for (isim in 1:numsim)
     simres[isim,3] <- res[,2]*pwrOut[,2]
 # end simulation loop    
  }
+ 
+if(verbose) close(progress) 
 
 # now sort results, determine how many have values > your result
 # envelope
@@ -291,15 +301,18 @@ for (isim in 1:numsim)
     if(pvalCorPwr >= (10/numsim) && (10/numsim) <=1 ) pvalCorPwr=pvalCorPwr   
     if((10/numsim) > 1 ) pvalCorPwr=1
      
-    if(verbose) cat(" * (Envelope r^2) * (Spectral Power r^2) p-value =",pvalCorPwr, "\n")
+    if(verbose) cat("\n * (Envelope r^2) * (Spectral Power r^2) p-value =",pvalCorPwr, "\n")
 
      
     if(genplot)
      { 
+      dev.new(title = paste("TimeOpt Monte Carlo Results"), height = 5, width = 6)
       par(mfrow=c(1,1))
-      plot(density(simres[,3]), col="red",xlim=c(0,1),type="l",main="Simulation (Envelope r^2) * (Spectral Power r^2) Distribution")
-      lines(density(simres[,3]))
-      abline(v=datCorPwr,col="black",lty=3) 
+      plot(density(simres[,3]), col="black",xlim=c(0,1),type="l",xlab=expression(paste({"r"^2}["opt"])),main=expression(bold(paste({"r"^2}["opt"]," Monte Carlo Results"))),cex.lab=1.1,lwd=2)
+      polygon(density(simres[,3]),col="red",border=NA)
+#      grid()
+      abline(v=datCorPwr,col="blue",lwd=2,lty=3)
+      mtext(round(datCorPwr,digits=5),side=3,line=0,at=datCorPwr,cex=1,font=4,col="blue")
      }
      
 # output = (0) nothing, (1) envelope*spectral power r^2 p-value, (2) output simulation r^2 results

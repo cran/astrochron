@@ -4,11 +4,12 @@
 ###########################################################################
 ### autoPlot: automatically plot all data in data frame - VERTICAL plots 
 ###          (SRM: Oct. 30, 2012; Jan. 18, 2013; May 20, 2013; June 19, 2013;
-###                June 28, 2013; August 15, 2013; April 7, 2015)
+###                June 28, 2013; August 15, 2013; April 7, 2015; 
+###                February 16, 2016)
 ###
 ###########################################################################
 
-autoPlot <- function (dat,cols=NULL,nrows=NULL,ydir=-1,smooth=0,xgrid=1,output=F,genplot=T,verbose=T)
+autoPlot <- function (dat,cols=NULL,nrows=NULL,ydir=-1,smooth=0,xgrid=1,output=F,plotype=1,genplot=T,verbose=T)
 {
 
 cat("\n----- PLOTTING (AND SMOOTHING) STRATIGRAPHIC DATA SERIES-----\n")
@@ -89,8 +90,13 @@ for (i in 1:ncols)
   colnames(smoothed) <- storename        
   if(genplot) 
    {
-     plot(smoothed[,i],xID, cex=0.5, ylim=ylimset,ylab=colnames(dat[1]),xlab=colnames(dat[loc]))
-     lines(smoothed[,i],xID, col="black")
+     if(plotype==1) 
+      {
+        plot(smoothed[,i],xID, cex=0.5, ylim=ylimset,ylab=colnames(dat[1]),xlab=colnames(dat[loc]))
+        lines(smoothed[,i],xID, col="black")
+      }
+     if(plotype==2) plot(smoothed[,i],xID, cex=0.5, ylim=ylimset,ylab=colnames(dat[1]),xlab=colnames(dat[loc]))
+     if(plotype==3) plot(smoothed[,i],xID, cex=0.5, ylim=ylimset,ylab=colnames(dat[1]),xlab=colnames(dat[loc]),type="l")      
    }  
  }
 

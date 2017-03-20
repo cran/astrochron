@@ -1,10 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### sortNave function - (SRM: November 23, 2012, Dec. 2, 2012; May 17, 2013; 
 ###                           May 20, 2013; June 5, 2013; June 28, 2013;
-###                           July 27, 2013; Nov. 27, 2013; June 25, 2014)
+###                           July 27, 2013; Nov. 27, 2013; June 25, 2014;
+###                           March 20, 2017)
 ###
 ### This script will sort data, and calls Fortran routine to
 ### average duplicates
@@ -31,7 +32,8 @@ sortNave <- function (dat,sortDecr=F,ave=T,genplot=T,verbose=T)
 ### function dup: average duplicates/triplicates/etc.
 dup <- function (ipts,x,y)
  {
-    F_dat = .Fortran('dupmean_r',PACKAGE='astrochron',
+    F_dat = .Fortran('dupmean_r',
+    
     ipts=as.integer(ipts),x=as.double(x),y=as.double(y),
     
     npts=integer(1),xout=double(ipts),yout=double(ipts)

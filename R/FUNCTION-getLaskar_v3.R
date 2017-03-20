@@ -3,7 +3,7 @@
 ###
 ###########################################################################
 ### getLaskar: download Laskar et al. (2004; 2011) astronomical solutions. 
-###          (SRM: January 22, 2015; January 4, 2016)
+###          (SRM: January 22, 2015; January 4, 2016; February 7, 2017)
 ###
 ###########################################################################
 
@@ -24,7 +24,7 @@ getLaskar <- function (sol="la04",verbose=T)
         {
           if(verbose)
            {
-             cat(" * Downloading Laskar et al. (2004) astronomical solution\n\n")
+             cat(" * Downloading Laskar et al. (2004) astronomical solution: La2004\n\n")
              cat("   Please cite: Laskar, J., Robutel, P., Joutel, F., Gastineau, M.,\n") 
              cat("   Correia, A.C.M., Levrard, B., 2004, A long term numerical solution \n")
              cat("   for the insolation quantities of the Earth: Astron. Astrophys., Volume 428, 261-285.\n")
@@ -36,7 +36,7 @@ getLaskar <- function (sol="la04",verbose=T)
         {
           if(verbose)
            {
-             cat(" * Downloading Laskar et al. (2011) astronomical solution: 10a\n\n")
+             cat(" * Downloading Laskar et al. (2011) astronomical solution: La2010a\n\n")
              cat("   Please cite: Laskar, J., Fienga, A., Gastineau, M., Manche, H., 2011,\n") 
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
@@ -48,7 +48,7 @@ getLaskar <- function (sol="la04",verbose=T)
         {
           if(verbose)
            {
-             cat(" * Downloading Laskar et al. (2011) astronomical solution: 10b\n\n")
+             cat(" * Downloading Laskar et al. (2011) astronomical solution: La2010b\n\n")
              cat("   Please cite: Laskar, J., Fienga, A., Gastineau, M., Manche, H., 2011,\n") 
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
@@ -60,7 +60,7 @@ getLaskar <- function (sol="la04",verbose=T)
         {
           if(verbose)
            {
-             cat(" * Downloading Laskar et al. (2011) astronomical solution: 10c\n\n")
+             cat(" * Downloading Laskar et al. (2011) astronomical solution: La2010c\n\n")
              cat("   Please cite: Laskar, J., Fienga, A., Gastineau, M., Manche, H., 2011,\n") 
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
@@ -72,7 +72,7 @@ getLaskar <- function (sol="la04",verbose=T)
         {
           if(verbose)
            {
-             cat(" * Downloading Laskar et al. (2011) astronomical solution: 10d\n\n")
+             cat(" * Downloading Laskar et al. (2011) astronomical solution: La2010d\n\n")
              cat("   Please cite: Laskar, J., Fienga, A., Gastineau, M., Manche, H., 2011,\n") 
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
@@ -84,7 +84,7 @@ getLaskar <- function (sol="la04",verbose=T)
         {
           if(verbose)
            {
-             cat(" * Downloading Laskar et al. (2011) astronomical solution: 11\n\n")
+             cat(" * Downloading Laskar et al. (2011) astronomical solution: La2011\n\n")
              cat("   Please cite: Laskar, J., Fienga, A., Gastineau, M., Manche, H., 2011,\n") 
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")

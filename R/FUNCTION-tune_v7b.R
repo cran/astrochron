@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### Read tune - (SRM: April 26, 2012; October 29, 2012; May 20, 2013; 
 ###                   June 5, 2013; June 13, 2013; July 1, 2013; Nov. 22, 2013;
-###                   January 14, 2014; June 27, 2014)
+###                   January 14, 2014; June 27, 2014; March 20, 2017)
 ###
 ### Tune spatial series to time, using time control points
 ###########################################################################
@@ -47,7 +47,8 @@ if(verbose) cat("\n----- TUNING STRATIGRAPHIC SERIES -----\n")
 
 tuneit <- function (npts,x,ictrl,ctrl,t)
  {
-    F_dat = .Fortran( 'tune_r',PACKAGE='astrochron',
+    F_dat = .Fortran( 'tune_r',
+    
     npts=as.integer(npts),x=as.double(x),ictrl=as.integer(ictrl),
     ctrl=as.double(ctrl),t=as.double(t),
     

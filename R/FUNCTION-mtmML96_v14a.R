@@ -1,11 +1,12 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### mtmML96 function - (SRM: December 22, 2013; July 31, 2014; January 31, 2015;
 ###                          February 1, 2015; February 5, 2015; February 22, 2015;
 ###                          February 26, 2015; March 6, 2015; September 10, 2015;
-###                          December 14-15, 2015; May 20, 2016; August 22, 2016)
+###                          December 14-15, 2015; May 20, 2016; August 22, 2016,
+###                          October 4, 2016; March 20, 2017)
 ###
 ### Perform Mann and Lees (1996) robust red noise mtm analysis, with some modifications.
 ### Uses multitaper library and built in functions from R.
@@ -291,7 +292,7 @@ probmax = res[,3]
 # FORTRAN wrapper
 peakfilter <- function (numpeak,nfreq,tbwRay,siglevel,freqloc,probmax,freq,background,pwr,cl) 
  { 
-    F_dat = .Fortran('peakfilter_r',PACKAGE='astrochron',
+    F_dat = .Fortran('peakfilter_r',
     
     numpeak=as.integer(numpeak),nfreq=as.integer(nfreq),tbwRay=as.double(tbwRay),
     siglevel=as.double(siglevel),freqloc=as.integer(freqloc),probmax=as.double(probmax),
@@ -317,7 +318,7 @@ Red_Noise_CL <- chiCLMedAR[loc]
 if(verbose) 
   {
     cat(" * Number of significant F-test peaks identified =",numpeak2,"\n")
-    cat("ID  / Frequency / Period / Harmonic_CL / LOWSPEC_CL\n")
+    cat("ID  / Frequency / Period / Harmonic_CL / Rednoise_CL\n")
     for(i in 1:numpeak2) cat(i," ", Frequency[i]," ",1/Frequency[i]," ",Harmonic_CL[i]*100," ",Red_Noise_CL[i]*100,"\n")
   }  
 

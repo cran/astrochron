@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### eha function - (SRM: December 7-19, 2012; May 17-26, 2013; June 5-7, 2013;
@@ -8,12 +8,13 @@
 ###                      February 14, 2014; Nov. 10, 2014; Jan. 31, 2015;
 ###                      February 3, 2015; March 6, 2015; April 8, 2015;
 ###                      May 24, 2015; Sept. 10, 2015; August 22, 2016;
-###                      September 3, 2016)
+###                      September 3, 2016; December 12-13, 2016; 
+##                       February 10-14, 2017; March 20, 2017)
 ###
 ### uses EHA (FORTRAN) library and built-in functions from R
 ###########################################################################
 
-eha <- function (dat,tbw=2,pad=defaultPad,fmin=0,fmax=Nyq,step=dt*10,win=dt*100,demean=T,detrend=T,siglevel=0.90,sigID=F,ydir=1,output=0,pl=1,xlab=NULL,ylab=NULL,genplot=2,verbose=T)
+eha <- function (dat,tbw=2,pad=defaultPad,fmin=0,fmax=Nyq,step=dt*10,win=dt*100,demean=T,detrend=T,siglevel=0.90,sigID=F,ydir=1,output=0,pl=1,palette=1,centerZero=T,ncolors=100,xlab=NULL,ylab=NULL,genplot=2,verbose=T)
 {
 
 # uses fields library for plotting, multitaper library to generate dpss tapers
@@ -47,6 +48,12 @@ dt <- dat[2,1]-dat[1,1]
        stop("**** TERMINATING NOW!")
      }
 
+   if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5) 
+     {
+       cat("\n**** WARNING: palette option not valid. Will use palette = 1.\n")
+       palette = 1
+     }
+
 if(verbose)
  {
    cat("\n ----- PERFORMING EVOLUTIVE HARMONIC ANALYSIS -----\n")
@@ -68,7 +75,7 @@ if(winpts >= mpts)
      wininc=1
      if(verbose) 
        {
-         cat(" * Specified duration longer than permitted for evolutive analysis.\n")
+         cat(" * NOTE: Specified duration longer than permitted for evolutive analysis.\n")
          cat("         Will calculate single MTM spectrum using full data series.\n")
        }
   }   
@@ -79,6 +86,12 @@ nspec= as.integer( floor( (mpts-winpts) / wininc) + 1 )
 Nyq <- 1/(2*dt)
 ### calculate Rayleigh frequency
 Ray <- 1/(dt*winpts)
+
+if(fmax>Nyq) 
+ {
+   cat("\n**** WARNING: fmax is set larger than Nyquist frequency. Resetting fmax to Nyquist.\n\n")
+   fmax=Nyq
+ }
 
 if(verbose)
  {
@@ -147,7 +160,7 @@ evals=dpssT$eigen
 
 ehaF <- function (winpts,wininc,nspec,nfreq,dt,imean,itrend,ifstart,ifend,y,tbw,kmany,newpts,tapers,evals)
  {
-    F_dat = .Fortran('eha_rv6',PACKAGE='astrochron',
+    F_dat = .Fortran('eha_rv6',
                 
                 winpts=as.integer(winpts),
                 wininc=as.integer(wininc),nspec=as.integer(nspec),nfreq=as.integer(nfreq), 
@@ -203,8 +216,44 @@ if (is.null(ylab)) ylab = c("Location")
 
 if(nspec > 1)
 {
+# set color palette
+#  rainbow colors
+ if(palette == 1) colPalette = tim.colors(ncolors)
+#  grayscale
+ if(palette == 2) colPalette = gray.colors(n=ncolors,start=1,end=0,gamma=1.75)
+#  dark blue scale (from larry.colors)
+ if(palette == 3) colPalette = colorRampPalette(c("white","royalblue"))(ncolors)
+#  red scale
+ if(palette == 4) colPalette = colorRampPalette(c("white","red2"))(ncolors)
+#  blue to red plot
+ if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+
+ if (genplot == 1 || genplot == 2 || genplot == 3)
+  {
+    if(pl == 1) 
+     {
+        logPwr=log(pwrRaw)
+        if(min(logPwr)== -Inf) 
+         {
+           if(verbose) cat("\n**** WARNING: Logarithm of 0 yields -Inf. Will replace -Inf with",-1*.Machine$double.xmax,", for plotting only.\n")
+           logPwr[logPwr==-Inf] <- -1*.Machine$double.xmax
+         }
+         
+# this centers the color scale on zero (an equal number of color divisions above and below zero)
+        if(max(logPwr) > 0 && min(logPwr) < 0 && centerZero)
+         {
+           break1=seq(min(logPwr),0,length.out=(ncolors/2)+1)
+           break2=seq(min(logPwr[logPwr>0]),max(logPwr),length.out=(ncolors/2))
+           breaksPwr=append(break1,break2)
+         }
+        if(!centerZero || max(logPwr) <= 0 || min(logPwr) >= 0) breaksPwr=seq(min(logPwr),max(logPwr),length.out=(ncolors)+1)
+     }      
+    if(pl == 2) breaksPwr=seq(min(pwrRaw),max(pwrRaw),length.out=(ncolors)+1)
+  }
+  
  if (genplot == 1)
   {
+    
     par(mfrow=c(2,2))
     if (ydir == -1) 
      {
@@ -212,21 +261,21 @@ if(nspec > 1)
 # note that useRaster=T is not a viable option, as it will plot the results backwards, even though the
 #  y-axis scale has been reversed!  This option will result in a slower plotting time.
        ylimset=c( max(height),min(height) )
-       if(pl == 1) image.plot(freq,height,log(pwrRaw),ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power")
-       if(pl == 2) image.plot(freq,height,pwrRaw,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Power")
-       image.plot(freq,height,ampRaw,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(b) EHA: Amplitude")
-       image.plot(freq,height,log10(FtestRaw),ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(c) EHA: Log10 F-value")
-       image.plot(freq,height,prob,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(d) EHA: Harmonic F-test CL")
+       if(pl == 1) image.plot(freq,height,logPwr,ylim=ylimset,col=colPalette,breaks=breaksPwr,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power")
+       if(pl == 2) image.plot(freq,height,pwrRaw,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(a) EPSA: Power")
+       image.plot(freq,height,ampRaw,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(b) EHA: Amplitude")
+       image.plot(freq,height,log10(FtestRaw),ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(c) EHA: Log10 F-value")
+       image.plot(freq,height,prob,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(d) EHA: Harmonic F-test CL")
      }
 
     if (ydir == 1) 
      {
 # useRaster=T results in a faster plotting time.
-       if(pl == 1) image.plot(freq,height,log(pwrRaw),col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.1)
-       if(pl == 2) image.plot(freq,height,pwrRaw,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.1)
-       image.plot(freq,height,ampRaw,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="EHA: Amplitude")
-       image.plot(freq,height,log10(FtestRaw),col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="EHA: Log10 F-value")
-       image.plot(freq,height,prob,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="EHA: Harmonic F-test CL")
+       if(pl == 1) image.plot(freq,height,logPwr,col=colPalette,breaks=breaksPwr,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.1)
+       if(pl == 2) image.plot(freq,height,pwrRaw,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.1)
+       image.plot(freq,height,ampRaw,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="EHA: Amplitude")
+       image.plot(freq,height,log10(FtestRaw),col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="EHA: Log10 F-value")
+       image.plot(freq,height,prob,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="EHA: Harmonic F-test CL")
      }
 # end genplot = 1
    }
@@ -247,10 +296,10 @@ if (genplot == 2)
 # note that useRaster=T is not a viable option, as it will plot the results backwards, even though the
 #  y-axis scale has been reversed!  This option will result in a slower plotting time.
        ylimset=c( max(height),min(height) )
-       if(pl == 1) image.plot(freq,height,log(pwrRaw),ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       if(pl == 2) image.plot(freq,height,pwrRaw,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampRaw,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab="",main="(b) EHA: Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,prob,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab="",main="(c) EHA: Harmonic F-test CL",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 1) image.plot(freq,height,logPwr,ylim=ylimset,col=colPalette,breaks=breaksPwr,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrRaw,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampRaw,ylim=ylimset,col=colPalette,xlab=xlab,ylab="",main="(b) EHA: Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,prob,ylim=ylimset,col=colPalette,xlab=xlab,ylab="",main="(c) EHA: Harmonic F-test CL",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
      }
 
     if (ydir == 1) 
@@ -262,10 +311,10 @@ if (genplot == 2)
        par(mar = c(3.1, 4.1, 5.1, 0.7))
        par(mgp = c(2.2,1,0))
 # useRaster=T results in a faster plotting time.
-       if(pl == 1) image.plot(freq,height,log(pwrRaw),col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       if(pl == 2) image.plot(freq,height,pwrRaw,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Linear Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampRaw,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,prob,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Harmonic F-test CL",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 1) image.plot(freq,height,logPwr,col=colPalette,breaks=breaksPwr,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrRaw,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Linear Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampRaw,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,prob,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Harmonic F-test CL",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
      }
 # end genplot = 2
    }
@@ -294,10 +343,10 @@ if (genplot == 3)
 # note that useRaster=T is not a viable option, as it will plot the results backwards, even though the
 #  y-axis scale has been reversed!  This option will result in a slower plotting time.
        ylimset=c( max(height),min(height) )
-       if(pl == 1) image.plot(freq,height,log(pwrRaw),ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       if(pl == 2) image.plot(freq,height,pwrRaw,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampNorm,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampSig,ylim=ylimset,col=tim.colors(100),xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 1) image.plot(freq,height,logPwr,ylim=ylimset,col=colPalette,breaks=breaksPwr,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrRaw,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampNorm,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampSig,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
      }
 
     if (ydir == 1) 
@@ -309,15 +358,15 @@ if (genplot == 3)
        par(mar = c(3.1, 4.1, 5.1, 0.7))
        par(mgp = c(2.2,1,0))
 # useRaster=T results in a faster plotting time.
-       if(pl == 1) image.plot(freq,height,log(pwrRaw),col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       if(pl == 2) image.plot(freq,height,pwrRaw,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampNorm,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampSig,col=tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 1) image.plot(freq,height,logPwr,col=colPalette,breaks=breaksPwr,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrRaw,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Power",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampNorm,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampSig,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
      }
 # end genplot = 3
    }  
    
-   if (genplot == 4)
+if (genplot == 4)
   {
 # normalize amplitude spectra to have maxima of unity
     ampNorm<-double(nfreq*nspec)
@@ -330,6 +379,26 @@ if (genplot == 3)
     dim(pwrNorm)<-c(nfreq,nspec)
     pwrNorm=t(pwrRaw)/(apply(pwrRaw,2,max))
     pwrNorm=t(pwrNorm)
+
+    if(pl == 1) 
+     {
+        logPwr=log(pwrNorm)
+        if(min(logPwr)==-Inf) 
+         {
+           if(verbose) cat("\n**** WARNING: Logarithm of 0 yields -Inf. Will replace -Inf with",-1*.Machine$double.xmax,", for plotting only.\n")
+           logPwr[logPwr==-Inf] <- -1*.Machine$double.xmax
+         }
+
+# this centers the color scale on zero (an equal number of color divisions above and below zero)
+        if(max(logPwr) > 0 && min(logPwr) < 0 && centerZero)
+         {
+           break1=seq(min(logPwr),0,length.out=(ncolors/2)+1)
+           break2=seq(min(logPwr[logPwr>0]),max(logPwr),length.out=(ncolors/2))
+           breaksPwr=append(break1,break2)
+         }           
+        if(!centerZero || max(logPwr) <= 0 || min(logPwr) >= 0) breaksPwr=seq(min(logPwr),max(logPwr),length.out=(ncolors)+1)  
+     }      
+    if(pl == 2) breaksPwr=seq(min(pwrNorm),max(pwrNorm),length.out=(ncolors)+1)
 
 # filter at given significance level
     ampSig<-ampNorm
@@ -347,10 +416,10 @@ if (genplot == 3)
 # note that useRaster=T is not a viable option, as it will plot the results backwards, even though the
 #  y-axis scale has been reversed!  This option will result in a slower plotting time.
        ylimset=c( max(height),min(height) )
-       if(pl == 1) image.plot(freq,height,log(pwrNorm),ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Log Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       if(pl == 2) image.plot(freq,height,pwrNorm,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(a) EPSA: Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampNorm,ylim=ylimset,col = tim.colors(100),xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampSig,ylim=ylimset,col=tim.colors(100),xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 1) image.plot(freq,height,logPwr,ylim=ylimset,col=colPalette,breaks=breaksPwr,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrNorm,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(a) EPSA: Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampNorm,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampSig,ylim=ylimset,col=colPalette,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
      }
 
     if (ydir == 1) 
@@ -362,10 +431,10 @@ if (genplot == 3)
        par(mar = c(3.1, 4.1, 5.1, 0.7))
        par(mgp = c(2.2,1,0))
 # useRaster=T results in a faster plotting time.
-       if(pl == 1) image.plot(freq,height,log(pwrNorm),col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       if(pl == 2) image.plot(freq,height,pwrNorm,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampNorm,col = tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
-       image.plot(freq,height,ampSig,col=tim.colors(100),useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 1) image.plot(freq,height,logPwr,col=colPalette,breaks=breaksPwr,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Log Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       if(pl == 2) image.plot(freq,height,pwrNorm,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(a) EPSA: Normalized Power (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampNorm,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(b) EHA: Normalized Amplitude (unity)",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
+       image.plot(freq,height,ampSig,col=colPalette,useRaster=T,xlab=xlab,ylab=ylab,main="(c) EHA: Normalized & Filtered Amplitude",cex.lab=1.2,horizontal=T,legend.shrink=0.7,legend.mar=2)
      }
 # end genplot = 4
    }  
@@ -405,7 +474,16 @@ if(genplot)
   {
     par(mfrow=c(3,1))
 # POWER SPECTRUM
-    if(pl == 1) plot(freq,log(pwrRaw),type="l", col="black", xlab=xlab,ylab="Log Power",main="MTM Power Estimates",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
+    if(pl == 1) 
+      {      
+        logPwr=log(pwrRaw)
+        if(min(logPwr)==-Inf) 
+         {
+           if(verbose) cat("\n**** WARNING: Logarithm of 0 yields -Inf. Will replace 0 with",-1*.Machine$double.xmax,", for plotting only.\n")
+           logPwr[logPwr==-Inf] <- -1*.Machine$double.xmax
+         }
+         plot(freq,logPwr,type="l", col="black", xlab=xlab,ylab="Log Power",main="MTM Power Estimates",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
+      }
     if(pl == 2) plot(freq,pwrRaw,type="l", col="black", xlab=xlab,ylab="Linear Power",main="MTM Power Estimates",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
 ### plot "significant" frequencies (on power plot first)
     if(sigID)

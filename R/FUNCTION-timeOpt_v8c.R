@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOpt - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014; 
@@ -7,10 +7,12 @@
 ###                          Sept. 29-30, 2015; October 20-21, 2015; 
 ###                          October 26, 2015; November 19, 2015;
 ###                          December 17, 2015; February 7, 2016; 
-###                          February 16, 2016; March 2, 2016)
+###                          February 16, 2016; March 2, 2016; 
+###                          October 18-26, 2016; November 4, 2016; 
+###                          November 9, 2016; February 13, 2017)
 ###########################################################################
 
-timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,genplot=T,verbose=T)
+timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,verbose=T)
 {
 
 if(verbose) cat("\n----- TimeOpt: Assessment of Amplitude Modulation & Bundling-----\n")
@@ -61,6 +63,22 @@ if (detrend)
    sedmin=sedmin/100
    sedmax=sedmax/100
 
+# if sedmin equals sedmax, ensure numsed = 1
+  if(sedmin == sedmax || numsed == 1) 
+   {
+     if(numsed != 1)
+      {
+        if(verbose) cat("\n**** WARNING: sedmin = sedmax, so numsed will be reset to 1.\n\n")
+        numsed=1
+      }  
+   }  
+   
+  if(sedmin != sedmax && numsed == 1)   
+   {
+     cat("\n**** ERROR: sedmin is not equal to sedmax. You must specify numsed >1\n")
+     stop("**** TERMINATING NOW!")
+   }
+  
 #######################################################################################
 # set up default bandpass frequencies and targets
 #  first for precession
@@ -197,6 +215,11 @@ fitIt <- function(sedrate1,timeSeries,targetIn)
 ans<- rep(NA,numsed*3)
 dim(ans) <- c(numsed,3)
 sedrate <-double(numsed)
+
+if(numsed == 1) sedrate=sedmin
+
+if(numsed != 1)
+ {
 if(linLog==0)
   {
     sedinc = (sedmax-sedmin)/(numsed-1)
@@ -215,12 +238,25 @@ if(linLog==1)
          sedrate[ii] = 10^sedrate[ii]
       }
    }
-
+ }
+ 
+ 
 #######################################################################################
 # begin sedimentation rate loop
+
+
+if(verbose) 
+  {  
+    cat("\n * PLEASE WAIT: Performing Optimization\n")
+    cat("\n0%       25%       50%       75%       100%\n")
+# create a progress bar
+    progress = utils::txtProgressBar(min = 0, max = numsed, style = 1, width=43)
+  }
+
 i=0
 for (ii in 1:numsed) 
 {
+    if(verbose) utils::setTxtProgressBar(progress, ii)
     i=i+1
 # CALIBRATE DEPTH SERIES (m) TO TIME (ka)
     ts = dat
@@ -257,7 +293,7 @@ for (ii in 1:numsed)
     ans[i,3] <- pwrOut[2]
 # end sedimentation rate loop
 }
-
+   if(verbose) close(progress) 
    rPwr = ans[,2] * ans[,3]
    
 #######################################################################################
@@ -304,50 +340,63 @@ if(genplot == T || output == 2)
     hil = hilbert(bp,padfac=2,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
  
 # perform fitting at optimal sedimentation rate for plotting
-if(fit == 1) xm <- genCycles(ans[ptRp,1], targetE, npts)
-if(fit == 2) xm <- genCycles(ans[ptRp,1], targetE[1], npts)
+if(fit == 1) 
+ {
+   xm <- genCycles(ans[ptRp,1], targetE, npts)
+   xm2 <- genCycles(ans[ptRp,1], targetTot, npts)
+ }  
+if(fit == 2) 
+ {
+   xm <- genCycles(ans[ptRp,1], targetE[1], npts)
+   xm2 <- genCycles(ans[ptRp,1], targetE, npts)
+ }
 lm.0 <- lm(hil[,2] ~ xm)
+lm.2 <- lm(ts[,2] ~ xm2)
  }
  
 if(genplot)
  { 
-      dev.new(title = paste("TimeOpt Results"),height=7,width=7)
-      par(mfrow=c(3,2))
-# plot least squares fitting results
-      plot(100*ans[,1],ans[,2],cex=.75,cex.lab=1.2,cex.main=1.3,col="red",xlab="",ylab="",main=expression(paste(bold("Fit: "),{"r"^2}["envelope"]," (red) and ",{"r"^2}["power"]," (gray)")))
+  if(is.null(title)) title = c("TimeOpt Results")
+  if(numsed != 1) 
+   {
+     dev.new(title=title,height=7,width=7)
+     par(mfrow=c(3,2))
+
+     plot(100*ans[,1],ans[,2],cex=.75,cex.lab=1.2,cex.main=1.3,col="red",xlab="",ylab="",main=expression(paste(bold("Fit: "),{"r"^2}["envelope"]," (red) and ",{"r"^2}["power"]," (gray)")))
 # plot red numbers on left axis
-      axis(2,col.axis="red")
-      mtext(expression("r"^2),side=2,line=2,cex=0.9)
-      mtext("Sedimentation rate (cm/ka)",side=1,line=2.3,cex=0.8)
-      par(new=T)
-      plot(100*ans[,1],ans[,3],col="#00000064",xlab="",ylab="",type="l",axes=F,lwd=2)
-      axis(4, ylim=c(0,max(ans[,3])),lwd=1,col="black")
+     axis(2,col.axis="red")
+     mtext(expression("r"^2),side=2,line=2,cex=0.9)
+     mtext("Sedimentation rate (cm/ka)",side=1,line=2.3,cex=0.8)
+     par(new=T)
+     plot(100*ans[,1],ans[,3],col="#00000064",xlab="",ylab="",type="l",axes=F,lwd=2)
+     axis(4, ylim=c(0,max(ans[,3])),lwd=1,col="black")
         
-      plot(100*ans[,1],rPwr,type="l",lwd=2,cex.lab=1.2,cex.main=1.3,col="black",xlab="",ylab="",main=expression(paste(bold("Optimal Fit: "),{"r"^2}["opt"])))
-#      points(100*ans[,1],rPwr,cex=.75,pch=21,bg="white")
-      mtext(expression({"r"^2}["opt"]),side=2,line=1.9,cex=0.9)
-      mtext("Sedimentation rate (cm/ka)",side=1,line=2.3,cex=0.8)
+     plot(100*ans[,1],rPwr,type="l",lwd=2,cex.lab=1.2,cex.main=1.3,col="black",xlab="",ylab="",main=expression(paste(bold("Optimal Fit: "),{"r"^2}["opt"])))
+#    points(100*ans[,1],rPwr,cex=.75,pch=21,bg="white")
+     mtext(expression({"r"^2}["opt"]),side=2,line=1.9,cex=0.9)
+     mtext("Sedimentation rate (cm/ka)",side=1,line=2.3,cex=0.8)
 
 # plot hil and ecc estimated by least squares fitting
-      plot(hil,cex=.5,cex.lab=1.2,cex.main=1.3,xlab="",ylab="",main="Envelope (red); Reconstructed Model (black)", col="red",type="l")
-      lines(hil[,1],lm.0$fitted,lwd=1.5)     
-      mtext("Std. Value",side=2,line=2,cex=0.9)
-      mtext("Time (ka)",side=1,line=2.3,cex=0.8)
+     ylim1=c(min(hil[,2],lm.0$fitted),max(hil[,2],lm.0$fitted))
+     plot(hil,cex=.5,cex.lab=1.2,cex.main=1.2,xlab="",ylab="",main="Envelope (red); Reconstructed Ecc. Model (black)", col="red",type="l",ylim=ylim1)
+     lines(hil[,1],lm.0$fitted,lwd=1.5)     
+     mtext("Std. Value",side=2,line=2,cex=0.9)
+     mtext("Time (ka)",side=1,line=2.3,cex=0.8)
 
 # plot bp and hilbert of bp
-      plot(bp,col="blue",cex=.5,cex.lab=1.2,cex.main=1.3,xlab="",ylab="",main="Envelope (red); Filtered Data (blue)")
-      lines(bp,col="blue")
-      lines(hil,col="red")
-      lines(hil[,1],-1*hil[,2],col="red")
-      abline(h=0,col="black",lty=3)
-      mtext("Std. Value",side=2,line=2,cex=0.9)
-      mtext("Time (ka)",side=1,line=2.3,cex=0.8)
-
+     ylim1=c(min(bp[,2],-1*hil[,2]),max(bp[,2],hil[,2]))
+     plot(bp,col="blue",cex=.5,cex.lab=1.2,cex.main=1.3,xlab="",ylab="",main="Envelope (red); Filtered Data (blue)",ylim=ylim1)
+     lines(bp,col="blue")
+     lines(hil,col="red")
+     lines(hil[,1],-1*hil[,2],col="red")
+     abline(h=0,col="black",lty=3)
+     mtext("Std. Value",side=2,line=2,cex=0.9)
+     mtext("Time (ka)",side=1,line=2.3,cex=0.8)
 
 # cross plot of hil and ecc
-     plot(hil[,2],lm.0$fitted, cex.lab=1.2, cex.main=1.3, main="Envelope vs. Reconstructed Model", xlab="",ylab="")
-     mtext("Reconstructed Model",side=2,line=2,cex=0.9)
-     mtext("Envelope",side=1,line=2.3,cex=0.8)
+     plot(hil[,2],lm.0$fitted, cex.lab=1.2, cex.main=1.3, main="Envelope vs. Reconstructed Ecc. Model", xlab="",ylab="")
+     mtext("Reconst. Ecc. Model",side=2,line=2,cex=0.9)
+     mtext("Data Envelope",side=1,line=2.3,cex=0.8)
 
 # periodogram of stratigraphic series
      fft = periodogram( data.frame(cbind(ts[,1],ts[,2])), output=1, verbose=F,genplot=F)
@@ -362,6 +411,62 @@ if(genplot)
      plot(fft[,1],log(fft[,3]),xlim=c(0,0.1),type="l",yaxt="n",col="gray",xlab="",ylab="")
      abline(v=1/targetTot, col="red",lty=3)
 #     abline(v=c(flow,fhigh), col="blue",lty=2)   
+   }
+
+  if(numsed == 1) 
+   {
+     dev.new(title=title,height=7,width=7)
+     par(mfrow=c(3,2))
+
+# plot bp and hilbert of bp
+     ylim1=c(min(bp[,2],-1*hil[,2]),max(bp[,2],hil[,2]))
+     plot(bp,col="blue",cex=.5,cex.lab=1.2,cex.main=1.3,xlab="",ylab="",main="Envelope (red); Filtered Data (blue)",ylim=ylim1)
+     lines(bp,col="blue")
+     lines(hil,col="red")
+     lines(hil[,1],-1*hil[,2],col="red")
+     abline(h=0,col="black",lty=3)
+     mtext("Std. Value",side=2,line=2,cex=0.9)
+     mtext("Time (ka)",side=1,line=2.3,cex=0.8)
+
+# periodogram of stratigraphic series
+     fft = periodogram( data.frame(cbind(ts[,1],ts[,2])), output=1, verbose=F,genplot=F)
+# remove f(0) for log plot of power
+     fft = subset(fft,(fft[,1] > 0))
+     plot(fft[,1],fft[,3],cex.lab=1.2,cex.main=1.3,xlim=c(0,0.1),type="l",xlab="",ylab="",main="Power Spectrum (black=linear; gray=log)")
+     lines(bpWin[,1],bpWin[,2]*max(fft[,3]),col="blue")
+     mtext("Power",side=2,line=2,cex=0.9)
+     mtext("Frequency (cycles/ka)",side=1,line=2.3,cex=0.8)
+# plot a second y-axis
+     par(new=TRUE)
+     plot(fft[,1],log(fft[,3]),xlim=c(0,0.1),type="l",yaxt="n",col="gray",xlab="",ylab="")
+     abline(v=1/targetTot, col="red",lty=3)
+#     abline(v=c(flow,fhigh), col="blue",lty=2)   
+
+# plot hil and ecc estimated by least squares fitting
+     ylim1=c(min(hil[,2],lm.0$fitted),max(hil[,2],lm.0$fitted))
+     plot(hil,cex=.5,cex.lab=1.2,cex.main=1.2,xlab="",ylab="",main="Envelope (red); Reconstructed Ecc. Model (black)", col="red",type="l",ylim=ylim1)
+     lines(hil[,1],lm.0$fitted,lwd=1.5)     
+     mtext("Std. Value",side=2,line=2,cex=0.9)
+     mtext("Time (ka)",side=1,line=2.3,cex=0.8)
+
+# plot calibrated times series and fit estimated by least squares fitting    
+     ylim2=c(min(ts[,2],lm.2$fitted),max(ts[,2],lm.2$fitted))
+     plot(ts,cex=.5,cex.lab=1.2,cex.main=1.2,xlab="",ylab="",main="Data (red); Full Regression Model (black)", col="red",type="l",ylim=ylim2)
+     lines(ts[,1],lm.2$fitted,lwd=1.5)     
+     mtext("Std. Value",side=2,line=2,cex=0.9)
+     mtext("Time (ka)",side=1,line=2.3,cex=0.8)
+    
+# cross plot of hil and ecc
+     plot(hil[,2],lm.0$fitted, cex.lab=1.2, cex.main=1.3, main="Envelope vs. Reconstructed Ecc. Model", xlab="",ylab="")
+     mtext("Reconst. Ecc. Model",side=2,line=2,cex=0.9)
+     mtext("Data Envelope",side=1,line=2.3,cex=0.8)
+
+# cross plot of data and full regression model
+     plot(ts[,2],lm.2$fitted, cex.lab=1.2, cex.main=1.3, main="Data vs. Full Regression Model", xlab="",ylab="")
+     mtext("Regression Model",side=2,line=2,cex=0.9)
+     mtext("Data",side=1,line=2.3,cex=0.8)    
+   }      
+# end genplot section
  }
      
 # return sedimentation rate grid, envelope, spectral power, envelope*spectral power 
@@ -376,7 +481,7 @@ if(genplot)
      if(output == 2) 
       {
         out <- data.frame (cbind(ts[,1],ts[,2],bp[,2],hil[,2],lm.0$fitted) )
-        colnames(out) <- c("time","value","filtered","envelope","reconstructed_model")
+        colnames(out) <- c("time","value","filtered_precession","precession_envelope","reconstructed_ecc_model")
         return(out)
       }  
 

@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### function trough : find minima of troughs in series, report those that
 ###                   fall below a threshold value (February 3, 2015;
-###                   February 7, 2015; August 17, 2015)
+###                   February 7, 2015; August 17, 2015; March 20, 2017)
 ###
 ###########################################################################
 
@@ -25,7 +25,7 @@ if(ncols == 2) { x <- dat[,1]; y <- dat[,2] }
 # FORTRAN wrapper
 troughID <- function (npts,y) 
  { 
-    F_dat = .Fortran('trough_r',PACKAGE='astrochron',
+    F_dat = .Fortran('trough_r',
     
     npts=as.integer(npts),y=as.double(y),
     

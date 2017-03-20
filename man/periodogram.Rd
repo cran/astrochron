@@ -34,7 +34,7 @@ ex=cycles(c(1/100,1/40,1/29,1/21,1/19,1/14,1/10,1/5,1/4,1/3),amp=c(1,.75,0.01,.5
              0.01,0.1,0.05,0.001,0.01))
 
 # set zero padding amount for spectral analyses 
-# (pad= 1 results in no padding, pad = 2 will pad the series to two times its original length)
+# (pad= 1 results in no zero padding, pad = 2 will pad the series to two times its original length)
 # start with pad = 1, then afterwards evaluate pad=2
 pad=1
 
@@ -130,5 +130,8 @@ lines(freq.2[,1],log(pwr_dpss1.2[,1]),col="green")
 lines(freq.2[,1],log(pwr_dpss3.2[,1]),col="red",lwd=2)
 points(c(1/100,1/40,1/29,1/21,1/19,1/14,1/10,1/5,1/4,1/3),rep(ymax,10),cex=.5,
       col="purple")
+
+# ***** PART 3: Return to PART 1, but this time increase the zero padding to 2 (pad=2)
+
 }
 }

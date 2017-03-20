@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2016 Stephen R. Meyers
 ###
 ###########################################################################
 ### stepHeat: caculate weighted mean, with MSWD and other associated statistics/plots
 ###           for incremental heating Ar/Ar data 
 ###                              (SRM: February 23-28, 2015; March 1, 2015; 
-###                                    September 12-13, 2015)
+###                                    September 12-13, 2015; October 21, 2016)
 ###
 ###########################################################################
 
@@ -30,6 +30,9 @@ stepHeat <- function (dat,unc=1,lambda=5.463e-10,J=NULL,Jsd=NULL,CI=2,cull=-1,de
          cull = 0
        }
     }
+
+# ensure we are using a matrix
+  dat=as.matrix(dat)
 
 # force cull=0 if del=!NULL
   if(!is.null(del)) cull=0

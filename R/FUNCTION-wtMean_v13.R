@@ -1,12 +1,13 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2016 Stephen R. Meyers
 ###
 ###########################################################################
 ### wtMean: caculate weighted mean, with MSWD and other associated statistics/plots. 
 ###                              (SRM: March 16, 2012; Sept. 22-25, 2014; 
 ###                               February 6-7, 2015; February 10-15, 2015;
 ###                               February 24-28, 2015; March 1, 2015;
-###                               September 11-13, 2015; August 22, 2016)
+###                               September 11-13, 2015; August 22, 2016; 
+###                               October 21, 2016)
 ###
 ###########################################################################
 
@@ -31,6 +32,9 @@ wtMean <- function (dat,sd=NULL,unc=1,lambda=5.463e-10,J=NULL,Jsd=NULL,CI=2,cull
          cull = 0
        }
     }
+
+# ensure we are using a matrix
+  dat=as.matrix(dat)
    
 # force cull=0 if del=!NULL
   if(!is.null(del)) cull=0
