@@ -1,6 +1,6 @@
 \name{cb}
 \alias{cb}
-\title{Combine Multiple Vectors}
+\title{Combine multiple vectors}
 \description{
 Bind two vectors together and return result as a data frame. Alternatively, extract specified columns from a data frame, bind them together, and return result as a data frame.
 }

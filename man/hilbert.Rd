@@ -1,6 +1,6 @@
 \name{hilbert}
 \alias{hilbert}
-\title{Hilbert Transform of Stratigraphic Series}
+\title{Hilbert transform of stratigraphic series}
 \description{
 Calculate instantaneous amplitude (envelope) via Hilbert Transform of stratigraphic series
 }

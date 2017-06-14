@@ -1,6 +1,6 @@
 \name{prewhiteAR}
 \alias{prewhiteAR}
-\title{Prewhiten Stratigraphic Series with Autoregressive Filter, Order Selected by Akaike Information Criterion}
+\title{Prewhiten stratigraphic series with autoregressive filter, order selected by Akaike Information Criterion}
 \description{
 Prewhiten stratigraphic series using autoregressive (AR) filter. Appropriate AR order can be automatically determined using the Akaike Information Criterion, or alternatively, the order may be predefined.
 }

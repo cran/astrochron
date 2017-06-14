@@ -1,6 +1,6 @@
 \name{gausTaper}
 \alias{gausTaper}
-\title{Apply Gaussian Taper to Stratigraphic Series}
+\title{Apply Gaussian taper to stratigraphic series}
 \description{
 Apply a Gaussian taper to a stratigraphic series
 }

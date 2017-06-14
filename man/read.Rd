@@ -1,6 +1,6 @@
 \name{read}
 \alias{read}
-\title{Read Data from File}
+\title{Read data from file}
 \description{
 Read stratigraphic data series from a file, either tab-delimited, CSV, or semicolon-delimited. First column MUST contain location data (depth, height, time). The function will remove missing entries, sort by location, average duplicate values, and generate summary plots.
 }

@@ -1,8 +1,8 @@
 \name{mtm}
 \alias{mtm}
-\title{Multitaper Method Spectral Analysis}
+\title{Multitaper method spectral analysis}
 \description{
-Multitaper Method (MTM) Spectral Analysis (Thomson, 1982)
+Multitaper method (MTM) spectral analysis (Thomson, 1982)
 }
 \usage{
 mtm(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,siglevel=0.9,ar1=T,output=0,

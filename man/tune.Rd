@@ -1,6 +1,6 @@
 \name{tune}
 \alias{tune}
-\title{Tune Stratigraphic Series}
+\title{Tune stratigraphic series}
 \description{
 Tune stratigraphic series from space to time, using specified control points
 }

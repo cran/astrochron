@@ -1,6 +1,6 @@
 \name{etp}
 \alias{etp}
-\title{Generate Eccentricity-Tilt-Precession Models}
+\title{Generate eccentricity-tilt-precession models}
 \description{
 Calculate eccentricity-tilt-precession time series using the theoretical astronomical solutions.
 By default, the Laskar et al. (2004) solutions will be downloaded. Alternatively, one can

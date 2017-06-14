@@ -1,6 +1,6 @@
 \name{repl0}
 \alias{repl0}
-\title{Replace Values < 0 with 0}
+\title{Replace values < 0 with 0}
 \description{
 Replace all variable values < 0 with 0. If first column is location ID (depth/height/time), it will not be processed.  Any number of variables (columns) permitted.
  

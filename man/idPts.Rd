@@ -1,6 +1,6 @@
 \name{idPts}
 \alias{idPts}
-\title{Interactively Identify Points in Plot}
+\title{Interactively identify points in plot}
 \description{
 Interactively identify points in x,y plot.
 }

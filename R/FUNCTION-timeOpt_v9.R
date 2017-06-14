@@ -9,10 +9,11 @@
 ###                          December 17, 2015; February 7, 2016; 
 ###                          February 16, 2016; March 2, 2016; 
 ###                          October 18-26, 2016; November 4, 2016; 
-###                          November 9, 2016; February 13, 2017)
+###                          November 9, 2016; February 13, 2017; 
+###                          April 11, 2017; April 23, 2017)
 ###########################################################################
 
-timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,verbose=T)
+timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,verbose=T)
 {
 
 if(verbose) cat("\n----- TimeOpt: Assessment of Amplitude Modulation & Bundling-----\n")
@@ -113,6 +114,11 @@ if(fit == 1)
     }
   }
 
+if(fit == 2 && !is.null(targetP)) 
+  {
+    if(verbose) cat("\n**** WARNING: targetP is defined but will not be used in fitting!\n")
+  }
+
 # next for short eccentricity
 if(fit == 2)
  {
@@ -133,16 +139,6 @@ if(fit == 2)
      }   
  }  
 
-# check minimum and maximum sedimentation rates. sedmin is now in m/ka, dx is in meters.
-   NyqFreq=sedmin/(2*dx)
-# fhigh is the upper half-power point for the filter   
-   if(fhigh>NyqFreq)
-    {
-     sedmin = 2*dx*fhigh
-     if(verbose) cat("\n**** WARNING: minimum sedimentation rate is too low.\n")
-     if(verbose) cat("              sedmin reset to",100*sedmin,"cm/ka\n\n")
-    }
-      
 if(is.null(targetE))
  {
 # the five domintant eccentricity peaks based on spectral analysis of LA10d solution 
@@ -156,13 +152,42 @@ if(is.null(targetE))
      if(verbose) cat(" * Using default eccentricity target periods (ka)=",targetE,"\n")     
   }   
 
-if(fit==2 && !is.null(targetP)) 
-  {
-    if(verbose) cat("\n**** WARNING: targetP is defined but will not be used in fitting!\n")
-  }  
-
 # targetTot is for plotting, and fitting if precession modulations assessed
-targetTot = c(targetE,targetP)
+if(fit == 1) targetTot = c(targetE,targetP)
+if(fit == 2) targetTot = c(targetE)
+
+if(flow < 0.5/max(targetTot) && verbose) cat("\n**** NOTE: flow is less than half of the smallest target frequency. Did you intend this?\n")
+if(fhigh > 2/min(targetTot) && verbose) cat("\n**** NOTE: fhigh is 2 times greater than the largest target frequency. Did you intend this?\n")  
+
+# check minimum and maximum sedimentation rates. sedmin is now in m/ka, dx is in meters.
+   NyqFreq=sedmin/(2*dx)
+# fhigh is the upper half-power point for the filter   
+   if(fhigh>NyqFreq)
+    {
+     if(limit) 
+      {
+        sedmin = 2*dx*fhigh
+        if(verbose) cat("\n**** WARNING: minimum sedimentation rate is too low for full signal recovery.\n")
+        if(verbose) cat("              sedmin reset to",100*sedmin,"cm/ka\n\n")
+      }
+     if(verbose && !limit) 
+      {
+# note: when sedimentation rates exceed this value, the filter starts to behave more-and-more like a high-pass filter
+        cat("\n**** WARNING: minimum sedimentation rate is too low for full signal recovery, but it will still be evaluated.\n")
+        cat("              The high frequency half-power point of filter is exceeded when sedrate=",100*2*dx*fhigh,"cm/ka\n")
+        cat("              USE WITH CAUTION!\n\n")
+        if(fit == 1)
+         {
+           cat("              The shortest precession period is undetectable when sedrate <",100*2*dx/min(targetP),"cm/ka\n")
+           cat("              The longest precession period is undetectable when sedrate <",100*2*dx/max(targetP),"cm/ka\n\n")
+         }
+        if(fit == 2)
+         {   
+           cat("              The shortest eccentricity period is undetectable when sedrate <",100*2*dx/min(targetE),"cm/ka\n")
+           cat("              The longest eccentricity period is undetectable when sedrate <",100*2*dx/max(targetE),"cm/ka\n\n")
+         }  
+      }
+    }
 
 # check maximum sedimentation rate. sedmax is in m/ka. dx is in meters.
 RayFreq = sedmax/(npts*dx)
@@ -170,9 +195,19 @@ RayFreq = sedmax/(npts*dx)
 freqLow=1/max(targetE)
 if(RayFreq>freqLow)
   {
-    sedmax = npts*dx*freqLow
-    if(verbose) cat("\n**** WARNING: maximum sedimentation rate is too high.\n")
-    if(verbose) cat("              sedmax reset to",100*sedmax,"cm/ka\n\n")
+    if(limit) 
+      {
+        sedmax = npts*dx*freqLow
+        if(verbose) cat("\n**** WARNING: maximum sedimentation rate is too high for full signal recovery.\n")
+        if(verbose) cat("              sedmax reset to",100*sedmax,"cm/ka\n\n")
+      }
+     if(!limit) 
+      {
+        if(verbose) cat("\n**** WARNING: maximum sedimentation rate is too high for full signal recovery, but it will still be evaluated.\n")
+        cat("              The longest eccentricity period is undetectable when sedrate >",100*npts*dx*freqLow,"cm/ka\n")
+        cat("              The shortest eccentricity period is undetectable when sedrate >",100*npts*dx/min(targetE),"cm/ka\n")
+        cat("              USE WITH CAUTION!\n\n")
+      }  
   }
 
 if(sedmin>sedmax)

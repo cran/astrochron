@@ -1,6 +1,6 @@
 \name{arcsinT}
 \alias{arcsinT}
-\title{Arcsine Transformation of Stratigraphic Series}
+\title{Arcsine transformation of stratigraphic series}
 \description{
 Arcsine transformation of stratigraphic series
 }

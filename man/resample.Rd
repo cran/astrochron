@@ -1,6 +1,6 @@
 \name{resample}
 \alias{resample}
-\title{Resample Stratigraphic Series}
+\title{Resample stratigraphic series}
 \description{
 Resample a stratigraphic series using a new (variably sampled) time or space axis. Values are piecewise-linearly interpolated from original data.
 }

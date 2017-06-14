@@ -1,6 +1,6 @@
 \name{writeT}
 \alias{writeT}
-\title{Write Tab-delimited File}
+\title{Write tab-delimited file}
 \description{
 Write data frame as file with tab-delimited values
 }

@@ -1,6 +1,6 @@
 \name{delPts}
 \alias{delPts}
-\title{Interactively Delete Points in Plot}
+\title{Interactively delete points in plot}
 \description{
 Interactively delete points in x,y plot.
 }

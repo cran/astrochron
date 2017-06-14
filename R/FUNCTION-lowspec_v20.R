@@ -6,7 +6,8 @@
 ###                           May 23-25, 2013; May 27, 2013; June 5, 2013; June 13, 2013;
 ###                           June 21, 2013; Nov. 26. 2013; January 31, 2015; 
 ###                           February 1-3, 2015; February 26, 2015; March 5-6, 2015;
-###                           September 10, 2015; August 21-22, 2016; March 20, 2017)
+###                           September 10, 2015; August 21-22, 2016; March 20, 2017;
+###                           June 12, 2017)
 ###
 ### "Seeing red" algorithm as an R function
 ###########################################################################
@@ -174,13 +175,10 @@ chi <-  (pwr/y.predict) * dof
 ### calculate CL
 chiCL <- pchisq(chi, df=dof)
 
-### 90, 95 and 99% CL for power plot
-if(CLpwr)
-  {
-    CL90 <- y.predict*qchisq(0.9, df=dof)/dof
-    CL95 <- y.predict*qchisq(0.95, df=dof)/dof
-    CL99 <- y.predict*qchisq(0.99, df=dof)/dof
-  }
+### 90, 95 and 99% CL 
+CL90 <- y.predict*qchisq(0.9, df=dof)/dof
+CL95 <- y.predict*qchisq(0.95, df=dof)/dof
+CL99 <- y.predict*qchisq(0.99, df=dof)/dof
 
 ### calculate f-test CL for prewhitened spectrum
 prob <- pf(Ftest,2,dof-2)
@@ -308,15 +306,17 @@ if(genplot)
 
 if (output==1) 
 {
-
-    spectrum <- data.frame(cbind(freq,pwr,y.predict,chiCL*100,prob*100))
+    spectrum <- data.frame(cbind(freq,pwr,y.predict,chiCL*100,CL90,CL95,CL99,prob*100))
     colnames(spectrum)[1] <- 'Frequency'
     colnames(spectrum)[2] <- 'Prewhite_power'
     colnames(spectrum)[3] <- 'LOWSPEC_back'
     colnames(spectrum)[4] <- 'LOWSPEC_CL'
-    colnames(spectrum)[5] <- 'Harmonic_F-test_CL'
+    colnames(spectrum)[5] <- 'LOWSPEC_90_power'
+    colnames(spectrum)[6] <- 'LOWSPEC_95_power'
+    colnames(spectrum)[7] <- 'LOWSPEC_99_power'
+    colnames(spectrum)[8] <- 'Harmonic_F-test_CL'
 
-  return(spectrum)
+    return(spectrum)
 }
 
 if (output==2) 

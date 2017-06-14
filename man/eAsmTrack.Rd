@@ -1,8 +1,8 @@
 \name{eAsmTrack}
 \alias{eAsmTrack}
-\title{Track ASM Null Hypothesis significance level minima in eASM results}
+\title{Track ASM null hypothesis significance level minima in eASM results}
 \description{
-Track ASM Null Hypothesis significance level minima in eASM results.
+Track ASM null hypothesis significance level minima in eASM results.
 }
 \usage{
 eAsmTrack(res,threshold=.5,ydir=-1,genplot=T,verbose=T)

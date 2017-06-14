@@ -1,6 +1,6 @@
 \name{lowpass}
 \alias{lowpass}
-\title{Lowpass Filter Stratigraphic Series}
+\title{Lowpass filter stratigraphic series}
 \description{
 Lowpass filter stratigraphic series using rectangular, Gaussian or tapered cosine window [cosine window is experimental]
 }

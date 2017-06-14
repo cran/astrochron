@@ -1,8 +1,8 @@
 \name{armaGen}
 \alias{armaGen}
-\title{Generate Autoregressive Moving-average Model}
+\title{Generate autoregressive moving-average model}
 \description{
-Generate an Autoregressive Moving-average time series model
+Generate an autoregressive moving-average time series model
 }
 \usage{
 armaGen(npts=1024,dt=1,m=0,std=1,rhos=c(0.9),thetas=c(0),genplot=T,verbose=T)

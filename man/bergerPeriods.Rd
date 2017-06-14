@@ -1,6 +1,6 @@
 \name{bergerPeriods}
 \alias{bergerPeriods}
-\title{Obliquity and Precession Periods of Berger et al. (1992)}
+\title{Obliquity and precession periods of Berger et al. (1992)}
 \description{
 Determine the predicted precession and obliquity periods based on Berger et al. (1992). Values are determined by piecewise linear interpolation.
 }

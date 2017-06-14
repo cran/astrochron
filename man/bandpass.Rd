@@ -1,6 +1,6 @@
 \name{bandpass}
 \alias{bandpass}
-\title{Bandpass Filter Stratigraphic Series}
+\title{Bandpass filter stratigraphic series}
 \description{
 Bandpass filter stratigraphic series using rectangular, Gaussian or tapered cosine (a.k.a. Tukey) window
 }

@@ -1,6 +1,6 @@
 \name{sortNave}
 \alias{sortNave}
-\title{Remove Missing Entries, Sort Data, Average Duplicates}
+\title{Remove missing entries, sort data, average duplicates}
 \description{
 Sort and average duplicates in stratigraphic series, as performed in 'read' function.
 }

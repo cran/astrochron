@@ -1,8 +1,8 @@
 \name{s}
 \alias{s}
-\title{Standardize variable in Stratigraphic Series}
+\title{Standardize variable in stratigraphic series}
 \description{
-Standardize variable in Stratigraphic Series (subtract mean value and divide by standard deviation)
+Standardize variable in stratigraphic series (subtract mean value and divide by standard deviation)
 }
 \usage{
 s(dat,genplot=F,verbose=T)

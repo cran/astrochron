@@ -1,8 +1,8 @@
 \name{plotEha}
 \alias{plotEha}
-\title{Create color time-frequency plots from eha results. Also a general purpose 3D plotting routine.}
+\title{Create color time-frequency plots from eha results.}
 \description{
-Create color time-frequency plots from eha results. Also a general purpose 3D plotting routine.
+Create color time-frequency plots from eha results.
 }
 \usage{
 plotEha(spec,xmin,xmax,ymin,ymax,h=6,w=4,ydir=1,pl=0,norm,palette=1,

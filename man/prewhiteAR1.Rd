@@ -1,6 +1,6 @@
 \name{prewhiteAR1}
 \alias{prewhiteAR1}
-\title{Prewhiten Stratigraphic Series with AR1 filter, using 'Standard' or Unbiased Estimate of rho}
+\title{Prewhiten stratigraphic series with AR1 filter, using 'standard' or unbiased estimate of rho}
 \description{
 Prewhiten stratigraphic series using autoregressive-1 (AR1) filter. Rho can be estimated using the 'standard' approach, or following a bias correction.
 }

@@ -1,8 +1,8 @@
 \name{pad}
 \alias{pad}
-\title{Pad Stratigraphic Series with Zeros}
+\title{Pad stratigraphic series with zeros}
 \description{
-Pad Stratigraphic Series with Zeros ("zero padding")
+Pad stratigraphic series with zeros ("zero padding")
 }
 \usage{
 pad(dat,zeros,genplot=T,verbose=T)

@@ -1,6 +1,6 @@
 \name{noKernel}
 \alias{noKernel}
-\title{Remove Gaussian Kernel Smoother from Stratigraphic Series}
+\title{Remove Gaussian kernel smoother from stratigraphic series}
 \description{
 Estimate trend and remove from stratigraphic series using a Gaussian kernel smoother }
 \usage{

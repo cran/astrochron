@@ -1,6 +1,6 @@
 \name{hannTaper}
 \alias{hannTaper}
-\title{Apply Hann Taper to Stratigraphic Series}
+\title{Apply Hann taper to stratigraphic series}
 \description{
 Apply a Hann (Hanning) taper to a stratigraphic series
 }

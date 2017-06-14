@@ -1,6 +1,6 @@
 \name{readMatrix}
 \alias{readMatrix}
-\title{Read Data Matrix from File}
+\title{Read data matrix from file}
 \description{
 Read data matrix from a file, either tab-delimited, CSV, or semicolon-delimited.
 }

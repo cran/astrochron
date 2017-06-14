@@ -1,6 +1,6 @@
 \name{logT}
 \alias{logT}
-\title{Log Transformation of Stratigraphic Series}
+\title{Log transformation of stratigraphic series}
 \description{
 Log transformation of stratigraphic series.
 }

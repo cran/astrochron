@@ -6,7 +6,7 @@
 ###                         Sept. 16-17, 2014; Jan. 8, 2015; Jan. 20-22, 2015;
 ###                         Jan. 29, 2015; February 4, 2015; February 23, 2015;
 ###                         March 11, 2015; September 10, 2015; July 22, 2016;
-###                         October 26, 2016)
+###                         October 26, 2016; June 8, 2017)
 ###
 ### Perform astrochonologic testing as in Zeeden et al. (2015)
 ###########################################################################
@@ -193,14 +193,14 @@ if(nsim>0)
     if(ppvalue >= (10/nsim) && (10/nsim) <=1 ) cat("\n * P-value =", ppvalue,"\n")    
     if((10/nsim) > 1 ) cat("\n * P-value = 1 \n")    
 
+    if(verbose) close(progress) 
 # return simlulation results for plotting
     if(output) return(simcor)
 
 # end nsim>0 section
 } 
  
-if(verbose) close(progress) 
- 
+
 if(nsim==0)
   { 
     out = data.frame(cbind(prec_BP[1],prec_BP[2],prec_BP_Hil[2],prec_BP_Hil_Lowpass[2],ecc[2]))

@@ -1,6 +1,6 @@
 \name{linterp}
 \alias{linterp}
-\title{Piecewise Linear Interpolation of Stratigraphic Series}
+\title{Piecewise linear interpolation of stratigraphic series}
 \description{
 Interpolate stratigraphic series onto a evenly sampled grid, using piecewise linear interpolation
 }

@@ -1,6 +1,6 @@
 \name{periodogram}
 \alias{periodogram}
-\title{Simple Periodogram}
+\title{Simple periodogram}
 \description{
 Calculate periodogram for stratigraphic series
 }

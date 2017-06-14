@@ -1,6 +1,6 @@
 \name{pl}
 \alias{pl}
-\title{Set Up Plots}
+\title{Set up plots}
 \description{
 Open new device and set up for multiple plots, output to screen or PDF if desired.
 }

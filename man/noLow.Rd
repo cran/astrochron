@@ -1,6 +1,6 @@
 \name{noLow}
 \alias{noLow}
-\title{Fit and Remove Lowess Smoother from Stratigraphic Series}
+\title{Fit and remove Lowess smoother from stratigraphic series}
 \description{
 Fit and remove lowess smoother from stratigraphic series
 }

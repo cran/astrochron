@@ -1,6 +1,6 @@
 \name{ar1etp}
 \alias{ar1etp}
-\title{AR(1) + ETP simulation Routine}
+\title{AR(1) + ETP simulation routine}
 \description{
 Simulate a combined AR(1) + ETP signal, plot spectrum and confidence levels
 }

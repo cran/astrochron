@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2017 Stephen R. Meyers
 ###
 ###########################################################################
 ### xplot: create cross plot of two variable, with density estimates along
 ###        axes - (SRM: April 16, 2014; February 7, 2015; February 15, 2015;
-###                     March 19, 2015)
+###                     March 19, 2015, April 1, 2017)
 ###
 ###########################################################################
 
@@ -24,15 +24,15 @@ xplot <- function (x,y,xlab=NULL,ylab=NULL,main=NULL,fill=T)
 
   dev.new(title=paste("xplot results"),height=6,width=5.6)
   par(fig=c(0,0.8,0,0.8))
-  plot(x[,1],y[,1],xlim=c(xmin,xmax),ylim=c(ymin,ymax),cex=1.2,cex.axis=1.2,cex.lab=1.2,xlab="",ylab="")
+  plot(x[,1],y[,1],xlim=c(xmin,xmax),ylim=c(ymin,ymax),cex=1.2,cex.axis=1.2,cex.lab=1.2,xlab="",ylab="",col="#00000020",pch=16)
   if(is.null(xlab)) xlab=colnames(x)
   if(is.null(ylab)) ylab=colnames(y)
   if(is.null(main)) main=""
   mtext(ylab,side=2,line=2.5,cex=1.2)
   mtext(xlab,side=1,line=2.5,cex=1.2)
-  par(fig=c(0,0.8,0.55,1), new=TRUE)
+  par(fig=c(0,0.8,0.494,1), new=TRUE)
   z <- density(x[,1], bw="nrd0")
-  plot(z$x,z$y, type='l',axes=FALSE,xlab="",ylab="",lwd=3,xlim=c(xmin,xmax))
+  plot(z$x,z$y, type='l',axes=FALSE,xlab="",ylab="",lwd=2,xlim=c(xmin,xmax))
   if(fill) 
    {
 # find minimum (for plotting polygon)
@@ -47,9 +47,9 @@ xplot <- function (x,y,xlab=NULL,ylab=NULL,main=NULL,fill=T)
     polyX=append(polyX,maxX)  
     polygon(polyX,polyY,col="#BEBEBE5A",border=NA)
    }
-  par(fig=c(0.65,1,0,0.8),new=TRUE)
+  par(fig=c(0.58,1,0,0.8),new=TRUE)
   z <- density(y[,1], bw="nrd0")
-  plot(z$y, z$x, type='l',axes=FALSE,xlab="",ylab="",lwd=3,ylim=c(ymin,ymax))
+  plot(z$y, z$x, type='l',axes=FALSE,xlab="",ylab="",lwd=2,ylim=c(ymin,ymax))
   if(fill) 
    {
 # find minimum (for plotting polygon)

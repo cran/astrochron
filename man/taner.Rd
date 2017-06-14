@@ -1,6 +1,6 @@
 \name{taner}
 \alias{taner}
-\title{Apply Taner Bandpass or Lowpass Filter to Stratigraphic Series}
+\title{Apply Taner bandpass or lowpass filter to stratigraphic series}
 \description{
 Apply Taner bandpass or lowpass filter to stratigraphic series.
 }

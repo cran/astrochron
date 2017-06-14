@@ -1,8 +1,9 @@
 \name{xplot}
 \alias{xplot}
-\title{Generate Cross-plot with Density Estimates on Axes}
+\title{Generate cross-plot with density estimates on axes}
 \description{
-Generate a Cross-plot with Density Estimates on Axes. Custom axes titles optional.
+Generate a cross-plot with density estimates on axes. If multiple data points are superposed
+in cross-plot, transparency of points reflects data density. Custom axes titles optional.
 }
 \usage{
 xplot(x,y,xlab=NULL,ylab=NULL,main=NULL,fill=T)

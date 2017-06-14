@@ -1,6 +1,6 @@
 \name{trimAT}
 \alias{trimAT}
-\title{Remove Outliers from Stratigraphic Series}
+\title{Remove outliers from stratigraphic series}
 \description{
 Remove outliers from stratigraphic series, using specified threshold value.
 }

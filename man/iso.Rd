@@ -1,6 +1,6 @@
 \name{iso}
 \alias{iso}
-\title{Isolate Data from a Specified Stratigraphic Interval}
+\title{Isolate data from a specified stratigraphic interval}
 \description{
 Isolate a section of a uni- or multi-variate stratigraphic data set for further analysis
 }

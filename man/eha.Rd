@@ -1,8 +1,8 @@
 \name{eha}
 \alias{eha}
-\title{Evolutive Harmonic Analysis}
+\title{Evolutive Harmonic Analysis & Evolutive Power Spectral Analysis}
 \description{
-Evolutive Harmonic Analysis using the Thomson Multitaper Method (Thomson, 1982)
+Evolutive Harmonic Analysis & Evolutive Power Spectral Analysis using the Thomson multitaper method (Thomson, 1982)
 }
 \usage{
 eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,

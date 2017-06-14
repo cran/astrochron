@@ -1,6 +1,6 @@
 \name{replEps}
 \alias{replEps}
-\title{Replace Values <= 0 with Smallest Positive Value}
+\title{Replace values <= 0 with smallest positive value}
 \description{
 Replace all variable values <= 0 with the smallest positive floating-point number (eps) that can be represented on machine. If first column is location ID (depth/height/time), it will not be processed.  Any number of variables (columns) permitted.
 }

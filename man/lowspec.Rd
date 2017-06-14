@@ -19,7 +19,7 @@ lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
   \item{setrho}{Define AR1 coefficient for pre-whitening (otherwise calculated). If set to 0, no pre-whitening is applied.}
   \item{lowspan}{Span for LOWESS smoothing of prewhitened signal, usually fixed to 1. If using value <1, the method is overly conservative with a reduced false positive rate.}
   \item{b_tun}{Robustness weight parameter for LOWSPEC. By default, this will be estimated internally.}
-  \item{output}{What should be returned as a data frame? (0=nothing; 1=spectrum + background + CLs; 2=sig peaks)}
+  \item{output}{What should be returned as a data frame? (0=nothing; 1=pre-whitened spectrum + LOWSPEC background + LOWSPEC CL + 90\%-99\% LOWSPEC power levels +  harmonic F-test CL; 2=sig peaks)}
   \item{CLpwr}{Plot LOWSPEC noise confidence levels on power spectrum? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
@@ -61,7 +61,7 @@ series prior to spectral estimation.
 }
 
 \value{
-If option 1 is selected, a data frame containing the following is returned: Frequency, Prewhitened power, LOWSPEC background, LOWSPEC CL, F-test CL.
+If option 1 is selected, a data frame containing the following is returned: Frequency, Prewhitened power, LOWSPEC background, LOWSPEC CL, 90\%-99\% LOWSPEC power levels, harmonic F-test CL.
 
 If option 2 is selected, the 'significant' frequencies are returned (as described above).
 }

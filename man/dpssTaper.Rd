@@ -1,6 +1,6 @@
 \name{dpssTaper}
 \alias{dpssTaper}
-\title{Apply DPSS Taper to Stratigraphic Series}
+\title{Apply DPSS taper to stratigraphic series}
 \description{
 Apply a single Discrete Prolate Spheroidal Sequence (DPSS) taper to a stratigraphic series
 }

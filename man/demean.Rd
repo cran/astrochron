@@ -1,6 +1,6 @@
 \name{demean}
 \alias{demean}
-\title{Remove Mean Value from Stratigraphic Series}
+\title{Remove mean value from stratigraphic series}
 \description{
 Remove mean value from stratigraphic series
 }

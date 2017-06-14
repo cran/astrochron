@@ -5,7 +5,7 @@
 TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data, as in Meyers (2015).
 }
 \usage{
-timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,
+timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,flow=NULL,fhigh=NULL,
         roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,
         verbose=T)
 }
@@ -15,6 +15,7 @@ timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,fit=1,flow=NULL,fhigh=NULL,
   \item{sedmax}{Maximum sedimentation rate for investigation (cm/ka).}
   \item{numsed}{Number of sedimentation rates to investigate in optimization grid.}
   \item{linLog}{Use linear or logarithmic scaling for sedimentation rate grid spacing? (0=linear, 1=log; default value  is 1)}
+  \item{limit}{Limit evaluated sedimentation rates to region in which full target signal can be recovered? (T or F)}
   \item{fit}{Test for (1) precession amplitude modulation or (2) short eccentricity amplitude modulation?}
   \item{flow}{Low frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{fhigh}{High frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
@@ -79,7 +80,7 @@ if output = 2, a data frame containing the following will be returned:
 Time (ka), tuned time series, bandpassed series, envelope, reconstructed model
 }
 
-\seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, and \code{\link{timeOptSim}} }
+\seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, \code{\link{timeOptPlot}}, and \code{\link{timeOptSim}} }
 
 \references{
 S.R. Meyers, 2015,

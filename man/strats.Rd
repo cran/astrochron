@@ -1,6 +1,6 @@
 \name{strats}
 \alias{strats}
-\title{Summary Statistics for Stratigraphic Series}
+\title{Summary statistics for stratigraphic series}
 \description{
 Summary statistics for stratigraphic series: sampling interval and proxy values.
 }

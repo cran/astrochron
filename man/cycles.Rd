@@ -1,6 +1,6 @@
 \name{cycles}
 \alias{cycles}
-\title{Generate Harmonic Model}
+\title{Generate harmonic model}
 \description{
 Make a time series with specified harmonic components and noise
 }

@@ -1,6 +1,6 @@
 \name{trim}
 \alias{trim}
-\title{Remove Outliers from Stratigraphic Series}
+\title{Remove outliers from stratigraphic series}
 \description{
 Automatically remove outliers from stratigraphic series, using 'boxplot' algorithm.
 }

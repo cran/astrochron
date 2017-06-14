@@ -1,6 +1,6 @@
 \name{cosTaper}
 \alias{cosTaper}
-\title{Apply Cosine Taper to Stratigraphic Series}
+\title{Apply cosine taper to stratigraphic series}
 \description{
 Apply a "percent-tapered" cosine taper (a.k.a. Tukey window) to a stratigraphic series.
 }

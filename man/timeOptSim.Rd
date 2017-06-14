@@ -1,6 +1,6 @@
 \name{timeOptSim}
 \alias{timeOptSim}
-\title{Monte Carlo Simulation for TimeOpt}
+\title{Monte Carlo simulation for TimeOpt}
 \description{
 Perform Monte Carlo AR1 simulations to evaluate significance of TimeOpt results, as in Meyers (2015).
 }
@@ -13,7 +13,7 @@ timeOptSim(dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,
   \item{sedrate}{Sedimentation rate for investigation (cm/ka).}
   \item{numsim}{Number of Monte Carlo AR1 simulations}
   \item{rho}{AR1 coefficient to use in simulations. By default this will be estimated from the stratigraphic series.}
-  \item{fit}{Test for (1) precession amplitude modulations or (2) short eccentricity amplitude modulations? Option 2 is experimental!}
+  \item{fit}{Test for (1) precession amplitude modulations or (2) short eccentricity amplitude modulations?}
   \item{flow}{Low frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{fhigh}{High frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{roll}{Taner filter roll-off rate, in dB/octave.}
@@ -25,7 +25,7 @@ timeOptSim(dat,sedrate=NULL,numsim=1000,rho=NULL,fit=1,flow=NULL,fhigh=NULL,
   \item{verbose}{Verbose output? (T or F)}
 }
 
-\seealso{ \code{\link{asm}}, \code{\link{eAsm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, and \code{\link{timeOpt}} }
+\seealso{ \code{\link{asm}}, \code{\link{eAsm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, \code{\link{timeOpt}}, and \code{\link{timeOptPlot}} }
 
 \references{
 S.R. Meyers, 2015,

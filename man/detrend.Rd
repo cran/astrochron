@@ -1,6 +1,6 @@
 \name{detrend}
 \alias{detrend}
-\title{Subtract Linear Trend from Stratigraphic Series}
+\title{Subtract linear trend from stratigraphic series}
 \description{
 Remove linear trend from stratigraphic series
 }

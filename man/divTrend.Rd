@@ -1,6 +1,6 @@
 \name{divTrend}
 \alias{divTrend}
-\title{Divide by Linear Trend in Stratigraphic Series}
+\title{Divide by linear trend in stratigraphic series}
 \description{
 Divide data series value by linear trend observed in stratigraphic series
 }
