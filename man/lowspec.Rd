@@ -19,7 +19,7 @@ lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
   \item{setrho}{Define AR1 coefficient for pre-whitening (otherwise calculated). If set to 0, no pre-whitening is applied.}
   \item{lowspan}{Span for LOWESS smoothing of prewhitened signal, usually fixed to 1. If using value <1, the method is overly conservative with a reduced false positive rate.}
   \item{b_tun}{Robustness weight parameter for LOWSPEC. By default, this will be estimated internally.}
-  \item{output}{What should be returned as a data frame? (0=nothing; 1=pre-whitened spectrum + LOWSPEC background + LOWSPEC CL + 90\%-99\% LOWSPEC power levels +  harmonic F-test CL; 2=sig peaks)}
+  \item{output}{What should be returned as a data frame? (0=nothing; 1=pre-whitened spectrum + harmonic F-test CL + LOWSPEC background + LOWSPEC CL + 90\%-99\% LOWSPEC power levels; 2=sig peaks)}
   \item{CLpwr}{Plot LOWSPEC noise confidence levels on power spectrum? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
@@ -61,7 +61,8 @@ series prior to spectral estimation.
 }
 
 \value{
-If option 1 is selected, a data frame containing the following is returned: Frequency, Prewhitened power, LOWSPEC background, LOWSPEC CL, 90\%-99\% LOWSPEC power levels, harmonic F-test CL.
+If option 1 is selected, a data frame containing the following is returned: Frequency, Prewhitened power, harmonic F-test CL, LOWSPEC CL, LOWSPEC background, 90\%-99\% LOWSPEC power levels.
+NOTE: as of version 0.8, the order of the columns in the output data frame has been changed, for consistency with functions mtm, mtmML96, and mtmPL.
 
 If option 2 is selected, the 'significant' frequencies are returned (as described above).
 }
@@ -84,7 +85,6 @@ D.J. Thomson, 1982,
 
 
 \examples{
-\donttest{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka
 ex = cycles(freqs=c(1/400,1/100,1/40,1/20),start=1,end=1000,dt=5)
 
@@ -107,6 +107,4 @@ mtmML96(ex)
 # compare to amplitudes from eha
 pl(1,title="eha")
 eha(ex,tbw=3,win=1000,pad=1000)
-
-}
 }

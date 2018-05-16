@@ -27,7 +27,7 @@ plotEha(spec,xmin,xmax,ymin,ymax,h=6,w=4,ydir=1,pl=0,norm,palette=1,
   \item{colorscale}{Include a color scale in the plot? (T or F)}
   \item{xlab}{Label for x-axis. Default = "Frequency"}
   \item{ylab}{Label for y-axis. Default = "Location"}
-  \item{filetype}{Generate .pdf, .jpeg or .png file? (0=no; 1=pdf; 2=jpeg; 3=png)}
+  \item{filetype}{Generate .pdf, .jpeg, .png or tiff file? (0=no; 1=pdf; 2=jpeg; 3=png; 4=tiff)}
   \item{output}{If amplitude is normalized (pl = 2), output normalization used? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }

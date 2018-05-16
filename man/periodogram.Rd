@@ -5,8 +5,8 @@
 Calculate periodogram for stratigraphic series
 }
 \usage{
-periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,xmin=0,xmax=Nyq,pl=1,output=0,
-             f0=F,genplot=T,verbose=T)
+periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,output=0,
+             f0=F,fNyq=T,xmin=0,xmax=Nyq,pl=1,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series to analyze. First column should be location (e.g., depth), second column should be data value.}
@@ -14,11 +14,13 @@ periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,xmin=0,xmax=Nyq,pl=1,output=0,
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{nrm}{Power normalization: 0 = no normalization; 1 = divide Fourier transform by npts.}
+  \item{background}{Estimate noise model background spectrum and confidence levels? (0= No, 1= AR1, 2= Power Law)}
+  \item{output}{Return output as new data frame? (0= no; 1= frequency,amplitude,power,phase; 2= frequency,real coeff.,imag. coeff)}
+  \item{f0}{Return results for the zero frequency? (T or F)}
+  \item{fNyq}{Return results for the Nyquist frequency? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
   \item{pl}{Power spectrum plotting: 1 = log power, 2 = linear power}
-  \item{output}{Return output as new data frame? (0= no; 1= frequency,amplitude,power,phase; 2= frequency,real coeff.,imag. coeff)}
-  \item{f0}{Return results for the zero frequency? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
@@ -27,7 +29,6 @@ periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,xmin=0,xmax=Nyq,pl=1,output=0,
 
 
 \examples{
-\donttest{
 # ***** PART 1: Demonstrate the impact of tapering
 # generate example series with 10 periods: 100, 40, 29, 21, 19, 14, 10, 5, 4 and 3 ka.
 ex=cycles(c(1/100,1/40,1/29,1/21,1/19,1/14,1/10,1/5,1/4,1/3),amp=c(1,.75,0.01,.5,.25,
@@ -62,7 +63,7 @@ ymax=max(rbind (log(pwr_rect[,1]),log(pwr_hann[,1]),log(pwr_cos[,1]),log(pwr_dps
 pl(2)
 plot(freq[,1],log(pwr_rect[,1]),type="l",ylim=c(ymin,ymax),lwd=2,ylab="log(Power)",
       xlab="Frequency (cycles/ka)",
-      main="Comparison of rectangle (black), 30\% cosine (blue) and Hann (orange) taper",
+      main="Comparison of rectangle (black), cosine (blue) and Hann (orange) taper",
       cex.main=1)
 lines(freq[,1],log(pwr_hann[,1]),col="orange",lwd=2)
 lines(freq[,1],log(pwr_cos[,1]),col="blue")
@@ -115,7 +116,7 @@ ymax=max(rbind (log(pwr_rect.2[,1]),log(pwr_hann.2[,1]),log(pwr_cos.2[,1]),
 pl(2)
 plot(freq.2[,1],log(pwr_rect.2[,1]),type="l",ylim=c(ymin,ymax),lwd=2,ylab="log(Power)",
      xlab="Frequency (cycles/ka)",
-     main="Comparison of rectangle (black), 30\% cosine (blue) and Hann (orange) taper",
+     main="Comparison of rectangle (black), cosine (blue) and Hann (orange) taper",
      cex.main=1)
 lines(freq.2[,1],log(pwr_hann.2[,1]),col="orange",lwd=2)
 lines(freq.2[,1],log(pwr_cos.2[,1]),col="blue")
@@ -132,6 +133,4 @@ points(c(1/100,1/40,1/29,1/21,1/19,1/14,1/10,1/5,1/4,1/3),rep(ymax,10),cex=.5,
       col="purple")
 
 # ***** PART 3: Return to PART 1, but this time increase the zero padding to 2 (pad=2)
-
-}
 }

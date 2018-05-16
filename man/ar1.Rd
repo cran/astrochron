@@ -22,7 +22,7 @@ ar1(npts=1024,dt=1,mean=0,sdev=1,rho=0.9,shuffle=F,nsim=1,genplot=T,verbose=T)
 \details{
 These simulations use the random number generator of Matsumoto and Nishimura [1998]. 
 If shuffle = T, the algorithm from Meyers (2012, pg. 11) is applied: (1) two
-sets of random sequences of same the length are generated, (2) the first random 
+sets of random sequences of the same length are generated, (2) the first random 
 sequence is then sorted, and finally (3) the permutation vector of the sorted sequence 
 is used to reorder the second random number sequence. This is done to guard against
 potential shortcomings in random number generation that are specific to spectral estimation.

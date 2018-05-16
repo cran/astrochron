@@ -32,6 +32,9 @@ spatial or temporal units) should be interpreted as the location within the long
 stratigraphic series where the shorter stratigraphic series begins.
 If both stratigraphic series are of the same duration/length, then the shift is the
 location within dat1 where dat2 begins.
+
+In some cases, it may be desirable to smooth or bandpass the data series before 
+implementing slideCor (e.g., functions noLow, noKernel, bandpass, taner, etc.).
 }
 
 \references{
@@ -44,7 +47,6 @@ Mitchell, R.N., Bice, D.M., Montanari, A., Cleaveland, L.C., Christianson, K.T.,
 \seealso{ \code{\link{surrogateCor}} }
 
 \examples{
-\donttest{
 # Example 1: generate AR1 noise
 ex1 <- ar1(npts=1000,dt=1)
 # isolate a section
@@ -60,5 +62,4 @@ ex2=iso(ex1,xmin=400,xmax=600)
 ex2[1] <- ex2[1]-400
 
 slideCor(ex1,ex2)
-}
 }

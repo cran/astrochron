@@ -5,11 +5,21 @@ importFrom(multitaper, spec.mtm)
 importFrom(multitaper, dpss)
 importFrom(fields, image.plot)       
 importFrom(fields, tim.colors)
+importFrom("grDevices", "tiff")
 importFrom("grDevices", "boxplot.stats", "colors", "dev.new", "dev.off", "gray", "jpeg", "pdf", "png", "rainbow", "xy.coords")
+importFrom("grDevices", "colorRampPalette", "gray.colors")
 importFrom("graphics", "abline", "axis", "boxplot", "grid", "hist", "identify", "image", "layout", "lines", "locator", "mtext", "par", "plot", "points", "polygon", "rect", "segments", "text")
 importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm", "predict", "na.omit", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var")
+importFrom("stats", "p.adjust")
 importFrom("utils", "download.file", "head", "read.table", "write.table")
-importFrom("grDevices", "colorRampPalette", "gray.colors")
+importFrom("utils", "setTxtProgressBar", "txtProgressBar")
+
+importFrom(doParallel,registerDoParallel)
+importFrom(parallel, makeCluster)
+importFrom(parallel, stopCluster)
+importFrom(iterators, icount)
+importFrom(foreach,foreach)
+importFrom(foreach,"%dopar%")
 
 export(anchorTime,
        ar1,
@@ -20,8 +30,10 @@ export(anchorTime,
        autoPlot,
        bandpass,
        bergerPeriods,
+       calcPeriods,
        cb, 
        clipIt,
+       confAdjust,
        constantSedrate,
        cosTaper,
        cycles,
@@ -33,6 +45,8 @@ export(anchorTime,
        eAsm,
        eAsmTrack,
        eha,
+       eTimeOpt,
+       eTimeOptTrack,
        etp,
        extract,
        flip,
@@ -52,9 +66,12 @@ export(anchorTime,
        logT,
        lowpass,
        lowspec,
+       makeNoise,
        mtm,
        mtmAR,
        mtmML96,
+       mtmPL,
+       multiTest,
        mwCor,
        mwStats,
        mwin,
@@ -68,6 +85,8 @@ export(anchorTime,
        plS,
        prewhiteAR,
        prewhiteAR1,
+       pwrLaw,
+       pwrLawFit,
        rankSeries,
        read,
        readMatrix,
@@ -85,13 +104,17 @@ export(anchorTime,
        surrogateCor,
        surrogates,
        taner,
+       testBackground,
        testPrecession,
        timeOpt,
+       timeOptMCMC,
        timeOptPlot,
        timeOptSim,
        tones,
        traceFreq,
+       tracePeak,
        trackFreq,
+       trackPeak,
        trim,
        trimAT,
        trough,

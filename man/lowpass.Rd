@@ -27,10 +27,8 @@ lowpass(dat,padfac=2,fcut=NULL,win=0,demean=T,detrend=F,addmean=T,alpha=3,p=0.25
 \seealso{ \code{\link{bandpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, \code{\link{prewhiteAR1}}, and \code{\link{taner}} }
 
 \examples{
-\donttest{
 # generate example series with periods of 405 ka, 100 ka and 20 ka, plus noise
 ex=cycles(freqs=c(1/405,1/100,1/20),noisevar=.1,dt=5)
 # lowpass filter using cosine-tapered window
 res_ex=lowpass(ex,fcut=.02,win=2,p=.4)
-}
 }

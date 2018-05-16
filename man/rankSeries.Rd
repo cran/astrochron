@@ -13,7 +13,6 @@ rankSeries(dat,dt,genplot=T,verbose=T)
   \item{verbose}{Verbose output? (T or F)}
 }
 \examples{
-\donttest{
 # generate example series with random bed thicknesses
 exThick=rnorm(n=20,mean=10,sd=2)
 # assign alternating rank of 1 and 2
@@ -26,5 +25,4 @@ ex=cb(exThick,rank)
 
 # generate lithofacies rank series
 rankSeries(ex)
-}
 }

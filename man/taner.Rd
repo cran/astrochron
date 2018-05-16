@@ -6,7 +6,7 @@ Apply Taner bandpass or lowpass filter to stratigraphic series.
 }
 \usage{
 taner(dat,padfac=2,flow=NULL,fhigh=NULL,roll=10^3,demean=T,detrend=F,addmean=T,
-       output=1,xmin=0,xmax=Nyq,genplot=T,verbose=T)
+       output=1,xmin=0,xmax=Nyq,genplot=T,check=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series for bandpass filtering. First column should be location (e.g., depth), second column should be data value.}
@@ -21,6 +21,7 @@ taner(dat,padfac=2,flow=NULL,fhigh=NULL,roll=10^3,demean=T,detrend=F,addmean=T,
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
   \item{genplot}{Generate summary plots? (T or F)}
+  \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (T or F)}
 }
 
@@ -35,12 +36,10 @@ http://www.rocksolidimages.com/pdf/attrib_revisited.htm#_Toc328470897
 \seealso{ \code{\link{bandpass}}, \code{\link{lowpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, and \code{\link{prewhiteAR1}} }
 
 \examples{
-\donttest{
 # generate example series with periods of 405 ka, 100 ka and 20 ka, plus noise
 ex=cycles(freqs=c(1/405,1/100,1/20),noisevar=.1,dt=5)
 # bandpass precession terms using Taner window 
 res_ex <- taner(ex,flow=0.04,fhigh=0.06,roll=10^10)
 # lowpass filter using Taner window
 res_ex=taner(ex,fhigh=.02,roll=10^10)
-}
 }

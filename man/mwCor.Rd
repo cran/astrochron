@@ -15,7 +15,7 @@ mwCor(dat,cols=NULL,win=NULL,conv=1,cormethod=1,output=T,pl=1,genplot=T,verbose=
   \item{conv}{Convention for window placement: (1) center each window on a stratigraphic level in 'dat' (DEFAULT), (2) start with the smallest location datum in 'dat', (3) start with the largest location datum in 'dat'. For options 2 and 3, the center of the window will not necessarily coincide with a measured stratigraphic level in 'dat', but edges of the data set are better preserved.}
   \item{cormethod}{Method used for calculation of correlation coefficient (1=Pearson, 2=Spearman, 3=Kendall)}
   \item{output}{Output results? (T or F)}
-  \item{pl}{(1) Plot results at window midpoint, or (2) create "string of points plot" as in Sageman and Hollander (1999)}
+  \item{pl}{(1) Plot results at center of window, or (2) create "string of points plot" as in Sageman and Hollander (1999)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
@@ -26,7 +26,6 @@ B.B. Sageman and D.H. Hollander, 1999,
 }
 
 \examples{
-\donttest{
 # generate example series
 ex <- cycles(freqs=c(1/40,1/20),noisevar=.2)
 
@@ -40,5 +39,4 @@ ex = ex[order(ex[1],na.last=NA,decreasing=FALSE),]
 
 # run mwCor
 mwCor(ex,win=50)
-}
 }

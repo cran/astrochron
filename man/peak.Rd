@@ -15,8 +15,6 @@ peak(dat,level,genplot=T,verbose=T)
 }
 
 \examples{
-\donttest{
 ex=cycles(genplot=FALSE)
 peak(ex,level=0.02)
-}
 }

@@ -1,6 +1,6 @@
 \name{mwin}
 \alias{mwin}
-\title{Determine 'dynamic moving window' for stratigraphic series}
+\title{Determine 'dynamic moving window' for stratigraphic series, adjusting for changing sample density to maintain a window of constant duration}
 \description{
 Determine start and end points for a moving window of fixed duration (e.g. 500 kiloyears). 
 The dynamic window allows for adjustment of the number of data points in the window, 
@@ -32,7 +32,6 @@ Midpoint = this is midpoint between first and last observation in the window
 }
 
 \examples{
-\donttest{
 # generate some noise
 ex1 <- ar1(npts=50,dt=1)
 
@@ -43,5 +42,4 @@ ex1 = ex1[order(ex1[1],na.last=NA,decreasing=FALSE),]
 
 # run mwin
 mwin(ex1,win=10)
-}
 }

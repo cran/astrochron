@@ -32,10 +32,8 @@ bandpassed stratigraphic series.
 \seealso{ \code{\link{lowpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, \code{\link{prewhiteAR1}}, and \code{\link{taner}} }
 
 \examples{
-\donttest{
 # generate example series with 3 precession terms and noise
 ex <- cycles(noisevar=.0004,dt=5)
 # bandpass precession terms using cosine-tapered window 
 res_ex <- bandpass(ex,flow=0.038,fhigh=0.057,win=2,p=.4)
-}
 }

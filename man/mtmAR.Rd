@@ -40,7 +40,6 @@ Thomson, D. J., L. J. Lanzerotti, and C. G. Maclennan, 2001, \emph{The interplan
 \seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, and \code{\link{spec.mtm}}}
 
 \examples{
-\donttest{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka
 ex = cycles(freqs=c(1/400,1/100,1/40,1/20),start=1,end=1000,dt=5)
 
@@ -51,8 +50,4 @@ ex[2] = ex[2] + noise[2]
 # MTM spectral analysis, with conventional AR1 noise test
 pl(1,title="mtmAR")
 mtmAR(ex)
-
-
-}
-
 }

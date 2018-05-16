@@ -1,0 +1,31 @@
+astrochron v0.8 (Release date: 2018-05-16)
+================
+
+New functions: 
+
+* calcPeriods
+* confAdjust
+* eTimeOpt
+* eTimeOptTrack
+* makeNoise
+* mtmPL
+* multiTest
+* pwrLaw
+* pwrLawFit
+* testBackground
+* timeOptMCMC
+* tracePeak
+* trackPeak
+
+Other changes:
+
+* function getData: new data added: "graptolite" and "Xiamaling-CuAl".
+* function lowspec: when `output=2`, order has been changed to match other mtm-based functions. 
+* function lowspec: `Harmonic_F-test_CL` renamed `Harmonic_CL` 
+* function periodogram: replaced `ar1 ` option with `background`, allowing ar1 or pwrLaw fit.
+* function timeOpt: new option `fitModPwr`
+* function timeOptSim: implementation of new p-value estimation procedure. 
+* function timeOptSim: the function is now parallelized. 
+* function timeOptSim: when `output=2`, now only one column is output, containing r2opt results from all simulations.
+* function timeOptSim: order of options on function call has been changed.
+* `check` option added to functions linterp, sedrate2time, taner, tune, read, readMatrix, hilbert, timeOpt

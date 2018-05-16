@@ -40,7 +40,6 @@ Thomson, D. J., 1982, \emph{Spectrum estimation and harmonic analysis}, Proc. IE
 }
 
 \examples{
-\donttest{
 ## as an example, evaluate the modelA
 data(modelA)
 
@@ -57,5 +56,4 @@ eha(ex1,tbw=2,win=7.95,step=0.15,pad=1000,xlab="Frequency (cycles/m)",ylab="Heig
 ## start by making a new plot
 pl(1)
 eha(ex1,tbw=3,win=38,pad=5000,xlab="Frequency (cycles/m)")
-}
 }

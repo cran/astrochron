@@ -69,10 +69,9 @@ detection in climatic time series}, Clim. Change, 33, 409-445.
 Meyers, S.R., 2012, \emph{Seeing red in cyclic stratigraphy: Spectral noise estimation for
 astrochronology}, Paleoceanography, 27, PA3228.
 
-Patterson, M.O., McKay, R., Naish, T., Escutia, C., Jimenez-Espejo, F.J., 
-Raymo, M.E., Meyers, S.R., Tauxe, L., Brinkhuis, H., and IODP Expedition 318 Scientists,
-2014, \emph{Response of the East Antarctic Ice Sheet to orbital forcing during the 
-Pliocene and Early Pleistocene}, Nature Geoscience, v. 7, p. 841-847.
+M.O. Patterson, R. McKay, T. Naish, C. Escutia, F.J. Jimenez-Espejo, M.E. Raymo, M.E., 
+S.R. Meyers, L. Tauxe, H. Brinkhuis, and IODP Expedition 318 Scientists,2014, 
+\emph{Response of the East Antarctic Ice Sheet to orbital forcing during the Pliocene and Early Pleistocene}, Nature Geoscience, v. 7, p. 841-847.
 
 Thomson, D. J., 1982, \emph{Spectrum estimation and harmonic analysis}, Proc. IEEE, 
 70, 1055-1096, doi:10.1109/PROC.1982.12433.
@@ -85,7 +84,6 @@ Tukey, J.W., 1977, \emph{Exploratory Data Analysis}, Addison.
 \seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{periodogram}}, \code{\link{runmed}}, and \code{\link{spec.mtm}}}
 
 \examples{
-\donttest{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka
 ex = cycles(freqs=c(1/400,1/100,1/40,1/20),start=1,end=1000,dt=5)
 
@@ -108,6 +106,4 @@ lowspec(ex)
 # compare to amplitudes from eha
 pl(1,title="eha")
 eha(ex,tbw=3,win=1000,pad=1000)
-
-}
 }

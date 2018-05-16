@@ -1,14 +1,15 @@
 Package: astrochron
 Type: Package
 Title: A Computational Tool for Astrochronology
-Version: 0.7
-Date: 2017-06-14
-Author: Stephen Meyers
+Version: 0.8
+Date: 2018-05-16
+Author: Stephen Meyers [aut,cre], Alberto Malinverno [ctb], Linda Hinnov [ctb], Vincent Moron [ctb]
 Maintainer: Stephen Meyers <smeyers@geology.wisc.edu>
 Description: Routines for astrochronologic testing, astronomical time scale construction, and time series analysis. Also included are a range of statistical analysis and modeling routines that are relevant to time scale development and paleoclimate analysis.
-Imports: multitaper, IDPmisc, fields
+Imports: multitaper, IDPmisc, fields, doParallel, parallel, iterators,
+        foreach
 License: GPL-3
 NeedsCompilation: yes
-Packaged: 2017-06-14 07:14:48 UTC; smeyers
+Packaged: 2018-05-16 20:15:42 UTC; smeyers
 Repository: CRAN
-Date/Publication: 2017-06-14 13:06:26 UTC
+Date/Publication: 2018-05-16 20:44:30 UTC

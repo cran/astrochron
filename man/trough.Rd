@@ -15,8 +15,6 @@ trough(dat,level,genplot=T,verbose=T)
 }
 
 \examples{
-\donttest{
 ex=cycles(genplot=FALSE)
 trough(ex,level=-0.02)
-}
 }

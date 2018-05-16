@@ -1,8 +1,8 @@
 \name{mwStats}
 \alias{mwStats}
-\title{'Dynamic window' moving average, median and standard deviation of stratigraphic series}
+\title{'Dynamic window' moving average, median and variance of stratigraphic series}
 \description{
-'Dynamic window' moving average, median and standard deviation of stratigraphic series. 
+'Dynamic window' moving average, median and variance of stratigraphic series. 
 This routine adjusts the number of data points in the window so it has a constant duration in time or space, for use with unevenly sampled data.
 }
 \usage{
@@ -18,11 +18,10 @@ mwStats(dat,cols=NULL,win=NULL,conv=1,output=T,genplot=T,verbose=T)
   \item{verbose}{Verbose output? (T or F)}
 }
 \value{
-A data frame with four columns: Middle of window, Average, Median, Variance
+A data frame with four columns: Center of window, Average, Median, Variance
 }
 
 \examples{
-\donttest{
 # generate example series from ar1 noise, 5 kyr sampling interval
 ex = ar1(npts=1001,dt=5)
 
@@ -33,5 +32,4 @@ ex = ex[order(ex[1],na.last=NA,decreasing=FALSE),]
 
 # run mwStats
 mwStats(ex,win=100)
-}
 }
