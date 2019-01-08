@@ -2,7 +2,7 @@
 \alias{lowpass}
 \title{Lowpass filter stratigraphic series}
 \description{
-Lowpass filter stratigraphic series using rectangular, Gaussian or tapered cosine window [cosine window is experimental]
+Lowpass filter stratigraphic series using rectangular, Gaussian or tapered cosine window. This function can also be used to highpass filter a record (see examples).
 }
 \usage{
 lowpass(dat,padfac=2,fcut=NULL,win=0,demean=T,detrend=F,addmean=T,alpha=3,p=0.25,
@@ -27,8 +27,19 @@ lowpass(dat,padfac=2,fcut=NULL,win=0,demean=T,detrend=F,addmean=T,alpha=3,p=0.25
 \seealso{ \code{\link{bandpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, \code{\link{prewhiteAR1}}, and \code{\link{taner}} }
 
 \examples{
-# generate example series with periods of 405 ka, 100 ka and 20 ka, plus noise
-ex=cycles(freqs=c(1/405,1/100,1/20),noisevar=.1,dt=5)
-# lowpass filter using cosine-tapered window
-res_ex=lowpass(ex,fcut=.02,win=2,p=.4)
+# generate example series with periods of 405 ka, 100 ka, 40ka, and 20 ka, plus noise
+ex=cycles(freqs=c(1/405,1/100,1/40,1/20),end=1000,dt=5,noisevar=.1)
+
+# lowpass filter eccentricity terms using cosine-tapered window
+lowpass_ex=lowpass(ex,fcut=.02,win=2,p=.4)
+
+# highpass filter obliquity and precession terms using cosine-tapered window
+#  if you'd like the final notch filtered record to be centered on the mean proxy 
+#  value, set addmean=FALSE
+highpass_ex=lowpass(ex,fcut=.02,win=2,p=.4,addmean=FALSE)
+highpass_ex[2] <- ex[2]-highpass_ex[2]
+pl(2)
+plot(ex,type="l",main="Eccentricity+Obliquity+Precession")
+plot(highpass_ex,type="l",main="Obliquity+Precession highpassed signal")
+
 }

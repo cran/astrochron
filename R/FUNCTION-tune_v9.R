@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### Read tune - (SRM: April 26, 2012; October 29, 2012; May 20, 2013; 
 ###                   June 5, 2013; June 13, 2013; July 1, 2013; Nov. 22, 2013;
 ###                   January 14, 2014; June 27, 2014; March 20, 2017;
-###                   December 14-15, 2017)
+###                   December 14-15, 2017; May 18, 2018)
 ###
 ### Tune spatial series to time, using time control points
 ###########################################################################
@@ -25,8 +25,15 @@ tune <- function (dat,controlPts,extrapolate=F,genplot=T,check=T,verbose=T)
   ictrl <- length(controlPts[,1])
   if(verbose) cat(" * Number of time control points=", ictrl,"\n")
    
+# initial error checking   
   if(check)
    {
+### check to ensure you have at least two control points defined
+     if(length(data.frame(controlPts)) == 1)
+      {
+        cat("\n**** ERROR: controlPts must have at least two tuning control points defined.\n")
+        stop("**** TERMINATING NOW!")
+      }
 ### sort to ensure increasing depth/height/time
      if(verbose) cat(" * Sorting datasets into ensure increasing order, removing empty entries\n")
      dat <- dat[order(dat[1],na.last=NA,decreasing=F),]

@@ -21,6 +21,17 @@ eTimeOptTrack(res,threshold=0,ydir=-1,genplot=T,verbose=T)
 Please see function eTimeOpt for details.
 }
 
+\references{
+S.R. Meyers, 2015,
+\emph{The evaluation of eccentricity-related amplitude modulations and bundling in 
+paleoclimate data: An inverse approach for astrochronologic testing and time scale 
+optimization}: Paleoceanography, v.30, 1625-1640.
+
+S.R. Meyers, 2019, 
+\emph{Cyclostratigraphy and the problem of astrochronologic testing}: Earth-Science Reviews
+v.190, 190-223.
+}
+
 \seealso{ \code{\link{timeOpt}}, and \code{\link{eTimeOpt}} }
 
 \examples{
@@ -36,7 +47,7 @@ ex=sedRamp(ex,srstart=0.01,srend=0.03)
 ex=linterp(ex)
 
 # evaluate precession & eccentricity power, and precession modulations
-res=eTimeOpt(ex,win=20,step=.5,fit=1,output=1)
+res=eTimeOpt(ex,win=20,step=1,fit=1,output=1)
 
 # extract the optimal fits for the power optimization
 sedrates=eTimeOptTrack(res[2])

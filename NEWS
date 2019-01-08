@@ -1,3 +1,36 @@
+astrochron v0.9 (Release date: 2019-01-08)
+================
+
+New functions: 
+
+* diffAccum
+* imbrie
+* synthStrat
+* testTilt
+* timeOptTemplate
+* timeOptTemplateSim
+
+Other changes:
+
+* function getLaskar: added 65 deg. North insolation, summer solstice
+* function tune: added new warning message when control has only one line
+* function getData: added data sets 607-18O, AEB-18O, Newark-rank, CDL-rank, DVCP2017-18O
+* function testPrecession: significance testing algorithm updated
+* function read: added verbose option
+* function multiTest: added output option
+* function mtmPL: corrected for round-off error on default flow estimation
+* function detrend: added option to output linear trend
+* function sortNave: if averaging is performed, original data points are plotted for comparison.
+* function read: if averaging is performed, original data points are plotted for comparison.
+* function mtm: added option to allow log frequency plotting (option pl).
+* function mtmML96: added option to allow log frequency plotting (option pl).
+* function lowspec: added option to allow log frequency plotting (option pl).
+* function mtmPL: added option to allow log frequency plotting (option pl), fixed default flow issue.
+* function ar1etp: updated plots (option pl), and added option to exclusively evaluate noise (wtAR<0)
+* help pages for taner, bandpass, and lowpass now demonstrate notch filter and highpass filtering.
+
+
+
 astrochron v0.8 (Release date: 2018-05-16)
 ================
 

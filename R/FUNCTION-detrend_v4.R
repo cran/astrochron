@@ -4,11 +4,12 @@
 ###########################################################################
 ### detrend: linearly detrend data - (SRM: January 24, 2012; March 29, 2012;
 ###                                   Oct. 11, 2012; Dec. 12, 2012; 
-###                                   May 20, 2013; July 22, 2016)
+###                                   May 20, 2013; July 22, 2016; 
+###                                   July 18, 2018)
 ###
 ###########################################################################
 
-detrend <- function (dat,genplot=T,verbose=T)
+detrend <- function (dat,output=1,genplot=T,verbose=T)
 {
 
   if(verbose) cat("\n----- SUBTRACTING LINEAR TREND FROM STRATIGRAPHIC SERIES -----\n")
@@ -22,7 +23,7 @@ detrend <- function (dat,genplot=T,verbose=T)
   y.predict <-predict(lm.0, se= TRUE)
   
   out <- dat
-   out[2] <- dat[2] - y.predict$fit
+  out[2] <- dat[2] - y.predict$fit
 
 if(genplot)
   {
@@ -38,7 +39,8 @@ if(genplot)
 #  qqnorm(out[,2]); qqline(out[,2], col="red")
    }
    
-  return(out)
+  if(output==1) return(out)
+  if(output==2) return(data.frame(cbind(dat[,1],y.predict$fit)))
 
 ### END function detrend
 }

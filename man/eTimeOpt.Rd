@@ -1,8 +1,8 @@
 \name{eTimeOpt}
 \alias{eTimeOpt}
-\title{eTimeOpt: Evolutive implementation of TimeOpt (Meyers, 2015)}
+\title{eTimeOpt: Evolutive implementation of TimeOpt (Meyers, 2015; Meyers, 2019)}
 \description{
-eTimeOpt: Evolutive implementation of TimeOpt (Meyers, 2015).
+eTimeOpt: Evolutive implementation of TimeOpt (Meyers, 2015; Meyers, 2019).
 }
 \usage{
 eTimeOpt(dat,win=dt*100,step=dt*10,sedmin=0.5,sedmax=5,numsed=100,linLog=1,
@@ -33,12 +33,18 @@ eTimeOpt(dat,win=dt*100,step=dt*10,sedmin=0.5,sedmax=5,numsed=100,linLog=1,
   \item{verbose}{Verbose output? (0=nothing, 1=minimal, 2=a little more, 3=everything!)}
 }
 
-\seealso{ \code{\link{tracePeak}},\code{\link{trackPeak}},\code{\link{timeOpt}}, and \code{\link{timeOptSim}} }
-
 \references{
 S.R. Meyers, 2015,
-\emph{The evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data: An inverse approach for astrochronologic testing and time scale optimization}: Paleoceanography, 30, doi:10.1002/2015PA002850.
+\emph{The evaluation of eccentricity-related amplitude modulations and bundling in 
+paleoclimate data: An inverse approach for astrochronologic testing and time scale 
+optimization}: Paleoceanography, v.30, 1625-1640.
+
+S.R. Meyers, 2019, 
+\emph{Cyclostratigraphy and the problem of astrochronologic testing}: Earth-Science Reviews
+v.190, 190-223.
 }
+
+\seealso{ \code{\link{tracePeak}},\code{\link{trackPeak}},\code{\link{timeOpt}},\code{\link{timeOptSim}}, and \code{\link{eTimeOptTrack}}}
 
 \examples{
 \donttest{
@@ -53,7 +59,7 @@ ex=sedRamp(ex,srstart=0.01,srend=0.03)
 ex=linterp(ex)
 
 # evaluate precession & eccentricity power, and precession modulations
-res=eTimeOpt(ex,win=20,step=.5,fit=1,output=1)
+res=eTimeOpt(ex,win=20,step=1,fit=1,output=1)
 
 # extract the optimal fits for the power optimization
 sedrates=eTimeOptTrack(res[2])
@@ -66,11 +72,11 @@ sedrates=eTimeOptTrack(res[3])
 sedrates=tracePeak(res[2])
 sedrates=trackPeak(res[2])
 
-#  evaluate the results from the envelope*power optimization optimization
+#  evaluate the results from the envelope*power optimization
 sedrates=tracePeak(res[3])
 sedrates=trackPeak(res[3])
 
 # evaluate precession & eccentricity power, and short-eccentricity modulations
-eTimeOpt(ex,win=20,step=.5,fit=2,output=0)
+eTimeOpt(ex,win=20,step=1,fit=2,output=0)
 }
 }

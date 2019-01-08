@@ -9,5 +9,7 @@ getData(dat="1262-a*")
 }
 
 \arguments{
-  \item{dat}{A character string that specifies the data file to download. At present there are four options: "1262-a*" , "926B-18O", "graptolite", "Xiamaling-CuAl"}
+  \item{dat}{A character string that specifies the data file to download. At present 
+  there are eight options: "1262-a*" , "926B-18O", "graptolite", "Xiamaling-CuAl",
+  "607-18O" , "AEB-18O" , "Newark-rank", "CDL-rank", "DVCP2017-18O"}
 }

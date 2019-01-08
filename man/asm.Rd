@@ -45,7 +45,8 @@ S.R. Meyers, B.B. Sageman and M.A. Arthur, 2012,
 }
 
 \examples{
-## these frequencies are from modelA (type '?astrochron' for more information). Units are cycles/m  
+## These frequencies are from modelA (type '?astrochron' for more information). 
+## They are for an 8 meter window, centered at 22 meters height. Units are cycles/m . 
 freq <- c(0.1599833,0.5332776,1.5998329,2.6797201,3.2796575,3.8795948,5.5194235,6.5459830)
 freq <- data.frame(freq)
 

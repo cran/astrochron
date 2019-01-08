@@ -21,7 +21,7 @@ mtm(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,siglevel=0.9,ar1=T,output=0,
   \item{output}{What should be returned as a data frame? (0=nothing; 1= power spectrum + harmonic CL + AR1 CL + AR1 fit + 90\%-99\% AR1 power levels (ar1 must be set to TRUE to output AR model results); 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL; 4=internal variables from spec.mtm). Option 4 is intended for expert users, and should generally be avoided.}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
-  \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
+  \item{pl}{Power spectrum plotting: (1) linear frequency-log spectral power, (2) linear frequency-linear spectral power (3) log frequency-log spectral power, (4) log frequency-linear spectral power}
   \item{sigID}{Identify significant frequencies on power and probabilty plots? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}

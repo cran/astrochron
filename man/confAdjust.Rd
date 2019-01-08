@@ -61,7 +61,7 @@ spec=mtm(ex,padfac=1,ar1=TRUE,output=1)
 
 # when blindly prospecting for cycles, it is necessary to consider all of the 
 #  observed frequencies in the test
-confAdjust(spec,npts=200,dt=5,tbw=3,ntap=5)
+confAdjust(spec,npts=200,dt=5,tbw=3,ntap=5,output=FALSE)
 
 # if, a priori, you are only concerned with the Milankovitch frequency bands, 
 #  restrict your analysis to those bands (as constrained by available sedimentation
@@ -70,14 +70,14 @@ confAdjust(spec,npts=200,dt=5,tbw=3,ntap=5)
 #  Milankovitch-target periods.
 flow=c((1/400)-0.003,(1/100)-0.003,(1/41)-0.003,(1/20)-0.003)
 fhigh=c((1/400)+0.003,(1/100)+0.003,(1/41)+0.003,(1/20)+0.003)
-confAdjust(spec,npts=200,dt=5,tbw=3,ntap=5,flow=flow,fhigh=fhigh)
+confAdjust(spec,npts=200,dt=5,tbw=3,ntap=5,flow=flow,fhigh=fhigh,output=FALSE)
 
 # now try with the lowspec method. this uses prewhitening, so it has one less data point.
 spec=lowspec(ex,padfac=1,output=1)
 flow=c((1/400)-0.003015075,(1/100)-0.003015075,(1/41)-0.003015075,(1/20)-0.003015075)
 fhigh=c((1/400)+0.003015075,(1/100)+0.003015075,(1/41)+0.003015075,(1/20)+0.003015075)
-confAdjust(spec,npts=199,dt=5,tbw=3,ntap=5,flow=flow,fhigh=fhigh)
+confAdjust(spec,npts=199,dt=5,tbw=3,ntap=5,flow=flow,fhigh=fhigh,output=FALSE)
 
 # for comparison...
-confAdjust(spec,npts=199,dt=5,tbw=3,ntap=5)
+confAdjust(spec,npts=199,dt=5,tbw=3,ntap=5,output=FALSE)
 }

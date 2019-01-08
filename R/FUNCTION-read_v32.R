@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### Read function - (SRM: January 24, 2012; updated January 31, 2012; 
@@ -9,15 +9,16 @@
 ###                  Nov. 27, 2013; January 14, 2014; June 25, 2014; January 22, 2015;
 ###                  August 6, 2015; September 11, 2015; September 16, 2015; 
 ###                  October 8, 2015; November 19, 2016; March 20, 2017; July 26, 2017;
-###                  December 15, 2017)
+###                  December 15, 2017; July 4, 2018; August 13, 2018)
 ###
 ### Read a time series file. 
 ###########################################################################
 
-read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
+read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T,verbose=T)
 
 {
-
+ if(verbose)
+  {
    cat("\n----- READ STRATIGRAPHIC SERIES FROM DATA FILE -----\n")
    cat("\nThe following options are selected:\n")
    if(d==0) cat(" * What type of column delimiter are you using?: Tab\n")
@@ -30,6 +31,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
   
 # pause so there is time to ouput text to screen.
    Sys.sleep(0.5)
+  }
 
 ### if file name and path set
    if(!is.null(file)) filen <- file
@@ -66,7 +68,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 # no column titles
         if (!titles )  
          {
-           cat("\n * No column titles/headers detected\n")
+           if(verbose) cat("\n * No column titles/headers detected\n")
            dat <- read.table (filen,header=F,skip=skip)
            xlab="Location"
            ylab="Value"
@@ -74,7 +76,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 # column titles        
         if (titles )  
          {
-           cat("\n * Column titles/headers detected\n")
+           if(verbose) cat("\n * Column titles/headers detected\n")
            dat <- read.table (filen,header=T,skip=skip)
            xlab=names(dat[1])
            ylab=names(dat[2]) 
@@ -89,7 +91,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 # no column titles
         if (!titles )  
          {
-           cat("\n * No column titles/headers detected\n")
+           if(verbose) cat("\n * No column titles/headers detected\n")
            dat <- read.table (filen,header=F,sep=",",skip=skip)
            xlab="Location"
            ylab="Value"         
@@ -97,7 +99,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 # column titles        
         if (titles)  
          {
-          cat("\n * Column titles/headers detected\n")
+          if(verbose) cat("\n * Column titles/headers detected\n")
           dat <- read.table (filen,header=T,sep=",",skip=skip)
           xlab=names(dat[1])
           ylab=names(dat[2])    
@@ -112,7 +114,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 # no column titles
         if (!titles )  
          {
-           cat("\n * No column titles/headers detected\n")
+           if(verbose) cat("\n * No column titles/headers detected\n")
            dat <- read.table (filen,header=F,sep=";",skip=skip)
            xlab="Location"
            ylab="Value"         
@@ -120,7 +122,7 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 # column titles        
         if (titles)  
          {
-          cat("\n * Column titles/headers detected\n")
+          if(verbose) cat("\n * Column titles/headers detected\n")
           dat <- read.table (filen,header=T,sep=";",skip=skip)
           xlab=names(dat[1])
           ylab=names(dat[2])    
@@ -128,13 +130,13 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
       }
 
    npts <- length(dat[,1]) 
-   cat("\n * Number of stratigraphic samples (rows)=", npts,"\n")
+   if(verbose) cat("\n * Number of stratigraphic samples (rows)=", npts,"\n")
 
    cols=length(dat[1,])
-   cat(" * Number of variables (columns)=",cols-1," (excluding depth/height/time)\n")
+   if(verbose) cat(" * Number of variables (columns)=",cols-1," (excluding depth/height/time)\n")
 
 # note: if check is disabled sorting and averaging are also disabled 
-   if(!check) cat("\n  WARNING: data checking disabled. Sorting, duplicate averaging and empty entry removal are also disabled.\n")
+   if(!check && verbose) cat("\n  WARNING: data checking disabled. Sorting, duplicate averaging and empty entry removal are also disabled.\n")
    if(check)
     {
     
@@ -149,8 +151,8 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
         { 
           dat <- dat[!delRow,]
           npts <- length(dat[,1]) 
-          cat("\n * Some rows contain all NA entries, and will be removed\n")
-          cat(" * New number of rows=", npts,"\n")
+          if(verbose) cat("\n * Some rows contain all NA entries, and will be removed\n")
+          if(verbose) cat(" * New number of rows=", npts,"\n")
         }
 # check to see if any of the columns are all NA entries
       delCol<-logical(cols)
@@ -160,8 +162,8 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
         { 
           dat<-dat[,!delCol]
           cols <- length(dat[1,]) 
-          cat("\n * Some columns contain all NA entries, and will be removed\n")
-          cat(" * New number of columns=", cols-1," (excluding depth/height/time)\n")
+          if(verbose) cat("\n * Some columns contain all NA entries, and will be removed\n")
+          if(verbose) cat(" * New number of columns=", cols-1," (excluding depth/height/time)\n")
         }
     }
 
@@ -169,14 +171,14 @@ read <- function (file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
 ###  average duplicates if requested  
    if (cols == 2 && srt)
     {
-       cat("\n * Sorting data into increasing depth/height/time order.\n")
-       cat("   Will remove empty entries (from either column).\n")
+       if(verbose) cat("\n * Sorting data into increasing depth/height/time order.\n")
+       if(verbose) cat("   Will remove empty entries (from either column).\n")
 ### Remove NAS entries in second column (includes those listed as 'NA')
        dat=subset(dat,!is.na(dat[,2]))
 ### sort to ensure increasing depth/height/time. Will remove NAS values (in depth column)
        dat <- dat[order(dat[1],na.last=NA,decreasing=F),]
        npts <- length(dat[,1])
-       cat(" * Number of samples (rows) post-sorting=", npts,"\n")
+       if(verbose) cat(" * Number of samples (rows) post-sorting=", npts,"\n")
 
 ### function dup: average duplicates/triplicates/etc.
 dup <- function (ipts,x,y)
@@ -196,22 +198,24 @@ dup <- function (ipts,x,y)
       t2<-dat[2:(npts),1]
       dt=t2-t1
       mindt=min(dt) 
+# save a copy of dat before averaging   
+      dat1=dat    
        if(mindt < 1.11022302E-13)
         {
-         cat(" * Duplicates found\n")
+         if(verbose) cat(" * Duplicates found\n")
          if(ave && class(dat[,2]) == "numeric")
            {
-             cat(" * Duplicates values will be averaged.\n")
+             if(verbose) cat(" * Duplicates values will be averaged.\n")
 ### call to Fortran routine for quick duplicate averaging
              dat2 <- dup(npts,dat[,1],dat[,2])
              dat2 <- data.frame(dat2)
              npts <- length(dat2[,1]) 
-             cat(" * New number of samples (rows)=",npts,"\n")
+             if(verbose) cat(" * New number of samples (rows)=",npts,"\n")
              colnames(dat2)[1] <- colnames(dat[1])
              colnames(dat2)[2] <- colnames(dat[2])
              dat <- dat2
            }
-         if(!ave || class(dat[,2]) != "numeric") {cat(" * Duplicates found, but will not be averaged.\n")}
+         if(!ave || class(dat[,2]) != "numeric") {if(verbose) cat(" * Duplicates found, but will not be averaged.\n")}
         }
     }
 
@@ -219,13 +223,16 @@ dup <- function (ipts,x,y)
 ###   note that duplicates are not averaged.
    if (cols > 2 && srt)
     {
-      cat("\n * Sorting data into increasing depth/height/time order.\n")
-      cat("   Will remove empty entries from depth/height/time column only\n")
-      cat("   (empty entries may remain in other columns).\n")
+      if(verbose)
+       {
+         cat("\n * Sorting data into increasing depth/height/time order.\n")
+         cat("   Will remove empty entries from depth/height/time column only\n")
+         cat("   (empty entries may remain in other columns).\n")
+       }  
 ### sort to ensure increasing depth/height/time. Will remove NAS values (in depth column)
       dat <- dat[order(dat[1],na.last=NA,decreasing=F),]
       npts <- length(dat[,1])
-      cat("\n * Number of rows (samples) post-sorting=", npts,"\n")
+      if(verbose) cat("\n * Number of rows (samples) post-sorting=", npts,"\n")
 ### determine if there are duplicate values
       t1<-dat[1:(npts-1),1]
       t2<-dat[2:(npts),1]
@@ -233,8 +240,11 @@ dup <- function (ipts,x,y)
       mindt=min(dt) 
       if(mindt < 1.11022302E-13)
        {
-         cat(" * Duplicates found\n")
-         if(ave) cat("\n  WARNING: Cannot average duplicate values\n")
+         if(verbose)
+          {
+            cat(" * Duplicates found\n")
+            if(ave) cat("\n  WARNING: Cannot average duplicate values\n")
+          }  
        }  
     }
 
@@ -242,7 +252,7 @@ dup <- function (ipts,x,y)
      numNA=sum(is.na(dat))
      if(numNA > 0) 
        {
-         cat("\n  WARNING:", numNA,"empty entries are still present in your data frame.\n")
+         if(verbose) cat("\n  WARNING:", numNA,"empty entries are still present in your data frame.\n")
        } 
 
 # end check section
@@ -258,10 +268,13 @@ dup <- function (ipts,x,y)
      dtMean=mean(dt)     
      dtMedian=median(dt)
 
-     cat("\n * Mean sampling interval=", dtMean,"\n")
-     cat(" * Median sampling interval=",dtMedian,"\n")
-     cat(" * Maximum sampling interval=",dtMax,"\n")
-     cat(" * Minimum sampling interval=", dtMin,"\n")
+     if(verbose) 
+      {
+        cat("\n * Mean sampling interval=", dtMean,"\n")
+        cat(" * Median sampling interval=",dtMedian,"\n")
+        cat(" * Maximum sampling interval=",dtMax,"\n")
+        cat(" * Minimum sampling interval=", dtMin,"\n")
+      }
       
 if(genplot && cols==2)
  {
@@ -269,8 +282,17 @@ if(genplot && cols==2)
     {
 ### plot data series. Note, cex is the factor by which to increase or decrease default symbol size
       par(mfrow=c(2,2))
-      plot(dat, cex=.5,xlab=xlab,ylab=ylab,main="Stratigraphic Series")
-      lines(dat)
+      if(ave && class(dat[,2]) == "numeric")
+       {
+        plot(dat,type="l",col="gray",ylim=c(min(dat1[,2]),max(dat1[,2])),xlab=xlab,ylab=ylab,main="Stratigraphic Series")
+        mtext("(red=original data, black=post-averaging)",cex=0.8)
+        points(dat1,cex=0.4,col="red")
+        points(dat,cex=0.3)         
+       }
+      else{   
+         plot(dat,type="l",col="gray",xlab=xlab,ylab=ylab,main="Stratigraphic Series")
+         points(dat,cex=0.3)
+       }
 ### plot the density and the histogram together
       hist(dat[,2],freq=F,xlab=ylab,main=paste("Distribution of",ylab)); grid(); lines(density(dat[,2], bw="nrd0",na.rm=T),col="red",lwd=2)
 ### boxplot
@@ -280,7 +302,7 @@ if(genplot && cols==2)
     }
    if(class(dat[,2]) != "numeric" && class(dat[,2]) != "integer")
     {
-      cat("\n  WARNING: data contains non-numeric values.  Will NOT generate plots.\n")
+      if(verbose) cat("\n  WARNING: data contains non-numeric values.  Will NOT generate plots.\n")
     }
   } 
  
@@ -299,14 +321,17 @@ if(genplot && cols>2)
           } 
         if(class(dat[,i]) != "numeric" && class(dat[,i]) != "integer")
           {
-        cat("\n  WARNING: column",i,"contains non-numeric values.  Will NOT generate a plot.\n")
+        if(verbose) cat("\n  WARNING: column",i,"contains non-numeric values.  Will NOT generate a plot.\n")
           }
       }
   }
     
 # output headers
-   cat("\n * First 3 lines of data file:\n")
-   print(head(dat,n=3L))
+   if(verbose) 
+    {
+      cat("\n * First 3 lines of data file:\n")
+      print(head(dat,n=3L))
+    }  
    
    return(data.frame(dat))
 

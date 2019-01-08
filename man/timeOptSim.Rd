@@ -61,7 +61,7 @@ S.R. Meyers, 2015,
 \examples{
 \donttest{
 # generate a test signal with precession and eccentricity
-ex=etp(tmin=1,tmax=1000,dt=1,pWt=1,oWt=0,eWt=1,esinw=TRUE,genplot=FALSE,verbose=FALSE)
+ex=etp(tmin=1,tmax=1000,dt=5,pWt=1,oWt=0,eWt=1,esinw=TRUE,genplot=FALSE,verbose=FALSE)
 # convert to meters with sedimentation rate of 2 cm/kyr
 ex[1]<-ex[1]*0.02
 # evaluate with timeOptSim. be patient, this may take a while to run.

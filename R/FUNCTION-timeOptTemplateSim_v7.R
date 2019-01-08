@@ -2,32 +2,21 @@
 ### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
-### function timeOptSim - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014;
+### function timeOptTemplateSim - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014;
 ###                             Oct. 19, 2014; Jan. 13, 2015; March 9, 2015
 ###                             June 8, 2015; Sept. 30, 2015; 
 ###                             October 20-21, 2015; November 19, 2015;
 ###                             December 17, 2015; February 7, 2016; 
 ###                             February 25, 2016; October 18-26, 2016;
-###                             December 13, 2017; December 18-19, 2017; 
-###                             May 10, 2018; May 16, 2018)
+###                             December 13-21, 2017; Jan 1, 2018; November 24, 2018)
 ###########################################################################
 
-# modified from timeOptSimMulti_v4.R. this version of timeOptSim is parallelized
-
-timeOptSim <- function (dat,numsim=2000,rho=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,ncores=2,output=0,genplot=T,check=T,verbose=T)
+timeOptTemplateSim <- function (dat,template=NULL,corVal=NULL,numsim=2000,rho=NULL,sedmin=0.5,sedmax=5,difmin=NULL,difmax=NULL,fac=NULL,numsed=50,linLog=1,limit=T,fit=1,fitModPwr=T,iopt=3,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,cormethod=1,detrend=T,detrendTemplate=F,flipTemplate=F,ncores=1,output=0,genplot=T,check=T,verbose=T)
 {
 
-if(verbose) cat("\n----- TimeOpt Monte Carlo Simulation -----\n")
+if(verbose) cat("\n----- TimeOptTemplate Monte Carlo Simulation -----\n")
 
 cormethod=1
-if(!is.null(sedrate) && verbose) 
- {
-   cat("\n**** WARNING: you are only investigating one sedimentation rate.\n")
-   cat("       sedrate option takes precedence over sedmin/sedmax/numsed\n\n")
-   sedmin=sedrate
-   sedmax=sedrate
-   numsed=1
- }
 
 # prepare data array
    dat = data.frame(dat)      
@@ -60,6 +49,25 @@ if (verbose)
    cat(" * Sampling interval (meters):",dx,"\n\n")
  }
 
+# if the correlation value from the data analysis wasn't entered, calculate it now.
+   if(is.null(corVal))
+    {
+# parallelization will be activated in timeOptTemplate
+     res=timeOptTemplate(dat,template=template,sedmin=sedmin,sedmax=sedmax,difmin=difmin,difmax=difmax,fac=fac,numsed=numsed,linLog=linLog,limit=limit,fit=fit,fitModPwr=fitModPwr,iopt=iopt,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,cormethod=cormethod,detrend=detrend,detrendTemplate=detrendTemplate,flipTemplate=flipTemplate,ncores=ncores,check=T,output=1,genplot=1,verbose=1)
+     datCorPwr = max(res[,2])
+    }
+   if(!is.null(corVal)) datCorPwr=corVal
+   
+if(verbose)
+ {  
+  cat(" * (Envelope r^2) x (Spectral Power r^2) =", datCorPwr,"\n")
+ }
+
+#######################################################################################
+# Monte Carlo Simulation
+
+# calculate the ar1 coeff for the simulations. be sure to prepare data set as
+#  was done in timeOptTemplate
 # detrend
 if (detrend) 
   {
@@ -81,56 +89,36 @@ if (detrend)
       if(verbose) cat(" * Raw AR1 =",rho,"\n")
     }  
 
-   res=timeOpt(dat,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)
-   datCorPwr = max(res[,4])
-   
-if(verbose)
- {  
-  cat(" * (Envelope r^2) x (Spectral Power r^2) =", datCorPwr,"\n")
- }
+if(verbose) 
+  {
+    cat("\n * PLEASE WAIT: Performing",numsim,"Simulations \n")
+    cat("\n0%       25%       50%       75%       100%\n")
+# create a progress bar
+    progress = utils::txtProgressBar(min = 0, max = numsim, style = 1, width=43)
+  }
 
-#######################################################################################
-# Monte Carlo Simulation
 
-  if(verbose) cat("\n * PLEASE WAIT: Performing", numsim,"simulations using", ncores,"cores\n")
-  
-# section below is parallelized
-# LOAD libraries for parallel processing
-# and set up parallel backend for your ncores
-  if(ncores<2) stop("WARNING: number of ncores must be greater than one!")
+#  create output array, dimension appropriately
+#  simres will contain envelope*power
+simres <- double(numsim)
 
-# NOTE: following two lines must be uncommented if running this as a stand-alone script.
-#  library(foreach)
-#  library(doParallel)
-
-# set up cluster
-  cl<-makeCluster(as.integer(ncores))
-  registerDoParallel(cl)
-   
-# begin parallel simulation loop
-  resParallel<-foreach(icount(numsim),.combine=rbind) %dopar% {
-
-# NOTE: following line must be uncommented if running this as a stand-alone script.
-#  require("astrochron")
-# NOTE: instead, can use the following in foreach call above: .packages=c("astrochron")
-
+# begin simulation loop
+isim=0
+for (isim in 1:numsim) 
+  {
+    if(verbose) utils::setTxtProgressBar(progress, isim)
 # generate AR1 noise
-  sim = ar1(npts, dx, mean=0, sdev=1, rho=rho, genplot=F, verbose=F)
+    sim = ar1(npts, dx, mean=0, sdev=1, rho=rho, genplot=F, verbose=F)
+    sim[1]=dat[1]
 # recenter and standardize
-  sim[2]=sim[2]-colMeans(sim[2])
-  sim[2]=sim[2]/sapply(sim[2],sd)
-               
-  simres=max(timeOpt(sim,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)[4])
-
-# return results
-  simres
-
-# end foreach loop
+    sim[2]=sim[2]-colMeans(sim[2])
+    sim[2]=sim[2]/sapply(sim[2],sd)               
+    simres[isim]=max(timeOptTemplate(sim,template=template,sedmin=sedmin,sedmax=sedmax,difmin=difmin,difmax=difmax,fac=fac,numsed=numsed,linLog=linLog,limit=limit,fit=fit,iopt=iopt,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,cormethod=cormethod,detrend=detrend,detrendTemplate=detrendTemplate,flipTemplate=flipTemplate,ncores=ncores,check=F,output=1,genplot=0,verbose=0)[2])
+    if(verbose) cat("Simulation",isim,"r2=",simres[isim],"\n")
+# end simulation loop
 }
-# shut down the cluster
-  stopCluster(cl)  
- 
-  simres=resParallel
+
+if(verbose) close(progress) 
 
 # now sort results, determine how many have values > your result
 # envelope * spectral power
@@ -158,5 +146,5 @@ if(verbose)
      if(output == 1) return(data.frame(pvalCorPwr))
      if(output == 2) return(data.frame(simres))
      
-### END function timeOptSim
+### END function timeOptTemplateSim
 }

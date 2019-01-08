@@ -1,17 +1,17 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### sortNave function - (SRM: November 23, 2012, Dec. 2, 2012; May 17, 2013; 
 ###                           May 20, 2013; June 5, 2013; June 28, 2013;
 ###                           July 27, 2013; Nov. 27, 2013; June 25, 2014;
-###                           March 20, 2017)
+###                           March 20, 2017; August 13, 2018)
 ###
 ### This script will sort data, and calls Fortran routine to
 ### average duplicates
 ###########################################################################
 
-sortNave <- function (dat,sortDecr=F,ave=T,genplot=T,verbose=T)
+sortNave <- function (dat,sortDecr=F,ave=T,xmin=NULL,xmax=NULL,genplot=1,verbose=T)
 {
 
    if(verbose) cat("\n----- PREPARING STRATIGRAPHIC SERIES -----\n")
@@ -28,6 +28,10 @@ sortNave <- function (dat,sortDecr=F,ave=T,genplot=T,verbose=T)
 
    npts <- length(dat[,1])
    if(verbose) cat(" * Number of samples post-sorting=", npts,"\n")
+
+   if(is.null(xmin)) xmin=min(dat[,1])
+   if(is.null(xmax)) xmax=max(dat[,1])
+   xlim=c(xmin,xmax)
    
 ### function dup: average duplicates/triplicates/etc.
 dup <- function (ipts,x,y)
@@ -48,8 +52,10 @@ dup <- function (ipts,x,y)
    t1<-dat[1:(npts-1),1]
    t2<-dat[2:(npts),1]
    dt=t2-t1
-   mindt=min(dt) 
-   if(mindt < 1.11022302E-13)
+   mindt=min(dt)
+# save a copy of dat before averaging   
+   dat1=dat 
+   if(mindt < 1.11022302E-13) 
      {
        cat(" * Duplicates found\n")
        if(ave)
@@ -85,11 +91,13 @@ dup <- function (ipts,x,y)
       }
       
 ### plot data series. Note, cex is the factor by which to increase or decrease default symbol size
-     if(genplot)
+     if(genplot==1)
       {
         par(mfrow=c(2,2))
-        plot(dat, cex=.5,xlab=colnames(dat[1]),ylab=colnames(dat[2]),main="Stratigraphic Series")
-        lines(dat)
+        plot(dat,type="l",col="gray",xlim=xlim,xlab=colnames(dat[1]),ylab=colnames(dat[2]),main="Stratigraphic Series")
+        mtext("(red=original data, black=post-averaging)",cex=0.8)
+        points(dat1,cex=0.4,col="red")
+        points(dat,cex=0.3)
 ### plot the denisty and the histogram together
         hist(dat[,2],freq=F,xlab=colnames(dat[2]),main="Distribution values"); lines(density(dat[,2], bw="nrd0"),col="red"); grid() 
 ### boxplot
@@ -97,7 +105,17 @@ dup <- function (ipts,x,y)
 ### Normal probabilty plot (Normal Q-Q Plot)
         qqnorm(dat[,2]); qqline(dat[,2], col="red"); grid()
       }
-      
+    
+### plot data series. Note, cex is the factor by which to increase or decrease default symbol size
+     if(genplot==2)
+      {
+        par(mfrow=c(1,1))
+        plot(dat,xlim=xlim,ylim=c(min(dat1[,2]),max(dat1[,2])),type="l",col="gray",xlab=colnames(dat[1]),ylab=colnames(dat[2]),main="Stratigraphic Series")
+        mtext("(red=original data, black=post-averaging)")
+        points(dat1,cex=0.4,col="red")
+        points(dat,cex=0.3)
+      }
+        
      return(data.frame(dat))
 
 ### END function sortNave

@@ -1,10 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2016 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### rankSeries: generate rank stratigraphic series from bedding thickness
 ###              data, then interpolate to specified interval.
-###              (June 25, 2014; July 21, 2015; July 22, 2016)
+###              (June 25, 2014; July 21, 2015; July 22, 2016; 
+###                October 15, 2018)
 ###
 ###########################################################################
 
@@ -52,7 +53,12 @@ rankSeries <- function (dat,dt=NULL,genplot=T,verbose=T)
       dat2=data.frame(cbind(heightNew,rank))
    
 # interpolate to specified sampling interval
-      out=linterp(dat2,dt=dt,genplot=F,verbose=F)
+      if(dt>0) out=linterp(dat2,dt=dt,genplot=F,verbose=F)
+      if(dt==0)
+       {
+          if (verbose) cat("\n**** WARNING: Skipping interpolation.")
+          out=dat2
+       }
 
 if(genplot)
   {

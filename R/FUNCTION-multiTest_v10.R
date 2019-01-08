@@ -3,12 +3,13 @@
 ###
 ###########################################################################
 ### multiTest function - (SRM: November 19-30, 2017; December 4, 2017;
-###                            April 13, 2018; April 17, 2018)
+###                            April 13, 2018; April 17, 2018; July 7, 2018;
+###                            January 8, 2019)
 ###
 ### apply multiple comparisons correction to spectrum confidence levels
 ###########################################################################
 
-multiTest <- function (spec,flow=NULL,fhigh=NULL,pl=T,genplot=T,verbose=T)
+multiTest <- function (spec,flow=NULL,fhigh=NULL,pl=T,output=T,genplot=T,verbose=T)
 {
 
 # spec should have two columns: frequency and confidence level
@@ -52,8 +53,17 @@ if(length(spec)>2 && length(spec)<8)
 
 ifreq=length(freq)
 
-if(is.null(flow)) flow=freq[1]
-if(is.null(fhigh)) fhigh=freq[ifreq]
+if(is.null(flow)) 
+ {
+   flow=freq[1]
+   if(verbose) cat("* Using default lower frequency bound=", flow,"\n")
+ }
+
+if(is.null(fhigh)) 
+ {
+   fhigh=freq[ifreq]
+   if(verbose) cat("* Using default upper frequency bound=", fhigh,"\n")
+ }
 ifreq2=0
 for (i in 1:length(flow)) ifreq2=append(ifreq2,which( (freq >= flow[i]) & (freq <= fhigh[i]) ))
 # remove first entry, which is 0
@@ -75,7 +85,7 @@ out = data.frame(cbind(freq[ifreq2],1/freq[ifreq2],rawPvals[ifreq2],fdr,BY,homme
 colnames(out) = c("Frequency","Period","Uncorrected p-value","FDR-BH","FDR-BY","Hommel","Hochberg","Holm","Bonferroni")
 
 plSwitch=T
-if(flow==freq[1] && fhigh==freq[ifreq]) plSwitch=F
+if(min(flow)==freq[1] && max(fhigh)==freq[ifreq]) plSwitch=F
 
 setLwd=0
 if(pl) setLwd=1.5
@@ -132,6 +142,6 @@ if(genplot)
    text(max(freq),0.1,"0.1",font=2,pos=3,offset=0.1)
  }
   
-return(out)
+if(output) return(out)
 #### END function multiTest
 }

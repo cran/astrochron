@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### lowspec function - (SRM: September 28, 2012; October 8,11,15 2012; May 20-21, 2013; 
@@ -7,7 +7,7 @@
 ###                           June 21, 2013; Nov. 26. 2013; January 31, 2015; 
 ###                           February 1-3, 2015; February 26, 2015; March 5-6, 2015;
 ###                           September 10, 2015; August 21-22, 2016; March 20, 2017;
-###                           June 12, 2017; November 19-20, 2017)
+###                           June 12, 2017; November 19-20, 2017; August 21, 2018)
 ###
 ### "Seeing red" algorithm as an R function
 ###########################################################################
@@ -239,29 +239,20 @@ if(verbose)
 
 if(genplot)
   {
+    if(pl == 1) logxy="y"
+    if(pl == 2) logxy=""
+    if(pl == 3) logxy="xy"
+    if(pl == 4) logxy="x"
+    if(pl == 3 || pl == 4) xmin=freq[1]
     par(mfrow=c(3,1))
-    if(pl == 1) 
-       {
-         plot(freq,log(pwr), type="l",col="black",xlim=c(xmin,xmax),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Log Power",main="MTM Power and LOWSPEC Continuum Estimates",bty="n")
-         lines(freq,log(y.predict), col="red", lwd=2)
-         if(CLpwr) 
-            {
-              lines(freq,log(CL90),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(freq,log(CL95),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(freq,log(CL99),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-             }
-        } 
-    if(pl == 2) 
-       {
-         plot(freq,pwr, type="l",col="black",xlim=c(xmin,xmax),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Linear Power",main="MTM Power and LOWSPEC Continuum Estimates",bty="n")
-         lines(freq,y.predict, col="red", lwd=2)
-         if(CLpwr) 
-            {
-              lines(freq,CL90,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(freq,CL95,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(freq,CL99,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-             }
-       }
+    plot(freq,pwr, type="l",col="black",xlim=c(xmin,xmax),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Power",main="MTM Power and LOWSPEC Continuum Estimates",bty="n",log=logxy)
+    lines(freq,y.predict, col="red", lwd=2)
+    if(CLpwr) 
+        {
+              lines(freq,CL90,col="red",lwd=1,lty=3)
+              lines(freq,CL95,col="red",lwd=1,lty=3)
+              lines(freq,CL99,col="red",lwd=1,lty=3)
+        }
 
 ### plot "significant" frequencies on power spectrum
     if(sigID && (numpeak2) > 0)
@@ -278,8 +269,12 @@ if(genplot)
       if((numpeak2) > 1) mtext(pltext[seq(from=2,to=(numpeak2),by=2)], side=3,line=-0.25,at=plfreq[seq(from=2,to=(numpeak2),by=2)],cex=0.5,font=4)
      }
      
+    if(pl == 1) logxy=""
+    if(pl == 2) logxy=""
+    if(pl == 3) logxy="x"
+    if(pl == 4) logxy="x"  
 # plot LOWSPEC confidence levels
-    plot(freq,chiCL*100,type="l",col="red",xlim=c(xmin,xmax),lwd=2,cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="LOWSPEC Confidence Level Estimates",bty="n")
+    plot(freq,chiCL*100,type="l",col="red",xlim=c(xmin,xmax),lwd=2,cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="LOWSPEC Confidence Level Estimates",bty="n",log=logxy)
     abline(h=c(90,95,99),col="black",lty=3)
 
 ### plot "significant" frequencies on LOWSPEC confidence level spectrum
@@ -291,7 +286,7 @@ if(genplot)
      }
 
 # plot f-test confidence levels
-    plot(freq,prob*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(80,100),cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="MTM Harmonic F-test Confidence Level Estimates",bty="n",lwd=2)
+    plot(freq,prob*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(80,100),cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="MTM Harmonic F-test Confidence Level Estimates",bty="n",lwd=2,log=logxy)
     abline(h=c(90,95,99),col="black",lty=3)
 
 ### plot "significant" frequencies on f-test condfidence levels

@@ -1,9 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2019 Stephen R. Meyers
 ###
 ###########################################################################
 ### confAdjust function - (SRM: November 14-30, 2017; December 6, 2017; 
-###                             April 13, 2018; April 17, 2018)
+###                             April 13, 2018; April 17, 2018; 
+###                             January 8, 2019)
 ###
 ### apply multiple comparisons correction to spectrum confidence levels
 ###########################################################################
@@ -60,7 +61,7 @@ if(is.null(flow)) flow=freq[1]
 if(is.null(fhigh)) fhigh=freq[ipts]
 if(is.null(xmax)) xmax=freq[ipts]
 plotBounds=T
-if(flow==freq[1] && fhigh==freq[ipts]) plotBounds=F
+if(min(flow)==freq[1] && max(fhigh)==freq[ipts]) plotBounds=F
 
 # determine degrees of freedom
 dof = (2*ntap)

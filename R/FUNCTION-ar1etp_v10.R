@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### function ar1etp - (SRM: March 21, 2012; May 3, 2012; Aug 2, 2012; 
 ###                         Oct. 8, 2012; Jan. 23, 2013; April 29, 2013; 
 ###                         May 20, 2013; June 21, 2013; Sept. 25, 2013; 
-###                         Jan. 30, 2015; February 1, 2015)
+###                         Jan. 30, 2015; February 1, 2015; October 20, 2018)
 ###
 ### Run an ensemble of AR1 + signal simulations
 ###########################################################################
@@ -13,11 +13,18 @@
 ar1etp <- function(etpdat=NULL,nsim=100,rho=0.9,wtAR=1,sig=90,tbw=2,padfac=5,ftest=F,fmax=0.1,speed=0.5,pl=2,graphfile=0)
 {
 
-if(is.null(etpdat)) 
+if(is.null(etpdat)&&wtAR>=0) 
   {
     cat("\n * No astronomical series input. Will use default ETP from:\n")
     cat("    etp(tmin=0,tmax=1000,dt=5,genplot=F)\n")
     etpdat=etp(tmin=0,tmax=1000,dt=5,genplot=F)
+  }  
+
+if(wtAR<0) 
+  {
+    cat("\n * Astronomical signal will not be included in simulations\n")
+# add placeholder so it doesn't crash
+    etpdat=data.frame(cbind(seq(0,1001,by=5),seq(0,1001,by=5)))
   }  
 
 npts <- length(etpdat[,1]) 
@@ -78,7 +85,7 @@ ta <- (ta*dt) - dt
 ar1=ar1-mean(ar1)
 ar1=ar1/sd(ar1)
 ### set noise level relative to ETP (ETP already standardized to 1)
-ar1=ar1*wtAR
+if(wtAR>=0) ar1=ar1*wtAR
 
 noise <- as.data.frame(cbind(ta,ar1))
 
@@ -92,7 +99,8 @@ rho_raw <- cor(lag0,lag1)
 ### 2. sum ETP and AR1 noise
 ###########################################################################
 
-signal <- as.data.frame(cbind(ta,etpdat[,2] + ar1))
+if(wtAR>=0) signal <- as.data.frame(cbind(ta,etpdat[,2] + ar1))
+if(wtAR<0) signal <- noise
 
 ### what is the estimated AR1 coefficient for the combined signal?
     lag0 <- signal[1:(npts-1),2]
@@ -140,20 +148,26 @@ RawAR = So * (1-(rho_raw_sig^2)) / (  1 - (2*rho_raw_sig*cos(pi*freq/Nyq)) + (rh
 
 if(pl == 1) 
  {
-   plot(freq,log(pwrRaw),type="l",xlab="Frequency (cycles/ka)",ylab="Log(Power)",xlim=c(0,fmax),cex.axis=1.2,cex.lab=1.2,lwd=2)   
-   lines(freq,log(RawAR),col="red",lwd=2)
+   ylim=log(c(min(pwrRaw,RawAR),max(pwrRaw,RawAR)))
+   plot(log(freq),log(pwrRaw),type="l",xlab="Log Frequency (cycles/ka)",ylab="Log Power",xlim=c(log(freq[1]),log(fmax)),ylim=ylim,cex.axis=1.2,cex.lab=1.2,lwd=2)   
+   lines(log(freq),log(RawAR),col="red",lwd=2)
+   abline(v=log(c(.0024752475,.0080000000,.0105263157,.0185185185,.0243902439,0.04228,0.04474,0.052780)),col="blue",lty=3,lwd=2)
+   mtext(c("e1","e2","e3","o1","o2","p1","p3"),side=3,line=0,at=log(c(.0024752475,0.0076,.0115263157,.0185185185,.0243902439,.0416666666,.0526315789)))
+   mtext(c("p2"),side=3,line=1,at=log(c(.0454545454)))
+   mtext(c(expression(paste(rho,"-noise=")),round(rho_raw,digits=2)),side=1,line=5,col="red",at=c(-8,-7.15),cex=1.2)
+   mtext(c(expression(paste(rho,"-noise+signal=")),round(rho_raw_sig,digits=2)),side=1,line=5,col="red",at=c(-4,-2.8),cex=1.2)
   }
 if(pl == 2)
  {
    plot(freq,pwrRaw,type="l",xlab="Frequency (cycles/ka)",ylab="Power",xlim=c(0,fmax),cex.axis=1.2,cex.lab=1.2,lwd=2)   
    lines(freq,RawAR,col="red",lwd=2)
+   abline(v=c(.0024752475,.0080000000,.0105263157,.0185185185,.0243902439,0.04228,0.04474,0.052780),col="blue",lty=3,lwd=2)
+   mtext(c("e1","e2","e3","o1","o2","p1","p2","p3"),side=3,line=0,at=c(.0024752475,0.0076,.0115263157,.0185185185,.0243902439,.0416666666,.0454545454,.0526315789))
+   mtext(c(expression(paste(rho,"-noise=")),round(rho_raw,digits=2)),side=1,line=5,col="red",at=c(0.015,0.03),cex=1.2)
+   mtext(c(expression(paste(rho,"-noise+signal=")),round(rho_raw_sig,digits=2)),side=1,line=5,col="red",at=c(0.065,0.087),cex=1.2)
  }
  
-abline(v=c(.0024752475,.0080000000,.0105263157,.0185185185,.0243902439,0.04228,0.04474,0.052780),col="blue",lty=3,lwd=2)
-mtext(c("e1","e2","e3","o1","o2","p1","p2","p3"),side=3,line=0,at=c(.0024752475,0.0076,.0115263157,.0185185185,.0243902439,.0416666666,.0454545454,.0526315789))
 
-mtext(c(expression(paste(rho,"-noise=")),round(rho_raw,digits=2)),side=1,line=5,col="red",at=c(0.015,0.03),cex=1.2)
-mtext(c(expression(paste(rho,"-noise+signal=")),round(rho_raw_sig,digits=2)),side=1,line=5,col="red",at=c(0.065,0.087),cex=1.2)
   
 ###########################################################################
 ### 4. Evaluate confidence levels
@@ -162,15 +176,31 @@ mtext(c(expression(paste(rho,"-noise+signal=")),round(rho_raw_sig,digits=2)),sid
 dof = (2*numtap)
 chiRawAR <-  (pwrRaw/RawAR) * dof
 chiCLRawAR <- pchisq(chiRawAR, df=dof)
-plot(freq,chiCLRawAR*100,type="l",col="red",xlab="Frequency (cycles/ka)",ylab="Confidence Level",xlim=c(0,fmax),ylim=c(0,100),cex.axis=1.2,cex.lab=1.2,lwd=2)
-abline(h=c(sig,crit),col="black",lty=3)
-mtext(c(sig),side=4,line=0,at=c(sig))
-abline(v=c(.0024752475,.0080000000,.0105263157,.0185185185,.0243902439,0.04228,0.04474,0.052780),col="blue",lty=3,lwd=2)
-mtext(c("e1","e2","e3","o1","o2","p1","p2","p3"),side=3,line=0,at=c(.0024752475,0.0076,.0115263157,.0185185185,.0243902439,.0416666666,.0454545454,.0526315789))
 
+if(pl == 1) 
+ {
+   plot(log(freq),chiCLRawAR*100,type="l",col="red",xlab="Log Frequency (cycles/ka)",ylab="Confidence Level",xlim=c(log(freq[1]),log(fmax)),ylim=c(0,100),cex.axis=1.2,cex.lab=1.2,lwd=2)
+   abline(h=c(sig,crit),col="black",lty=3)
+   mtext(c(sig),side=4,line=0,at=c(sig))
+   abline(v=log(c(.0024752475,.0080000000,.0105263157,.0185185185,.0243902439,0.04228,0.04474,0.052780)),col="blue",lty=3,lwd=2)
+   mtext(c("e1","e2","e3","o1","o2","p1","p3"),side=3,line=0,at=log(c(.0024752475,0.0076,.0115263157,.0185185185,.0243902439,.0416666666,.0526315789)))
+   mtext(c("p2"),side=3,line=1,at=log(c(.0454545454)))
 ### add f-test CL for raw spectrum
-fCLRaw <- pf(spec$mtm$Ftest,2,dof-2)
-if (ftest) {lines(freq,fCLRaw*100,type="l",col="green")}
+   fCLRaw <- pf(spec$mtm$Ftest,2,dof-2)
+   if (ftest) {lines(log(freq),fCLRaw[1:nfreq]*100,type="l",col="seagreen")}
+ }
+ 
+if(pl == 2) 
+ {
+   plot(freq,chiCLRawAR*100,type="l",col="red",xlab="Frequency (cycles/ka)",ylab="Confidence Level",xlim=c(0,fmax),ylim=c(0,100),cex.axis=1.2,cex.lab=1.2,lwd=2)
+   abline(h=c(sig,crit),col="black",lty=3)
+   mtext(c(sig),side=4,line=0,at=c(sig))
+   abline(v=c(.0024752475,.0080000000,.0105263157,.0185185185,.0243902439,0.04228,0.04474,0.052780),col="blue",lty=3,lwd=2)
+   mtext(c("e1","e2","e3","o1","o2","p1","p2","p3"),side=3,line=0,at=c(.0024752475,0.0076,.0115263157,.0185185185,.0243902439,.0416666666,.0454545454,.0526315789))
+### add f-test CL for raw spectrum
+   fCLRaw <- pf(spec$mtm$Ftest,2,dof-2)
+   if (ftest) {lines(freq,fCLRaw[1:nfreq]*100,type="l",col="seagreen")}
+ }
 
 
 if (nsim == 1)

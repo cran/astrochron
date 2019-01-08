@@ -1,12 +1,13 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### mtmML96 function - (SRM: December 22, 2013; July 31, 2014; January 31, 2015;
 ###                          February 1, 2015; February 5, 2015; February 22, 2015;
 ###                          February 26, 2015; March 6, 2015; September 10, 2015;
 ###                          December 14-15, 2015; May 20, 2016; August 22, 2016,
-###                          October 4, 2016; March 20, 2017; November 20, 2017)
+###                          October 4, 2016; March 20, 2017; November 20, 2017;
+###                          August 21, 2018)
 ###
 ### Perform Mann and Lees (1996) robust red noise mtm analysis, with some modifications.
 ### Uses multitaper library and built in functions from R.
@@ -243,31 +244,21 @@ prob <- pf(FtestRaw,2,dof-2)
 ### generate plots
 if(genplot)
  {
+   if(pl == 1) logxy="y"
+   if(pl == 2) logxy=""
+   if(pl == 3) logxy="xy"
+   if(pl == 4) logxy="x"
+   if(pl == 3 || pl == 4) xmin=freq[1]
    par(mfrow=c(3,1))
-   if(pl == 1)
-    {
-      plot(freq,log(pwrRaw),type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Log Power",main="MTM Power (black), Robust AR1 fit (red), smoothed (green)",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
-      lines(freq,log(pwrMedAR),xlim=c(xmin,xmax),col="red",lwd=2)
-      lines(freq,log(pwrMedian),xlim=c(xmin,xmax),col="seagreen",lwd=2,lty=3)
-      if(CLpwr) 
+   plot(freq,pwrRaw,type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Power",main="MTM Power (black), Robust AR1 fit (red), smoothed (green)",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n",log=logxy)
+   lines(freq,pwrMedAR,col="red",lwd=2)
+   lines(freq,pwrMedian,col="seagreen",lwd=2,lty=3)
+   if(CLpwr) 
         {
-          lines(freq,log(MedAR1_90),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-          lines(freq,log(MedAR1_95),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-          lines(freq,log(MedAR1_99),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
+          lines(freq,MedAR1_90,col="red",lwd=1,lty=3)
+          lines(freq,MedAR1_95,col="red",lwd=1,lty=3)
+          lines(freq,MedAR1_99,col="red",lwd=1,lty=3)
         }
-    }
-   if(pl == 2)
-    {
-      plot(freq,pwrRaw,type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Linear Power",main="MTM Power (black), Robust AR1 fit (red), smoothed (green)",cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
-      lines(freq,pwrMedAR,xlim=c(xmin,xmax),col="red",lwd=2)
-      lines(freq,pwrMedian,xlim=c(xmin,xmax),col="seagreen",lwd=2,lty=3)      
-      if(CLpwr) 
-        {
-          lines(freq,MedAR1_90,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-          lines(freq,MedAR1_95,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-          lines(freq,MedAR1_99,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-        }
-     }
  }
  
 
@@ -325,6 +316,11 @@ if(verbose)
 
 if(genplot)
 {
+   if(pl == 1) logxy=""
+   if(pl == 2) logxy=""
+   if(pl == 3) logxy="x"
+   if(pl == 4) logxy="x"  
+
 if(sigID && numpeak2 > 0)
  {
 ### plot "significant" F-test frequencies (on power plot first)
@@ -340,7 +336,7 @@ if(sigID && numpeak2 > 0)
       if(numpeak2 > 1) mtext(pltext[seq(from=2,to=numpeak2,by=2)], side=3,line=-0.25,at=plfreq[seq(from=2,to=numpeak2,by=2)],cex=0.5,font=4)
   }
 
-  plot(freq,chiCLMedAR*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(0,100),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Confidence Level",main="Robust AR1 Confidence Level Estimates",bty="n")
+  plot(freq,chiCLMedAR*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(0,100),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Confidence Level",main="Robust AR1 Confidence Level Estimates",bty="n",log=logxy)
   abline(h=c(90,95,99),col="black",lty=3)
 
 if(sigID && numpeak2 > 0)
@@ -351,7 +347,7 @@ if(sigID && numpeak2 > 0)
       if(numpeak2 > 1) mtext(pltext[seq(from=2,to=numpeak2,by=2)], side=3,line=-0.25,at=plfreq[seq(from=2,to=numpeak2,by=2)],cex=0.5,font=4)
  }
 
-     plot(freq,prob*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(80,100),cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="MTM Harmonic F-test Confidence Level Estimates",bty="n",lwd=2)
+     plot(freq,prob*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(80,100),cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="MTM Harmonic F-test Confidence Level Estimates",bty="n",lwd=2,log=logxy)
      abline(h=c(90,95,99),col="black",lty=3)
   
 if(sigID && numpeak2 > 0)

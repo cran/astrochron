@@ -9,7 +9,7 @@ getLaskar(sol="la04",verbose=T)
 }
 
 \arguments{
-  \item{sol}{A character string that specifies the astronomical solution to download: "la04","la10a","la10b","la10c","la10d","la11"}
+  \item{sol}{A character string that specifies the astronomical solution to download: "la04","la10a","la10b","la10c","la10d","la11","insolation"}
   \item{verbose}{Verbose output? (T or F)}
 }
 
@@ -25,6 +25,9 @@ la10c : one column containing the la10c eccentricity solution of Laskar et al. (
 la10d : one column containing the la10d eccentricity solution of Laskar et al. (2011a)
 
 la11 : one column containing the la11 eccentricity solution of Laskar et al. (2011b; please also cite 2011a)
+
+insolation : one column containing insolation at 65 deg North (W/m^2) during summer solstice, from Laskar et al. (2004)
+
 }
 
 \references{

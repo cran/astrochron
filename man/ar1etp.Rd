@@ -12,20 +12,21 @@ ar1etp(etpdat=NULL,nsim=100,rho=0.9,wtAR=1,sig=90,tbw=2,padfac=5,ftest=F,fmax=0.
   \item{etpdat}{Eccentricity, tilt, precession astronmical series. First column = time, second column = ETP. If not entered will use default series from Laskar et al. (2004), spanning 0-1000 kyr.}
   \item{nsim}{Number of simulations.}
   \item{rho}{AR(1) coefficient for noise modeling.}
-  \item{wtAR}{Multiplicative factor for AR1 noise (1= eqivalent to ETP variance).}
+  \item{wtAR}{Multiplicative factor for AR1 noise (1= eqivalent to ETP variance). If < 0, etp signal will be excluded from the simulations (noise only)}
   \item{sig}{Demarcate what confidence level (percent) on plots?}
   \item{tbw}{MTM time-bandwidth product.}
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the number of data points.}
   \item{ftest}{Include MTM harmonic f-test results? (T or F)}
   \item{fmax}{Maximum frequency for plotting.}
   \item{speed}{Set the amount of time to pause before plotting new graph, in seconds.}
-  \item{pl}{Plot log power (1) or linear power (2)?}
+  \item{pl}{Plot (1) log frequency-log power or (2) linear frequency-linear power?}
   \item{graphfile}{Output a pdf or jpg image of each plot? 0 = no, 1 = pdf, 2 = jpeg.  If yes, there will be no output to screen. Individual graphic files will be produced for each simluation, for assembling into a movie.}
 }
 
 \details{
 Note: Setting wtAR=1 will provide equal variance contributions from the etp model and the ar1 model.
 More generally, set wtAR to the square root of the desired variance contribution (wtAR=0.5 will generate an AR1 model with variance that is 25\% of the etp model).
+If you would like to exclusively evaluate the noise (no etp), set wtAR < 0. 
 
 Note: You may use the function etp to generate eccentricity-tilt-precession models.
 }

@@ -3,7 +3,8 @@
 ###
 ###########################################################################
 ### timeOptPlot: generate summary figure for timeOpt (SRM: April 23, 2017;
-###                      July 18-19, 2017; August 13, 2017; May 10, 2018)
+###                      July 18-19, 2017; August 13, 2017; May 10, 2018;
+###                      October 23, 2018)
 ###
 ###########################################################################
 
@@ -68,7 +69,7 @@ mtext("Frequency (cycles/ka)",side=1,line=2,cex=0.8)
 
 # plot 4: (F)
 plot(res1[, 1], res1[, 4], type="l", lwd=2, col = "black", xlab = "", ylab = "", main = "")
-mtext("Envelope & Power Fit",side=2,line=2,cex=0.8)            
+mtext("Envelope & Spectral Fit",side=2,line=2,cex=0.8)            
 mtext("Sedimentation Rate (cm/ka)",side=1,line=2,cex=0.8)   
 
 # plot 5: (C)   
@@ -89,7 +90,7 @@ if(max(xlim2) > 1) xlim2=c(0,1)
 plot(denPlot,xlim=xlim2,main="")
 polygon(denPlot,col="black")
 mtext("# Simulations",side=2,line=2,cex=0.8)            
-mtext("Modulation & Power Fit",side=1,line=2,cex=0.8)   
+mtext("Envelope & Spectral Fit",side=1,line=2,cex=0.8)   
 if(!is.null(fitR))
  {
    abline(v=fitR,lwd=2,lty=4,col="red")

@@ -2,7 +2,7 @@
 \alias{bandpass}
 \title{Bandpass filter stratigraphic series}
 \description{
-Bandpass filter stratigraphic series using rectangular, Gaussian or tapered cosine (a.k.a. Tukey) window
+Bandpass filter stratigraphic series using rectangular, Gaussian or tapered cosine (a.k.a. Tukey) window. This function can also be used to notch fiter a record (see examples).
 }
 \usage{
 bandpass(dat,padfac=2,flow=NULL,fhigh=NULL,win=0,alpha=3,p=0.25,demean=T,
@@ -32,8 +32,18 @@ bandpassed stratigraphic series.
 \seealso{ \code{\link{lowpass}}, \code{\link{noKernel}}, \code{\link{noLow}}, \code{\link{prewhiteAR}}, \code{\link{prewhiteAR1}}, and \code{\link{taner}} }
 
 \examples{
-# generate example series with 3 precession terms and noise
-ex <- cycles(noisevar=.0004,dt=5)
-# bandpass precession terms using cosine-tapered window 
-res_ex <- bandpass(ex,flow=0.038,fhigh=0.057,win=2,p=.4)
+# generate example series with periods of 405 ka, 100 ka, 40ka, and 20 ka, plus noise
+ex=cycles(freqs=c(1/405,1/100,1/40,1/20),end=1000,dt=5,noisevar=.1)
+
+# bandpass precession term using cosine-tapered window 
+bandpass_ex <- bandpass(ex,flow=0.045,fhigh=0.055,win=2,p=.4)
+
+# notch filter (remove) obliquity term using cosine-tapered window
+#  if you'd like the final notch filtered record to be centered on the mean proxy 
+#  value, set addmean=FALSE
+notch_ex <- bandpass(ex,flow=0.02,fhigh=0.03,win=2,p=.4,addmean=FALSE)
+notch_ex[2] <- ex[2]-notch_ex[2]
+pl(2)
+plot(ex,type="l",main="Eccentricity+Obliquity+Precession")
+plot(notch_ex,type="l",main="Following application of obliquity notch filter")
 }

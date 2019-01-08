@@ -5,13 +5,14 @@
 Adjust spectral p-values for multiple comparisons, using a range of approaches.
 }
 \usage{
-multiTest(spec,flow=NULL,fhigh=NULL,pl=T,genplot=T,verbose=T)
+multiTest(spec,flow=NULL,fhigh=NULL,pl=T,output=T,genplot=T,verbose=T)
 }
 \arguments{
   \item{spec}{A data frame with two columns: frequency, uncorrected confidence level. If 8 columns are input, the results are assumed to come from mtm, mtmML96, lowspec or mtmPL. If 9 columns are input, the results are assumed to come from periodogram.}
   \item{flow}{Vector of lower bounds for each frequency band of interest. Order must match fhigh.}
   \item{fhigh}{Vector of upper bounds for each frequency band of interest. Order must match flow.}
   \item{pl}{Include graphs of uncorrected p-values? (T or F)}
+  \item{output}{Return results as new data frame? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
@@ -76,7 +77,7 @@ spec=mtm(ex,padfac=1,ar1=TRUE,output=1)
 
 # when blindly prospecting for cycles, it is necessary to consider all of the 
 #  observed frequencies in the test
-multiTest(cb(spec,c(1,4)))
+multiTest(cb(spec,c(1,4)),output=FALSE)
 
 # if, a priori, you are only concerned with the Milankovitch frequency bands, 
 #  restrict your analysis to those bands (as constrained by available sedimentation
@@ -85,14 +86,14 @@ multiTest(cb(spec,c(1,4)))
 #  Milankovitch-target periods.
 flow=c((1/400)-0.003,(1/100)-0.003,(1/41)-0.003,(1/20)-0.003)
 fhigh=c((1/400)+0.003,(1/100)+0.003,(1/41)+0.003,(1/20)+0.003)
-multiTest(cb(spec,c(1,4)),flow=flow,fhigh=fhigh)
+multiTest(cb(spec,c(1,4)),flow=flow,fhigh=fhigh,output=FALSE)
 
 # now try with the lowspec method. this uses prewhitening, so it has one less data point.
 spec=lowspec(ex,padfac=1,output=1)
 flow=c((1/400)-0.003015075,(1/100)-0.003015075,(1/41)-0.003015075,(1/20)-0.003015075)
 fhigh=c((1/400)+0.003015075,(1/100)+0.003015075,(1/41)+0.003015075,(1/20)+0.003015075)
-multiTest(cb(spec,c(1,4)),flow=flow,fhigh=fhigh)
+multiTest(cb(spec,c(1,4)),flow=flow,fhigh=fhigh,output=FALSE)
 
 # for comparison...
-multiTest(cb(spec,c(1,4)))
+multiTest(cb(spec,c(1,4)),output=FALSE)
 }

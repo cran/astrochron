@@ -5,7 +5,7 @@
 Read stratigraphic data series from a file, either tab-delimited, CSV, or semicolon-delimited. First column MUST contain location data (depth, height, time). The function will remove missing entries, sort by location, average duplicate values, and generate summary plots.
 }
 \usage{
-read(file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
+read(file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T,verbose=T)
 }
 \arguments{
   \item{file}{An optional file name, which must be in quotes (use the full directory path if the file is not in your present working directory). When a file name is not specified (the default), the file will be selected using a graphical user interface.}
@@ -16,6 +16,7 @@ read(file=NULL,d=1,h="auto",skip=0,srt=T,ave=T,check=T,genplot=T)
   \item{ave}{Average duplicate values? (T or F). Only applies if input file has 2 columns}
   \item{check}{Check for sorting, duplicates, and empty entries in the data frame? (T or F). If set to F, sorting, duplicate averaging and empty entry removal are disabled.}
   \item{genplot}{generate summary plots (T or F).}
+  \item{verbose}{Verbose output? (T or F).}
 }
 \details{
 Missing values (in the file that you are reading from) should be indicated by 'NA'.

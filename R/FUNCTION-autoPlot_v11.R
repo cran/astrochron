@@ -5,7 +5,7 @@
 ### autoPlot: automatically plot all data in data frame - VERTICAL plots 
 ###          (SRM: Oct. 30, 2012; Jan. 18, 2013; May 20, 2013; June 19, 2013;
 ###                June 28, 2013; August 15, 2013; April 7, 2015; 
-###                February 16, 2016; November 22, 2017)
+###                February 16, 2016; November 22, 2017; July 3, 2018)
 ###
 ###########################################################################
 
@@ -37,6 +37,17 @@ if(!is.null(cols))
   {
     ncols=length(cols)
   }
+
+# check to see if any of the columns are all NA entries
+  delCol<-logical(ncols)
+  for (i in 1:ncols) delCol[i]=all(is.na(dat[,i]))
+# delete rows that have all NA entries  
+  if(any(delCol))
+     { 
+       dat<-dat[,!delCol]
+       ncols <- ncols-sum(delCol)
+       cat("\n * Some columns contain all NA entries, and will be removed\n")
+     }
   
 if(verbose) cat(" * Number of variables to plot=", ncols,"\n")
 

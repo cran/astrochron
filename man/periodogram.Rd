@@ -15,7 +15,7 @@ periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,output=0,
   \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{nrm}{Power normalization: 0 = no normalization; 1 = divide Fourier transform by npts.}
   \item{background}{Estimate noise model background spectrum and confidence levels? (0= No, 1= AR1, 2= Power Law)}
-  \item{output}{Return output as new data frame? (0= no; 1= frequency,amplitude,power,phase; 2= frequency,real coeff.,imag. coeff)}
+  \item{output}{Return output as new data frame? (0= no; 1= frequency,amplitude,power,phase (+ background fit and confidence levels, if background selected); 2= frequency,real coeff.,imag. coeff)}
   \item{f0}{Return results for the zero frequency? (T or F)}
   \item{fNyq}{Return results for the Nyquist frequency? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
@@ -47,7 +47,7 @@ freq=res[1]
 pwr_rect=res[3]
 
 # now compare with results obtained after applying four different tapers: 
-#  Hann, % cosine taper, DPSS with a time-bandwidth product of 1, and DPSS 
+#  Hann, 30% cosine taper, DPSS with a time-bandwidth product of 1, and DPSS 
 #  with a time-bandwidth product of 3
 pwr_hann=periodogram(hannTaper(ex,demean=FALSE),output=1,padfac=pad)[3]
 pwr_cos=periodogram(cosTaper(ex,p=.3,demean=FALSE),output=1,padfac=pad)[3]
@@ -100,7 +100,7 @@ freq.2=res.2[1]
 pwr_rect.2=res.2[3]
 
 # now compare with results obtained after applying four different tapers: 
-#  Hann, % cosine taper, DPSS with a time-bandwidth product of 1, and DPSS 
+#  Hann, 30% cosine taper, DPSS with a time-bandwidth product of 1, and DPSS 
 #  with a time-bandwidth product of 3
 pwr_hann.2=periodogram(hannTaper(ex2,demean=FALSE),output=1,padfac=pad)[3]
 pwr_cos.2=periodogram(cosTaper(ex2,p=.3,demean=FALSE),output=1,padfac=pad)[3]

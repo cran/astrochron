@@ -76,8 +76,8 @@ When ran=T, the following approach is used to select the parameter to modify:
 0.10 probability of changing sigma_env,rho_env (simultaneously)
   
 This is motivated by sensitivity tests, and the fact that we are most interested 
-in g, k and s;  moving each group (sedrate, k or g's) has specific consequences we 
-can isolate. 
+in g, k and s;  moving each group of parameters (sedrate, k or g's) has specific
+consequences we can isolate. 
 
 
 Here are some additional notes on the application of timeOptMCMC:
@@ -100,8 +100,8 @@ However, the multimodal nature of the parameter space may require smaller accept
 
 (4) To ensure that the MCMC algorithm is exploring the full parameter space, run an 
 analysis with 'test=T'. This option will accept all MCMC candidates. The histogram for 
-each parameter value should be approximately uniform, and should cover the entire 
-parameter range. If this is not the case, epsilon should be increased.
+each parameter value should approximate the prior distribution. If this is not the case, 
+epsilon should be increased.
 
 (5) It is expected that the MAP should be close to the mode when you have enough samples, 
 although this is not guaranteed.
@@ -121,10 +121,11 @@ simulations that have gone into local minima.
 MAP, mode of kernel density estimate (post-burnin), 95 percent Credible Interval from 
 kernel density estimate (post-burnin).
 
-(10) Keep in mind that a parabolic plot of log-likelihood vs parameter value (quadratic in 
-log-likelihood) indicates a Gaussian distribution.
+(10) Keep in mind that a parabolic plot of log-likelihood vs. parameter value (quadratic
+in log-likelihood) indicates a Gaussian distribution.
 
-For additional information see Meyers & Malinverno (2018), Meyers (2015), Tarantola (2005), and Malinverno & Briggs (2004).
+For additional information see Meyers & Malinverno (2018), Meyers (2015), Tarantola (2005), 
+and Malinverno & Briggs (2004).
 }
 
 \references{

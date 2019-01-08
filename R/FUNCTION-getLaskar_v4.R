@@ -1,9 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2018 Stephen R. Meyers
 ###
 ###########################################################################
 ### getLaskar: download Laskar et al. (2004; 2011) astronomical solutions. 
-###          (SRM: January 22, 2015; January 4, 2016; February 7, 2017)
+###          (SRM: January 22, 2015; January 4, 2016; February 7, 2017;
+###                June 19, 2018)
 ###
 ###########################################################################
 
@@ -11,7 +12,7 @@
 getLaskar <- function (sol="la04",verbose=T)
 {
         i=0
-        if(sol=="la04" || sol=="la10a" || sol=="la10b" || sol=="la10c" || sol=="la10d" || sol=="la11") i=1
+        if(sol=="la04" || sol=="la10a" || sol=="la10b" || sol=="la10c" || sol=="la10d" || sol=="la11" || sol=="insolation") i=1
         if(i==0) 
          {
             cat("\n**** ERROR: specified solution is not available.\n")
@@ -96,11 +97,25 @@ getLaskar <- function (sol="la04",verbose=T)
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la11.txt.bz2",tempLaskar)
         }
 
+        if(sol=="insolation")
+        {
+          if(verbose)
+           {
+             cat(" * Downloading Laskar et al. (2004) 65 deg North summer insolation\n\n")
+             cat("   Please cite: Laskar, J., Robutel, P., Joutel, F., Gastineau, M.,\n") 
+             cat("   Correia, A.C.M., Levrard, B., 2004, A long term numerical solution \n")
+             cat("   for the insolation quantities of the Earth: Astron. Astrophys., Volume 428, 261-285.\n")
+          }
+          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/insolation.txt.bz2",tempLaskar)
+        }
+
+
         if(verbose) cat(" * Decompressing solution\n")
         la <- read.table(bzfile(tempLaskar),header=T)
         unlink(tempLaskar)
-        if(sol != "la11") la=data.frame(cbind((1:249001)-1,la))
+        if(sol != "la11" && sol != "insolation" ) la=data.frame(cbind((1:249001)-1,la))
         if(sol == "la11") la=data.frame(cbind((1:100000)-1,la))
+        if(sol == "insolation") la=data.frame(cbind((1:20001)-1,la))
         colnames(la)[1] = c("Time_ka")
   
         return(la)

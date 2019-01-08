@@ -4,7 +4,8 @@
 ###########################################################################
 ### MTM with power law fit and confidence levels - (SRM: Ocotober 29, 2015;
 ###                                    November 1, 2015; November 15-29, 2017;
-###                                    December 4, 2017; April 13, 2018)
+###                                    December 4, 2017; April 13, 2018;
+###                                    July 8, 2018; August 21, 2018)
 ###
 ### uses multitaper library and built in functions from R
 ### this follows the recipe of Vaughan et al. (2005):
@@ -122,7 +123,10 @@ freq <- spec$freq[1:nfreq]/dt
 
 # by default, avoid lowermost frequencies <= mtm-halfwidth, as they are 
 #   biased (see McCoy et al., 1998 and Huybers & Curry, 2006).
-if(is.null(flow)) flow=freq[which(freq==(tbw/(npts*dt)))+1]
+#if(is.null(flow)) flow=freq[which(freq==(tbw/(npts*dt)))+1]
+# modified to allow for round-off error
+if(is.null(flow)) flow=freq[as.integer(tbw/(npts*dt)/df) + 1]
+
 if(is.null(fhigh)) fhigh=freq[nfreq]
 
 # remove values that are not in range from flow to fhigh
@@ -211,29 +215,21 @@ if(genplot)
    par(mfrow=c(3,1))
    if(!CLpwr) mtitle=c("1/f fit (blue), unbiased 1/f fit (red)")
    if(CLpwr) mtitle=c("1/f fit (blue), unbiased 1/f fit (red), 90%CL, 95%CL, 99%CL (dotted)")
+   if(pl == 1) logxy="y"
+   if(pl == 2) logxy=""
+   if(pl == 3) logxy="xy"
+   if(pl == 4) logxy="x"
+   if(pl == 3 || pl == 4) xmin=freq[1]
+
 # first plot power spectrum, with red noise model and confidence levels
-   if(pl == 1)
-    {
-      plot(freq,log10(pwrRaw),type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Log Power",main=mtitle,cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
-      lines(resFreq,log10(unbiasedFit),xlim=c(xmin,xmax),col="red",lwd=2)
-      if(CLpwr) 
-            {
-              lines(resFreq,log10(CL_90),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(resFreq,log10(CL_95),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(resFreq,log10(CL_99),xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-             }
-    }
-   if(pl == 2)
-    {
-      plot(freq,pwrRaw,type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Linear Power",main=mtitle,cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n")
-      lines(resFreq,unbiasedFit,xlim=c(xmin,xmax),col="red",lwd=2)
-      if(CLpwr) 
-            {
-              lines(resFreq,CL_90,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(resFreq,CL_95,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-              lines(resFreq,CL_99,xlim=c(xmin,xmax),col="red",lwd=1,lty=3)
-             }
-     } 
+   plot(freq,pwrRaw,type="l", col="black", xlim=c(xmin,xmax), xlab="Frequency",ylab="Power",main=mtitle,cex.axis=1.1,cex.lab=1.1,lwd=2,bty="n",log=logxy)
+   lines(resFreq,unbiasedFit,col="red",lwd=2)
+   if(CLpwr) 
+        {
+              lines(resFreq,CL_90,col="red",lwd=1,lty=3)
+              lines(resFreq,CL_95,col="red",lwd=1,lty=3)
+              lines(resFreq,CL_99,col="red",lwd=1,lty=3)
+        }
  
 ### plot "significant" frequencies on power spectrum
    if(sigID && (numpeak) > 0)
@@ -252,7 +248,12 @@ if(genplot)
     }
 
 ### plot powerLaw confidence levels
-   plot(resFreq,chiCL*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(0,100),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Confidence Level",main="1/f Confidence Level Estimates",bty="n")
+   if(pl == 1) logxy=""
+   if(pl == 2) logxy=""
+   if(pl == 3) logxy="x"
+   if(pl == 4) logxy="x"   
+
+   plot(resFreq,chiCL*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(0,100),cex.axis=1.1,cex.lab=1.1,lwd=2,xlab="Frequency",ylab="Confidence Level",main="1/f Confidence Level Estimates",bty="n",log=logxy)
    abline(h=c(90,95,99),col="black",lty=3)
    if(sigID && numpeak > 0)
       {
@@ -261,7 +262,7 @@ if(genplot)
         if(numpeak > 1) mtext(pltext[seq(from=2,to=numpeak,by=2)], side=3,line=-0.25,at=plfreq[seq(from=2,to=numpeak,by=2)],cex=0.5,font=4)
       }
 
-   plot(freq,prob*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(80,100),cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="Harmonic F-Test Confidence Level Estimates",bty="n",lwd=2)
+   plot(freq,prob*100,type="l",col="red",xlim=c(xmin,xmax),ylim=c(80,100),cex.axis=1.1,cex.lab=1.1,xlab="Frequency",ylab="Confidence Level",main="Harmonic F-Test Confidence Level Estimates",bty="n",lwd=2,log=logxy)
    abline(h=c(90,95,99),col="black",lty=3)
    if(sigID && numpeak > 0)
       {

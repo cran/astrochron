@@ -23,7 +23,7 @@ lowspec(dat,decimate=NULL,tbw=3,padfac=5,detrend=F,siglevel=0.9,setrho,
   \item{CLpwr}{Plot LOWSPEC noise confidence levels on power spectrum? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
-  \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
+  \item{pl}{Power spectrum plotting: (1) linear frequency-log spectral power, (2) linear frequency-linear spectral power (3) log frequency-log spectral power, (4) log frequency-linear spectral power}
   \item{sigID}{Identify significant frequencies on power and probabilty plots? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
