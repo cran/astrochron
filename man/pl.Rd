@@ -14,6 +14,6 @@ pl(n,r,c,h,w,mar,file,title)
   \item{h}{Height of new page (a.k.a. "device").}
   \item{w}{Width of new page (a.k.a. "device").}
   \item{mar}{A numerical vector of the form c(bottom, left, top, right) which gives the margin size specified in inches.}
-  \item{file}{PDF file name, in quotes. If a file name is not designated, then the plot is output to the screen instead.}
+  \item{file}{File name, in quotes. Accepted file formats include .pdf, .jpg, .png, .tiff, .bmp; the format must be indicated using the appropriate filename extension at the end of the file name. If a file name is not designated, the plot is output to the screen instead.}
   \item{title}{Plot title (must be in quotes)}
 }

@@ -35,7 +35,7 @@ v.190, 190-223.
 \seealso{ \code{\link{timeOpt}}, and \code{\link{eTimeOpt}} }
 
 \examples{
-\donttest{
+\dontrun{
 # generate a test signal with precession and eccentricity
 ex=cycles(freqs=c(1/405.6795,1/130.719,1/123.839,1/98.86307,1/94.87666,1/23.62069, 
 1/22.31868,1/19.06768,1/18.91979),end=4000,dt=5)

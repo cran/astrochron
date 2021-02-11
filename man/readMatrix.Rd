@@ -5,7 +5,7 @@
 Read data matrix from a file, either tab-delimited, CSV, or semicolon-delimited.
 }
 \usage{
-readMatrix(file=NULL,d=1,h="auto",skip=0,output=1,check=T,genplot=F)
+readMatrix(file=NULL,d=1,h="auto",skip=0,output=1,check=T,genplot=F,verbose=T)
 }
 \arguments{
   \item{file}{An optional file name, which must be in quotes (use the full directory path if the file is not in your present working directory). When a file name is not specified (the default), the file will be selected using a graphical user interface.}
@@ -15,6 +15,7 @@ readMatrix(file=NULL,d=1,h="auto",skip=0,output=1,check=T,genplot=F)
   \item{output}{Return data as: 1= matrix, 2=data frame}
   \item{check}{Check for empty entries in the matrix? (T or F).}
   \item{genplot}{generate summary plots (T or F).}
+  \item{verbose}{Verbose output? (T or F).}
 }
 \details{
 Missing values (in the file that you are reading from) should be indicated by 'NA'.

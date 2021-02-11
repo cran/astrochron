@@ -33,7 +33,7 @@ trackFreq(spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmi
 \seealso{ \code{\link{eha}} and \code{\link{traceFreq}} }
 
 \examples{
-\donttest{
+\dontrun{
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
 # YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {

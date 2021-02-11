@@ -5,5 +5,5 @@
 \description{ 
    Example stratigraphic model series.
 } 
-\usage{modelA} 
+\usage{data(modelA)} 
 \format{Height (meters), weight percent CaCO3} 

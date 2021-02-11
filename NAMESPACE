@@ -5,8 +5,7 @@ importFrom(multitaper, spec.mtm)
 importFrom(multitaper, dpss)
 importFrom(fields, image.plot)       
 importFrom(fields, tim.colors)
-importFrom("grDevices", "tiff")
-importFrom("grDevices", "boxplot.stats", "colors", "dev.new", "dev.off", "gray", "jpeg", "pdf", "png", "rainbow", "xy.coords")
+importFrom("grDevices", "boxplot.stats", "colors", "dev.new", "dev.off", "gray", "tiff", "jpeg", "pdf", "png", "bmp", "rainbow", "xy.coords")
 importFrom("grDevices", "colorRampPalette", "gray.colors")
 importFrom("graphics", "abline", "axis", "boxplot", "grid", "hist", "identify", "image", "layout", "lines", "locator", "mtext", "par", "plot", "points", "polygon", "rect", "segments", "text")
 importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm", "predict", "na.omit", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var")
@@ -14,12 +13,13 @@ importFrom("stats", "p.adjust")
 importFrom("utils", "download.file", "head", "read.table", "write.table")
 importFrom("utils", "setTxtProgressBar", "txtProgressBar")
 
-importFrom(doParallel,registerDoParallel)
+importFrom(doParallel, registerDoParallel)
 importFrom(parallel, makeCluster)
 importFrom(parallel, stopCluster)
 importFrom(iterators, icount)
-importFrom(foreach,foreach)
-importFrom(foreach,"%dopar%")
+importFrom(foreach, foreach)
+importFrom(foreach, "%dopar%")
+
 
 export(anchorTime,
        ar1,
@@ -75,6 +75,7 @@ export(anchorTime,
        mtmPL,
        multiTest,
        mwCor,
+       mwMinMax,
        mwStats,
        mwin,
        noLow,

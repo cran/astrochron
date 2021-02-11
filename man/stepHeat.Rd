@@ -71,7 +71,7 @@ I. Wendt and C. Carl, 1991,
 \seealso{ \code{\link{wtMean}} }
 
 \examples{
-\donttest{
+\dontrun{
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
 # YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {

@@ -23,6 +23,7 @@ modeled stratigraphic series.
 }
 
 \examples{
+ \dontrun{
 # EX.1: precession, unclipped
 signal=etp(tmin=8400,tmax=8900,pWt=1,oWt=0,eWt=0)
 synthStrat(signal,nfacies=4,clip=FALSE,genplot=2)
@@ -57,4 +58,5 @@ noise=ar1(npts=501,rho=0.8)
 #synthStrat(linterp(sedRamp(signal,genplot=FALSE),genplot=FALSE),nfacies=6,
 # clip=TRUE,genplot=2,fmax=10)
 
+ }
 }

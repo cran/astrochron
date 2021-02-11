@@ -39,7 +39,7 @@ Laskar, J., Robutel, P., Joutel, F., Gastineau, M., Correia, A.C.M., Levrard, B.
 }
 
 \examples{
-\donttest{
+\dontrun{
 
 # run simulations using the default settings
 ar1etp()

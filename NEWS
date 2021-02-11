@@ -1,3 +1,25 @@
+astrochron v1.0 (Release date: 2021-02-10)
+================
+
+New functions: 
+
+* function mwMinMax
+
+Other changes:
+
+* function pl: added a range of output file formats (e.g., jpeg, png, ...)
+* function readMatrix: added verbose option
+* function mwStats: now gives warning when there is one data point in a window, instead of exiting.
+* function mwStats: added CI option for confidence intervals on mean value
+* function mwStats: now evaluates ends of series when conv=1
+* function repl0: now handles NaN
+* function replEps: now handles NaN
+* function surrogateCor: now outputs correlation coefficient and p-value to console
+* function timeOpt: when numsed is set to 1, will now evaluate sedmin
+* function eTimeOpt: updated for numsed=1 option
+
+
+
 astrochron v0.9 (Release date: 2019-01-08)
 ================
 

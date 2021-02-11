@@ -77,7 +77,7 @@ D.J. Thomson, 1982,
 
 
 \examples{
-\donttest{
+\dontrun{
 # evaluate false positive rate for MTM-AR1 using AR1 surrogates
 testBackground(noiseType="ar1",method="mtmAR1")
 

@@ -28,7 +28,7 @@ traceFreq(spec,color=2,h=6,w=4,ydir=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,nc
 \seealso{ \code{\link{eha}} and \code{\link{trackFreq}} }
 
 \examples{
-\donttest{
+\dontrun{
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
 # YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {

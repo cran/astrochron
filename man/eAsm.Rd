@@ -45,7 +45,7 @@ S.R. Meyers, B.B. Sageman and M.A. Arthur, 2012,
 }
 
 \examples{
-\donttest{
+\dontrun{
 # use modelA as an example
 data(modelA)
 

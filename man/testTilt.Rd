@@ -63,7 +63,7 @@ Astron. Astrophys., Volume 428, 261-285.
 }
 
 \examples{
-\donttest{
+\dontrun{
 ### as a test series, use the obliquity series from Laskar et al. (2004), spanning 
 ### the past 4 million years
 ex<-etp(tmin=0,tmax=4000,dt=2,eWt=0,oWt=1,pWt=0,solution=solution,standardize=FALSE)

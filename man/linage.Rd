@@ -29,7 +29,7 @@ Paillard, D., L. Labeyrie and P. Yiou, 1996),
 }
 
 \examples{
-\donttest{
+\dontrun{
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
 # YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {

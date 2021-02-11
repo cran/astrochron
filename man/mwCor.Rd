@@ -33,9 +33,9 @@ ex <- cycles(freqs=c(1/40,1/20),noisevar=.2)
 ex[3] <- cycles(freqs=c(1/40,1/20),noisevar=0.2)[2]
 
 # jitter sampling times
-ex[1]=ex[1]+rnorm(500,sd=5)
+ex[1]=ex[1]+rnorm(500,sd=1)
 # sort
-ex = ex[order(ex[1],na.last=NA,decreasing=FALSE),]
+ex = ex[order(ex[,1],na.last=NA,decreasing=FALSE),]
 
 # run mwCor
 mwCor(ex,win=50)
