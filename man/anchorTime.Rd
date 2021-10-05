@@ -5,7 +5,7 @@
 Anchor a floating astrochronology to a radioisotopic age. The floating astrochronology is centered on a given ('floating') time datum and assigned the 'anchored' age.
 }
 \usage{
-anchorTime(dat,time,age,timeDir=1,flipOut=F,verbose=T,genplot=T)
+anchorTime(dat,time,age,timeDir=1,flipOut=F,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series. First column should be floating time scale, second column should be data value.}

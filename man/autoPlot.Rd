@@ -5,12 +5,14 @@
 Automatically plot and smooth specified stratigraphic data, versus location. Data are smoothed with a Gaussian kernel if desired.
 }
 \usage{
-autoPlot(dat,cols=NULL,vertical=T,ydir=NULL,nrows=NULL,plotype=1,smooth=0,xgrid=1,
-        output=F,genplot=T,verbose=T)
+autoPlot(dat,cols=NULL,dmin=NULL,dmax=NULL,vertical=T,ydir=NULL,nrows=NULL,plotype=1,
+        smooth=0,xgrid=1,output=F,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{Your data frame; first column should be location identifier (e.g., depth).}
   \item{cols}{A vector that identifies the columns to extract (first column automatically extracted).}
+  \item{dmin}{Minimum depth/height/time for plotting.}
+  \item{dmax}{Maximum depth/height/time for plotting.}
   \item{vertical}{Generate vertical stratigraphic plots? (T or F) If F, will generate horizontal plots.}
   \item{ydir}{Direction for stratigraphic axis in plots (depth,height,time). If vertical=T, then -1 results in values increasing downwards, while 1 results in values increasing upwards. If vertical=F, then -1 results in values increasing toward the left, while 1 results in values increasing toward the right.}
   \item{nrows}{Number of rows in figure (if vertical = T; otherwise this will be the number of columns).}

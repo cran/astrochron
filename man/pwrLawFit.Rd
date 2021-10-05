@@ -9,7 +9,7 @@ pwrLawFit(spec,dof=2,flow=NULL,fhigh=NULL,output=1,genplot=T,verbose=T)
 
 }
 \arguments{
-  \item{spec}{Power spectrum. First column is frequency, second column is raw power (linear). Do not include the zero frequency.}
+  \item{spec}{Power spectrum. First column is frequency, second column is raw power (linear). Do not include the zero frequency and Nyquist.}
   \item{dof}{Degrees of freedom for power spectral estimate. Default is 2, for a simple periodogram.}
   \item{flow}{Lowest frequency to include in 1/f fit}
   \item{fhigh}{Highest frequency to include in 1/f fit}
@@ -31,7 +31,11 @@ noise = ar1(npts=200,dt=5,sd=.5)
 ex[2] = ex[2] + noise[2]
 
 # calculate periodogram
-res=periodogram(ex,output=1)
+res=periodogram(ex,output=1,padfac=1)
 
-pwrLawFit(cb(res,c(1,3)))
+# extract power and remove the Nyquist frequency
+resPwr=cb(res,c(1,3))
+resPwr=resPwr[-length(resPwr[,1]),]
+
+pwrLawFit(resPwr)
 }

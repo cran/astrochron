@@ -1,16 +1,17 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2021 Stephen R. Meyers
 ###
 ###########################################################################
 ### function peak : find maxima of peaks in series, report those that exceed
 ###                  a threshold value - (SRM: March 1-29, 2012; 
 ###                                  April 25, 2012; May 22, 2013; May 23, 2013; 
 ###                                  June 5, 2013; June 14, 2013; January 31, 2015;
-###                                  February 3, 2015; August 17, 2015; March 20, 2017)
+###                                  February 3, 2015; August 17, 2015; March 20, 2017;
+###                                  June 27, 2021)
 ###
 ###########################################################################
 
-peak <- function (dat,level=NULL,genplot=T,verbose=T) 
+peak <- function (dat,level=NULL,plateau=F,genplot=T,verbose=T) 
 {
 
 if(verbose) cat("\n----- FINDING MAXIMA OF PEAKS, FILTERING AT THRESHOLD VALUE -----\n")
@@ -67,8 +68,11 @@ if(numplat>0)
       colnames(plats)[3] <- 'Plateau_Value'
     }
 # this warning should be output regardless of whether verbose selected.
-      cat("\n**** WARNING: The following plateaus were not evaluated!:\n")
-      print(plats)  
+    if(verbose) 
+     {
+       cat("\n**** WARNING: The following plateaus were not evaluated!:\n")
+       print(plats)
+     }   
  }
   
 if(ncols == 1) { ymax <- y[loc] }
@@ -108,13 +112,14 @@ if( !is.null(level) && level<=max(ymax))
    numpeak=length(filt_ymax)
    if(verbose) cat(" * Number of peaks >=",level,":", numpeak,"\n")
  }
-  
+
 if(numpeak>0 && ncols == 1) 
   {
         out = data.frame( cbind(filt_loc,filt_ymax) )
         colnames(out)[1] = 'ID'
         colnames(out)[2] = 'Peak_Value'
   }
+
 if(numpeak>0 && ncols == 2)
   {
         out = data.frame( cbind(filt_loc,filt_xloc,filt_ymax) )
@@ -122,7 +127,7 @@ if(numpeak>0 && ncols == 2)
         colnames(out)[2] = 'Location'
         colnames(out)[3] = 'Peak_Value'
   }
- 
+   
 if(numpeak>0 && genplot)
  {
    par(mfrow=c(1,1))
@@ -175,7 +180,8 @@ if(numpeak>0 && genplot)
 
 # end skip=F
 } 
-if(numpeak>0) return( out )
+if(!plateau && numpeak>0) return( out )
+if(plateau && numplat>0) return( plats )
 
 ### END function peak
 }

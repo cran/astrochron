@@ -9,7 +9,8 @@
 ###                  Nov. 27, 2013; January 14, 2014; June 25, 2014; January 22, 2015;
 ###                  August 6, 2015; September 11, 2015; September 16, 2015; 
 ###                  October 8, 2015; November 19, 2016; March 20, 2017; July 26, 2017;
-###                  December 15, 2017; July 4, 2018; August 13, 2018; January 14, 2021)
+###                  December 15, 2017; July 4, 2018; August 13, 2018; January 14, 2021;
+###                  June 22, 2021)
 ###
 ### Read a time series file. 
 ###########################################################################
@@ -203,8 +204,8 @@ dup <- function (ipts,x,y)
        if(mindt < 1.11022302E-13)
         {
          if(verbose) cat(" * Duplicates found\n")
-         if(ave && class(dat[,2]) == "numeric")
-           {
+         if(ave && (class(dat[,2]) == "numeric" || class(dat[,2]) == "integer") )
+           {  
              if(verbose) cat(" * Duplicates values will be averaged.\n")
 ### call to Fortran routine for quick duplicate averaging
              dat2 <- dup(npts,dat[,1],dat[,2])
@@ -214,8 +215,10 @@ dup <- function (ipts,x,y)
              colnames(dat2)[1] <- colnames(dat[1])
              colnames(dat2)[2] <- colnames(dat[2])
              dat <- dat2
-           }
-         if(!ave || class(dat[,2]) != "numeric") {if(verbose) cat(" * Duplicates found, but will not be averaged.\n")}
+            }
+        } 
+        else {
+          if(verbose) cat(" * Duplicates found, but will not be averaged.\n")
         }
     }
 
@@ -282,7 +285,7 @@ if(genplot && cols==2)
     {
 ### plot data series. Note, cex is the factor by which to increase or decrease default symbol size
       par(mfrow=c(2,2))
-      if(ave && class(dat[,2]) == "numeric")
+      if(ave && (class(dat[,2]) == "numeric" || class(dat[,2]) == "integer") )
        {
         plot(dat,type="l",col="gray",ylim=c(min(dat1[,2]),max(dat1[,2])),xlab=xlab,ylab=ylab,main="Stratigraphic Series")
         mtext("(red=original data, black=post-averaging)",cex=0.8)

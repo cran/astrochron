@@ -4,14 +4,14 @@
 ###########################################################################
 ### eTimeOpt - (SRM: February 26-28, 2016; October 5, 2016; 
 ###                  October 13, 2017; December 7, 2017; December 18, 2017
-###                  December 4, 2021; January 21, 2021)
+###                  December 4, 2021; January 21, 2021; August 30, 2021)
 ###
 ### evolutive version of timeOpt
 ###
 ### this version is a wrapper that loops timeOpt for evolutive analysis
 ###########################################################################
 
-eTimeOpt <- function (dat,win=dt*100,step=dt*10,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,ydir=1,output=1,genplot=T,check=T,verbose=1)
+eTimeOpt <- function (dat,win=dt*100,step=dt*10,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,ydir=1,palette=6,ncolors=100,output=1,genplot=T,check=T,verbose=1)
 {
 
 if(verbose==0 || verbose==1 || verbose==2) timeOptVerbose=F
@@ -44,6 +44,12 @@ if(check)
        stop("**** TERMINATING NOW!")
      }
 }
+
+   if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5 && palette != 6) 
+     {
+       cat("\n**** WARNING: palette option not valid. Will use palette = 6.\n")
+       palette = 6
+     }
 
 if (verbose ==1 || verbose ==2 || verbose ==3) 
  {
@@ -134,24 +140,39 @@ for (i in 1:nspec)
 # now add plots
  if(genplot && numsed>1)
   {
+
+# set color palette
+#  rainbow colors
+    if(palette == 1) colPalette = tim.colors(ncolors)
+#  grayscale
+    if(palette == 2) colPalette = gray.colors(n=ncolors,start=1,end=0,gamma=1.75)
+#  dark blue scale (from larry.colors)
+    if(palette == 3) colPalette = colorRampPalette(c("white","royalblue"))(ncolors)
+#  red scale
+    if(palette == 4) colPalette = colorRampPalette(c("white","red2"))(ncolors)
+#  blue to red plot
+    if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+# viridis colormap
+    if(palette == 6) colPalette = viridis(ncolors, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
+
     dev.new(title=paste("eTimeOpt results"),height=5.3,width=10)
     par(mfrow=c(1,3))
     par(mar=c(4.1, 4.1, 4.1, 5.1))
 
     if (ydir == 1) 
      {
-       image.plot(sedrates,height,r2_env,col = tim.colors(100),useRaster=F,xlab="Sedimentation Rate (cm/ka)",ylab="Height (m)",main=expression(paste("Envelope (r"^"2",""["envelope"],")")),cex.lab=1.3,cex.main=1.4)
-       image.plot(sedrates,height,r2_pwr,col = tim.colors(100),useRaster=F,xlab="Sedimentation Rate (cm/ka)",ylab="Height (m)",main=expression(paste("Power (r"^"2",""["power"],")")),cex.lab=1.3,cex.main=1.4)
-       image.plot(sedrates,height,r2_opt,col = tim.colors(100),useRaster=F,xlab="Sedimentation Rate (cm/ka)",ylab="Height (m)",main=expression(paste("Envelope*Power (r"^"2",""["opt"],")")),cex.lab=1.3,cex.main=1.4)
+       image.plot(sedrates,height,r2_env,col = colPalette,useRaster=F,xlab="Sedimentation Rate (cm/ka)",ylab="Height (m)",main=expression(paste("Envelope (r"^"2",""["envelope"],")")),cex.lab=1.3,cex.main=1.4)
+       image.plot(sedrates,height,r2_pwr,col = colPalette,useRaster=F,xlab="Sedimentation Rate (cm/ka)",ylab="Height (m)",main=expression(paste("Power (r"^"2",""["power"],")")),cex.lab=1.3,cex.main=1.4)
+       image.plot(sedrates,height,r2_opt,col = colPalette,useRaster=F,xlab="Sedimentation Rate (cm/ka)",ylab="Height (m)",main=expression(paste("Envelope*Power (r"^"2",""["opt"],")")),cex.lab=1.3,cex.main=1.4)
      }  
        
     if (ydir == -1) 
      {
 # in this case, reset ylim range.
        ylimset=c( max(height),min(height) )
-       image.plot(sedrates,height,r2_env,ylim=ylimset,col = tim.colors(100),xlab="Sedimentation Rate (cm/ka)",ylab="Depth (m)",main=expression(paste("Envelope (r"^"2",""["envelope"],")")),cex.lab=1.3,cex.main=1.4)
-       image.plot(sedrates,height,r2_pwr,ylim=ylimset,col = tim.colors(100),xlab="Sedimentation Rate (cm/ka)",ylab="Depth (m)",main=expression(paste("Power (r"^"2",""["power"],")")),cex.lab=1.3,cex.main=1.4)
-       image.plot(sedrates,height,r2_opt,ylim=ylimset,col = tim.colors(100),xlab="Sedimentation Rate (cm/ka)",ylab="Depth (m)",main=expression(paste("Envelope*Power (r"^"2",""["opt"],")")),cex.lab=1.3,cex.main=1.4)
+       image.plot(sedrates,height,r2_env,ylim=ylimset,col = colPalette,xlab="Sedimentation Rate (cm/ka)",ylab="Depth (m)",main=expression(paste("Envelope (r"^"2",""["envelope"],")")),cex.lab=1.3,cex.main=1.4)
+       image.plot(sedrates,height,r2_pwr,ylim=ylimset,col = colPalette,xlab="Sedimentation Rate (cm/ka)",ylab="Depth (m)",main=expression(paste("Power (r"^"2",""["power"],")")),cex.lab=1.3,cex.main=1.4)
+       image.plot(sedrates,height,r2_opt,ylim=ylimset,col = colPalette,xlab="Sedimentation Rate (cm/ka)",ylab="Depth (m)",main=expression(paste("Envelope*Power (r"^"2",""["opt"],")")),cex.lab=1.3,cex.main=1.4)
       }
   }
 

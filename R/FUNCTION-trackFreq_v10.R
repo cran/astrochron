@@ -5,11 +5,11 @@
 ### trackFreq: sort EHA output to isolate peaks in specified frequency range 
 ###             (SRM: June 14, 2013; June 16, 2013; June 26, 2013; July 26, 2013;
 ###                   December 8, 2013; February 5, 2014; January 16, 2015;
-###                   August 17, 2015; January 14, 2021)
+###                   August 17, 2015; January 14, 2021; August 30, 2021)
 ###
 ###########################################################################
 
-trackFreq <- function (spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,ncolors=100,genplot=T,verbose=T)
+trackFreq <- function (spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,palette=6,ncolors=100,genplot=T,verbose=T)
 {
   
   if(verbose) 
@@ -49,13 +49,33 @@ trackFreq <- function (spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,
   
   if(genplot) 
    {
-# use fields library for access to 'tim.colors'
 
 # for plotting
       if(is.null(xmin)) xmin = min(freq)
       if(is.null(xmax)) xmax = max(freq)
       if(is.null(ymin)) ymin = min(loc)
       if(is.null(ymax)) ymax = max(loc)
+
+# use fields library for access to 'tim.colors', and viridisLite for access to 'viridis'
+      if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5 && palette != 6) 
+        {
+          cat("\n**** WARNING: palette option not valid. Will use palette = 6.\n")
+          palette = 6
+        }
+
+# set color palette
+#  rainbow colors
+      if(palette == 1) colPalette = tim.colors(ncolors)
+#  grayscale
+      if(palette == 2) colPalette = gray.colors(n=ncolors,start=1,end=0,gamma=1.75)
+#  dark blue scale (from larry.colors)
+      if(palette == 3) colPalette = colorRampPalette(c("white","royalblue"))(ncolors)
+#  red scale
+      if(palette == 4) colPalette = colorRampPalette(c("white","red2"))(ncolors)
+#  blue to red plot
+      if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+# viridis colormap
+      if(palette == 6) colPalette = viridis(ncolors, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
 
 # set up device
       dev.new(height=h,width=w)
@@ -68,14 +88,14 @@ trackFreq <- function (spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,
 # note that useRaster=T is not a viable option, as it will plot the results backwards, even though the
 #  y-axis scale has been reversed!  This option will result in a slower plotting time.
            ylimset=c(ymax,ymin)
-           image(freq,loc,sp,xlim=xlimset,ylim=ylimset,col = tim.colors(ncolors),xlab="Frequency",ylab="Location",main="Frequency Domain Minimal Tuning")
+           image(freq,loc,sp,xlim=xlimset,ylim=ylimset,col = colPalette,xlab="Frequency",ylab="Location",main="Frequency Domain Minimal Tuning")
          }
 
       if (ydir == 1) 
         {
 # useRaster=T results in a faster plotting time.
            ylimset=c(ymin,ymax)
-           image(freq,loc,sp,xlim=xlimset,ylim=ylimset,col = tim.colors(ncolors),useRaster=T,xlab="Frequency",ylab="Location",main="Frequency Domain Minimal Tuning")       
+           image(freq,loc,sp,xlim=xlimset,ylim=ylimset,col = colPalette,useRaster=T,xlab="Frequency",ylab="Location",main="Frequency Domain Minimal Tuning")       
         }
         
 # end genplot section

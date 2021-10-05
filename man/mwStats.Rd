@@ -27,7 +27,7 @@ of the record.
 
 \value{
 A data frame with five or six columns: 
-Center of window, Average, Median, Variance, Number of points in window
+Center of window, Average, Median, Variance, Number of points in window.
 If CI>0, the sixth column is the value used to determine the confidence interval (add and subtract it from the average) 
 }
 

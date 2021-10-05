@@ -1,18 +1,26 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2021 Stephen R. Meyers
 ###
 ###########################################################################
-### eAsm function - (SRM: January 13, 2014, January 29, 2015; May 18, 2015)
+### eAsm function - (SRM: January 13, 2014, January 29, 2015; May 18, 2015;
+###                       September 3, 2021)
 ###
 ### wrapper to conduct Evolutive ASM analysis using FORTRAN code
 ###
 ### NOTE: this code uses asm1.8_R.f
 ###########################################################################
 
-eAsm <- function (spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,numsed=50,linLog=1,iter=100000,ydir=1,output=4,genplot=F)
+eAsm <- function (spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,numsed=50,linLog=1,iter=100000,ydir=1,palette=2,output=4,genplot=F)
 {
 
  cat("\n----- PERFORMING EVOLUTIVE AVERAGE SPECTRAL MISFIT ANALYSIS -----\n")
+
+# use fields library for access to 'tim.colors', and viridisLite for access to 'viridis'
+  if( palette != 1 && palette != 2) 
+    {
+       cat("\n**** WARNING: palette option not valid. Will use palette = 2.\n")
+       palette = 2
+    }
 
 # ensure we have a data frame
   spec=data.frame(spec)
@@ -79,13 +87,20 @@ eAsm <- function (spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,s
     }
 
 # now plot. 
+
+    brks <- c(0.00,0.05,0.1,0.2,0.4,0.6,0.8,1,5,10,100)  
+# set color palette
+#  rainbow colors
+    if(palette == 1) colorScale=append(rainbow(9,start=0,end=0.75),gray(0))
+# viridis colormap
+    if(palette == 2) colorScale = viridis(10, alpha = 1, begin = 0, end = 1, direction = -1, option = "D")
+
     dev.new(title=paste("Evolutive ASM Results"))
 # widths= a vector of values for the widths of columns
 # heights= a vector of values for the heights of rows.
 # Relative widths are specified with numeric values. Absolute widths (in centimetres) are specified with the lcm() function.
     layout(matrix(c(1,2), 1, 2, byrow = TRUE),widths=c(3.5,1), heights=c(2,2))
-    brks <- c(0.00,0.05,0.1,0.2,0.4,0.6,0.8,1,5,10,100)    
-    colorScale=append(rainbow(9,start=0,end=0.75),gray(0))
+
     if(ydir == 1) ylimset=c( min(loc),max(loc) )
     if(ydir == -1) ylimset=c( max(loc),min(loc) )
     image(log(resSed),loc,resHo,ylim=ylimset,breaks=brks,col=colorScale,xlab="Log(Sedimentation Rate, cm/ka)",ylab="Location")

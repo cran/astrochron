@@ -150,7 +150,7 @@ if(!is.null(targetE)) targetE <- as.double(targetE)
 
 if(is.null(targetE))
  {
-# the five domintant eccentricity peaks based on spectral analysis of LA10d solution 
+# the five dominant eccentricity peaks based on spectral analysis of LA10d solution 
 #   (Laskar et al., 2011), 0-20 Ma
      targetE <- double(5)
      targetE[1] = 405.6795

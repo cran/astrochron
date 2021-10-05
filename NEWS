@@ -1,3 +1,31 @@
+astrochron v1.1 (Release date: 2021-11-05)
+================
+
+New functions: 
+
+* function timeOptSimPwrLaw
+* function mwinGrid
+* function mwStatsGrid
+
+The following functions accompany Liu et al. (2021):
+* function conv_fft
+* function bioturb
+* function unbioturb
+* function deconv
+* function impulseResponse
+
+Other changes:
+
+* added viridis as default color scale for these functions: eha, plotEha, eTimeOpt, eAsm, integratePower, traceFreq, trackFreq, tracePeak, trackPeak, mwinStatsGrid
+* function peak: added option to output the plateau points that are not evaluated
+* function trough: added option to output the plateau points that are not evaluated
+* function autoPlot: added dmin and dmax options
+* function timeOptTemplate: added option to output sedimentation rate at each depth or height
+* function slideCor: linear detrending option added, new minpts default, minpts reset to maximum possible when specified value is too large, plotting modifications.
+* assorted modifications for CRAN compliance
+
+
+
 astrochron v1.0 (Release date: 2021-02-10)
 ================
 

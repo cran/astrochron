@@ -5,15 +5,16 @@
 \title{astrochron: A Computational Tool for Astrochronology}
 \description{
 This software provides routines for astrochronologic testing, astronomical time scale 
-construction, and time series analysis. Also included are a range of statistical analysis 
-and modeling routines that are relevant to time scale development and paleoclimate analysis.
+construction, and time series analysis <doi:10.1016/j.earscirev.2018.11.015>. Also 
+included are a range of statistical analysis and modeling routines that are relevant 
+to time scale development and paleoclimate analysis.
 }
 \details{
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2021-02-10\cr
+Version: \tab 1.1\cr
+Date: \tab 2021-11-05\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~
@@ -26,11 +27,18 @@ Maintainer: Stephen Meyers <smeyers@geology.wisc.edu>
 
 \note{
 
-Development of the 'astrochron' package is partially supported by the U.S. National Science Foundation:
+Development of the 'astrochron' package is partially supported by the U.S. National Science Foundation and the Heising-Simons Foundation:
 
-\emph{CAREER: Deciphering the Beat of a Timeless Rhythm - The Future of Astrochronology (EAR 1151438 to S. Meyers)}
+\emph{Leveraging the Geologic Record to Constrain Solar System Evolution, Earth-Moon Dynamics, Paleoclimate Change and Geological Time (Award 2021-2797)}
 
-\emph{Collaborative Research: Evolution of the Climate Continuum- Late Paleogene to Present (OCE 1003603 to S. Meyers and L. Hinnov)}
+\emph{Collaborative Research: Improving the Late Cretaceous-Eocene geomagnetic polarity time scale by integrating the global magnetic anomaly record and astrochronology (Award OCE 2051616)}
+
+\emph{CAREER: Deciphering the Beat of a Timeless Rhythm - The Future of Astrochronology (Award EAR 1151438)}
+
+\emph{Collaborative Research: Evolution of the Climate Continuum - Late Paleogene to Present (Award OCE 1003603)}
+
+
+
 
 TO CITE THIS PACKAGE IN PUBLICATIONS, PLEASE USE:
 
@@ -42,6 +50,13 @@ Also cite the original research papers that document the relevant algorithms, as
 
 %%~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
 \keyword{ package }
+
+\references{
+S.R. Meyers, 2019, 
+\emph{Cyclostratigraphy and the problem of astrochronologic testing}: Earth-Science Reviews
+v.190, 190-223, doi:10.1016/j.earscirev.2018.11.015.
+}
+
 \examples{
 %%~~ simple examples of the most important functions ~~
 ### EXAMPLES OF SOME FUNCTIONS AVAILABLE IN THIS SOFTWARE:
@@ -69,7 +84,7 @@ freqs=peak(spec,level=0.9)[2]
 rayleigh=0.1245274
 # set Nyquist frequency in cycles/m
 nyquist=6.66597
-# set orbital target in 1/ky
+# set astronomical target in 1/ky
 target=c(1/405.47,1/126.98,1/96.91,1/37.66,1/22.42,1/18.33)
 # execute ASM
 asm(freq=freqs,target=target,rayleigh=rayleigh,nyquist=nyquist,sedmin=0.5,sedmax=3,numsed=100,

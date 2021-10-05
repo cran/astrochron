@@ -2,7 +2,8 @@
 ### Copyright (C) 2018 Stephen R. Meyers
 ###
 ##############################################################################
-### testBackground function - (SRM: November 19-29, 2017; December 4-5, 2017)
+### testBackground function - (SRM: November 19-29, 2017; December 4-5, 2017
+###                                 October 4, 2021)
 ###
 ### Evaluate false positive rate and frequency distribution for
 ###  a range of different noise types and background estimation
@@ -10,7 +11,7 @@
 ###########################################################################
 
 
-testBackground <- function (npts=1001,dt=5,noiseType="ar1",coeff=NULL,method="periodogramAR1",opt=NULL,demean=T,detrend=F,low=0,tbw=3,multi=F,iter=2000,output=F,verbose=T,genplot=F)
+testBackground <- function (npts=1001,dt=5,noiseType="ar1",coeff=NULL,method="periodogramAR1",opt=NULL,demean=T,detrend=F,low=0,tbw=3,multi=F,iter=2000,output=F,genplot=F,verbose=T)
 {
 
 ###########################################################################

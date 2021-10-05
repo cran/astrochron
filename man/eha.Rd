@@ -6,7 +6,7 @@ Evolutive Harmonic Analysis & Evolutive Power Spectral Analysis using the Thomso
 }
 \usage{
 eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
-    sigID=F,ydir=1,output=0,pl=1,palette=1,centerZero=T,ncolors=100,xlab,ylab,
+    sigID=F,ydir=1,output=0,pl=1,palette=6,centerZero=T,ncolors=100,xlab,ylab,
     genplot=2,verbose=T)
 }
 \arguments{
@@ -24,7 +24,7 @@ eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
   \item{ydir}{Direction for y-axis in EHA plots (depth,height,time). -1 = values increase downwards (slower plotting), 1 = values increase upwards}
   \item{output}{Return output as new data frame? 0=no; 1=all results; 2=power; 3=amplitude; 4=probability; 5=significant frequencies (only for one spectrum); 6=significant frequencies and their probabilities (only for one spectrum)}
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}
-  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red (if values are negative and positive, white is centered on zero)}
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red (if values are negative and positive, white is centered on zero), (6) viridis}
   \item{centerZero}{Center color scale on zero (use an equal number of postive and negative color divisions)? (T or F)}
   \item{ncolors}{Number of colors steps to use in palette.}
   \item{xlab}{Label for x-axis. Default = "Frequency"}

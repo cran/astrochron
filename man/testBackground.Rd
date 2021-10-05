@@ -14,7 +14,7 @@ Crampton et al. (PNAS).
 \usage{
 testBackground(npts=1001,dt=5,noiseType="ar1",coeff=NULL,method="periodogramAR1",
                opt=NULL,demean=T,detrend=F,low=0,tbw=3,multi=F,iter=2000,output=F,
-               verbose=T,genplot=F)
+               genplot=F,verbose=T)
 }
 \arguments{
   \item{npts}{Number of points in simulated stratigraphic series (surrogates).}
@@ -30,8 +30,8 @@ testBackground(npts=1001,dt=5,noiseType="ar1",coeff=NULL,method="periodogramAR1"
   \item{multi}{Evaluate a range of multiple-comparison tests too? (T or F)}
   \item{iter}{Number of iterations (surrogate series) for Monte Carlo simulation.}
   \item{output}{Output data frame? (T or F)} 
-  \item{verbose}{Verbose output? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
+  \item{verbose}{Verbose output? (T or F)}
 }
 \details{
 The Monte Carlo simulations can utilize AR1 or Power Law noise surrogates.
@@ -77,11 +77,11 @@ D.J. Thomson, 1982,
 
 
 \examples{
-\dontrun{
+ \dontrun{
 # evaluate false positive rate for MTM-AR1 using AR1 surrogates
 testBackground(noiseType="ar1",method="mtmAR1")
 
 # evaluate false positive rate for MTM-AR1 using Power Law surrogates
 testBackground(noiseType="pwrLaw",method="mtmAR1")
-}
+ }
 }

@@ -39,7 +39,7 @@ Laskar, J., Robutel, P., Joutel, F., Gastineau, M., Correia, A.C.M., Levrard, B.
 }
 
 \examples{
-\dontrun{
+ \dontrun{
 
 # run simulations using the default settings
 ar1etp()
@@ -50,5 +50,5 @@ ex1=etp(tmin=0,tmax=2000,dt=5)
 # run simulations, with rho=-.7, and scaling noise to have 50% of the etp model variance
 ar1etp(etpdat=ex1,rho=0.7,wtAR=sqrt(0.5))
 
-}
+ }
 }

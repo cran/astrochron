@@ -67,7 +67,7 @@ Astron. Astrophys., Volume 428, 261-285.
 }
 
 \examples{
-\dontrun{
+ \dontrun{
 ### as a test series, use the three dominant precession terms from Berger et al. (1992)
 ex<-cycles(start=0,end=1000,dt=2)
 
@@ -81,5 +81,5 @@ solution<-getLaskar()
 
 ### now conduct astrochronologic testing
 res2<-testPrecession(ex,solution=solution)
-}
+ }
 }

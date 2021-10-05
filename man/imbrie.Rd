@@ -100,5 +100,5 @@ ex=imbrie(insolation=insolation,Tm=set_Tm[,2],b=set_b[,2],times=set_b[,1])
 # time-frequency analysis of model result
 eha(ex,fmax=0.1,win=500,step=10,pad=5000,genplot=4,pl=2)
 
-}
+ }
 }

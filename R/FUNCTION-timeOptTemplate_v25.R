@@ -8,7 +8,7 @@
 ###                          May 4, 2016; May 10, 2016; May 17, 2016; 
 ###                          December 14-18, 2017; December 21, 2017; 
 ###                          November 22, 2018; November 24, 2018; December 2, 2018
-###                          January 7, 2019; January 14, 2021)
+###                          January 7, 2019; January 14, 2021; May 17, 2021)
 ###########################################################################
 
 timeOptTemplate <- function (dat,template=NULL,sedmin=0.5,sedmax=5,difmin=NULL,difmax=NULL,fac=NULL,numsed=50,linLog=1,limit=T,fit=1,fitModPwr=T,iopt=3,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,cormethod=1,detrend=T,detrendTemplate=F,flipTemplate=F,ncores=1,output=0,genplot=1,check=T,verbose=1)
@@ -718,6 +718,13 @@ fitIt <- function(srMax)
 #######################################################################################
 # (7)  Summary plots
 #######################################################################################
+# calculate optimal sedimentation rates for plotting and output
+  slope = (srMax-srMin)/(max(template[,2])-min(template[,2]))
+  b = srMax-(slope*max(template[,2]))
+  scaled[,2] = (slope*template[,2])+b
+# sedrate2time is expecting sedrates in cm/ka
+  scaled[,2] = scaled[,2] * 100
+
   if(genplot>0)
    { 
      dev.new()
@@ -725,11 +732,6 @@ fitIt <- function(srMax)
 # plot least squares fitting results. Note, cex is the factor by which to increase or decrease default symbol size
      plot(sedrate*100,rPwr,cex=.75,col="red",xlab="Average Sedimentation Rate (cm/ka)",ylab="r-squared",main="Fit")
 # sedrate plot
-     slope = (srMax-srMin)/(max(template[,2])-min(template[,2]))
-     b = srMax-(slope*max(template[,2]))
-     scaled[,2] = (slope*template[,2])+b
-# sedrate2time is expecting sedrates in cm/ka
-     scaled[,2] = scaled[,2] * 100    
      plot(scaled,xlab="Depth (m)",ylab="Sedimentation rate (cm/ka)",main="Sedimentation Rates", col="red",type="l")
 # plot bp of precession, hil and ecc estimated by least squares fitting
      plot(bp,col="blue",cex=.5,xlab="Time (ka)",ylab="Value",main="Hilbert vs. Bandpass",ylim=c(min(bp),max(hil[,2],lm.3$fitted)))
@@ -759,7 +761,7 @@ fitIt <- function(srMax)
 #######################################################################################
 # (8)  Output results
 #######################################################################################
-# return sedimentation rate grid, r*p  
+# return r2opt sedimentation rate grid, r*p  
   if(output == 1) 
    {
      out <- data.frame (cbind(100*sedrate,rPwr) )
@@ -774,6 +776,13 @@ fitIt <- function(srMax)
      if(fit==1) colnames(out) <- c("time","value","filtered_precession","precession_envelope","reconstructed_ecc_model")
      if(fit==2) colnames(out) <- c("time","value","filtered_short_ecc","short_ecc_envelope","reconstructed_ecc_model")
      return(out)
+   }  
+
+# return sedimentation rates
+  if(output == 3) 
+   {   
+     colnames(scaled) <- c("depth","sedrate")
+     return(scaled)
    }  
 
 ### END function timeOptTemplate

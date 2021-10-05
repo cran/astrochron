@@ -6,8 +6,8 @@ Determine the total power within a given bandwidth, and also the ratio of this p
 }
 \usage{
 integratePower(spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmin=NULL,
-               xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,ncolors=100,
-               h=6,w=9,ln=F,genplot=T,verbose=T)
+               xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,
+               palette=6,ncolors=100,h=6,w=9,ln=F,genplot=T,verbose=T)
 }
 \arguments{
   \item{spec}{Spectral results to evaluate. If the data frame contains time-frequency results,
@@ -26,6 +26,7 @@ integratePower(spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmin=NULL,
   \item{npts}{The number of points in the processed time series window. This is needed for proper spectrum normalization.} 
   \item{pad}{The total padded length of the processed time series window. This is needed for proper spectrum normalization.} 
   \item{ydir}{Direction for y-axis in plots (depth or height). -1 = values increase downwards (slower plotting!), 1 = values increase upwards. Only used if processing time-frequency results.} 
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red, (6) viridis}
   \item{ncolors}{Number of colors to use in plot. Only used if processing time-frequency results.}
   \item{h}{Height of plot in inches.}
   \item{w}{Width of plot in inches.}  

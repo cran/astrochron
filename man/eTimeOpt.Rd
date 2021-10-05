@@ -7,7 +7,7 @@ eTimeOpt: Evolutive implementation of TimeOpt (Meyers, 2015; Meyers, 2019).
 \usage{
 eTimeOpt(dat,win=dt*100,step=dt*10,sedmin=0.5,sedmax=5,numsed=100,linLog=1,
     limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,
-    detrend=T,ydir=1,output=1,genplot=T,check=T,verbose=1)
+    detrend=T,ydir=1,palette=6,ncolors=100,output=1,genplot=T,check=T,verbose=1)
 }
 \arguments{
   \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
@@ -27,6 +27,8 @@ eTimeOpt(dat,win=dt*100,step=dt*10,sedmin=0.5,sedmax=5,numsed=100,linLog=1,
   \item{targetP}{A vector of precession periods to evaluate (in ka). These must be in order of decreasing period.}
   \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{ydir}{Direction for y-axis in plots (depth,height,time). -1 = values increase downwards (slower plotting), 1 = values increase upwards}
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red (if values are negative and positive, white is centered on zero), (6) viridis}
+  \item{ncolors}{Number of colors steps to use in palette.}
   \item{output}{Which results would you like to return to the console? (0) no output; (1) everything, (2) r^2_envelope, (3) r^2_power, (4) r^2_opt}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}

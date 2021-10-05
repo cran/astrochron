@@ -1,11 +1,11 @@
-\name{timeOptSim}
-\alias{timeOptSim}
-\title{Monte Carlo simulation for TimeOpt}
+\name{timeOptSimPwrLaw}
+\alias{timeOptSimPwrLaw}
+\title{Monte Carlo simulation for TimeOpt, using power law (1/f) noise}
 \description{
-Perform Monte Carlo AR1 simulations to evaluate significance of TimeOpt results, as in Meyers (2015).
+Perform Monte Carlo power law (1/f) simulations to evaluate significance of TimeOpt results, as in Meyers (2015).
 }
 \usage{
-timeOptSim(dat,numsim=2000,rho=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,
+timeOptSimPwrLaw(dat,numsim=2000,beta=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,
          linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,
          targetE=NULL,targetP=NULL,detrend=T,ncores=2,output=0,genplot=T,
          check=T,verbose=T)
@@ -13,8 +13,8 @@ timeOptSim(dat,numsim=2000,rho=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,
 
 \arguments{
   \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
-  \item{numsim}{Number of Monte Carlo AR1 simulations.}
-  \item{rho}{AR1 coefficient to use in simulations. By default this will be estimated from the stratigraphic series.}
+  \item{numsim}{Number of Monte Carlo power law (1/f) simulations.}
+  \item{beta}{Power law coefficient for 1/f noise. Positive number yields a negative slope. By default this will be estimated from the stratigraphic series.}
   \item{sedrate}{Sedimentation rate for investigation (cm/ka). This options is for compatibility with prior versions of timeOptSim. Please use sedmin, sedmax, numsed.}
   \item{sedmin}{Minimum sedimentation rate for investigation (cm/ka).}
   \item{sedmax}{Maximum sedimentation rate for investigation (cm/ka).}
@@ -65,6 +65,6 @@ ex=etp(tmin=1,tmax=1000,dt=5,pWt=1,oWt=0,eWt=1,esinw=TRUE,genplot=FALSE,verbose=
 # convert to meters with sedimentation rate of 2 cm/kyr
 ex[1]<-ex[1]*0.02
 # evaluate with timeOptSim. be patient, this may take a while to run.
-timeOptSim(ex,sedmin=0.5,sedmax=5,numsed=100)
+timeOptSimPwrLaw(ex,sedmin=0.5,sedmax=5,numsed=100)
  }
 }

@@ -6,11 +6,12 @@
 ###                 ratio it to the total power in the spectrum
 ###                 (SRM: December 13, 2013; December 14, 2013; December 17, 2013;
 ###                   December 18, 2013; December 24, 2013; January 15-16, 2015;
-###                   March 6, 2015; March 19, 2015; February 14, 2017)
+###                   March 6, 2015; March 19, 2015; February 14, 2017;
+###                   August 30, 2021)
 ###
 ###########################################################################
 
-integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,ncolors=100,h=6,w=9,ln=F,genplot=T,verbose=T)
+integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,npts=NULL,pad=NULL,ydir=1,palette=6,ncolors=100,h=6,w=9,ln=F,genplot=T,verbose=T)
 {
 
  if(verbose) cat("\n----- INTEGRATING POWER SPECTRUM -----\n")
@@ -34,6 +35,12 @@ integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmi
        cat("\n**** ERROR: pad must be larger than, or equal to, npts.\n")
        stop("**** TERMINATING NOW!")
    }   
+
+ if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5 && palette != 6) 
+   {
+       cat("\n**** WARNING: palette option not valid. Will use palette = 6.\n")
+       palette = 6
+   }
    
  if(!unity) fac=0.5*(pad/npts)
  if(unity) fac=0.5 
@@ -92,6 +99,20 @@ integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmi
    
  if(plotit && numrec>1)
    {   
+# set color palette
+#  rainbow colors
+     if(palette == 1) colPalette = tim.colors(ncolors)
+#  grayscale
+     if(palette == 2) colPalette = gray.colors(n=ncolors,start=1,end=0,gamma=1.75)
+#  dark blue scale (from larry.colors)
+     if(palette == 3) colPalette = colorRampPalette(c("white","royalblue"))(ncolors)
+#  red scale
+     if(palette == 4) colPalette = colorRampPalette(c("white","red2"))(ncolors)
+#  blue to red plot
+     if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+# viridis colormap
+     if(palette == 6) colPalette = viridis(ncolors, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
+
 # spectrogram plot
      dev.new(height=h,width=w)
      mat <- matrix(c(1, 2, 3, 4), nrow = 1, ncol = 4)
@@ -113,7 +134,7 @@ integratePower <- function (spec,flow=NULL,fhigh=NULL,fmax=NULL,unity=F,f0=T,xmi
        {
 # useRaster=T results in a faster plotting time.
         ylimset=c(ymin,ymax)
-        image(freq,loc,spPlot,xlim=xlimset,ylim=ylimset,col = tim.colors(ncolors),useRaster=T,xlab="Frequency",ylab="Location",main="")       
+        image(freq,loc,spPlot,xlim=xlimset,ylim=ylimset,col = colPalette,useRaster=T,xlab="Frequency",ylab="Location",main="")       
         if(is.null(flow) || is.null(fhigh)) mtext("Select frequency band by clicking twice on plot",side=3,line=1)
        }
 

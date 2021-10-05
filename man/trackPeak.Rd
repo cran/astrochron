@@ -6,8 +6,8 @@ A tool to interactively select points to track peak trajectories on plots, for r
 }
 \usage{
 trackPeak(dat,threshold=NULL,pick=T,minVal=NULL,maxVal=NULL,dmin=NULL,dmax=NULL,
-          xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,ydir=-1,h=6,w=4,ncolors=100,
-          genplot=T,verbose=T)
+          xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=-1,
+          palette=6,ncolors=100,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{Data frame with results to evaluate. It must have the following format: column 
@@ -25,9 +25,10 @@ trackPeak(dat,threshold=NULL,pick=T,minVal=NULL,maxVal=NULL,dmin=NULL,dmax=NULL,
   \item{xmax}{Maximum parameter value for PLOTTING.}
   \item{ymin}{Minimum depth/height/time for PLOTTING.}
   \item{ymax}{Maximum depth/height/time for PLOTTING.} 
-  \item{ydir}{Direction for y-axis in plots (depth or height). -1 = values increase downwards (slower plotting!), 1 = values increase upwards.} 
   \item{h}{Height of plot in inches.}
   \item{w}{Width of plot in inches.}
+  \item{ydir}{Direction for y-axis in plots (depth or height). -1 = values increase downwards (slower plotting!), 1 = values increase upwards.} 
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red, (6) viridis}
   \item{ncolors}{Number of colors to use in plot.}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}

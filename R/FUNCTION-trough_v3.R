@@ -1,14 +1,15 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2021 Stephen R. Meyers
 ###
 ###########################################################################
 ### function trough : find minima of troughs in series, report those that
 ###                   fall below a threshold value (February 3, 2015;
-###                   February 7, 2015; August 17, 2015; March 20, 2017)
+###                   February 7, 2015; August 17, 2015; March 20, 2017;
+###                   June 27, 2021)
 ###
 ###########################################################################
 
-trough <- function (dat,level=NULL,genplot=T,verbose=T) 
+trough <- function (dat,level=NULL,plateau=F,genplot=T,verbose=T) 
 {
 
 if(verbose) cat("\n----- FINDING MINIMA OF TROUGHS, FILTERING AT THRESHOLD VALUE -----\n")
@@ -65,8 +66,11 @@ if(numplat>0)
       colnames(plats)[3] <- 'Plateau_Value'
     }
 # this warning should be output regardless of whether verbose selected.
-      cat("\n**** WARNING: The following plateaus were not evaluated!:\n")
-      print(plats)  
+      if(verbose)
+       {
+         cat("\n**** WARNING: The following plateaus were not evaluated!:\n")
+         print(plats)
+       }   
  }
   
 if(ncols == 1) { ymin <- y[loc] }
@@ -172,7 +176,8 @@ if(numtrough>0 && genplot)
 # end skip=F
 }
  
-if(numtrough>0) return( out )
+if(!plateau && numtrough>0) return( out )
+if(plateau && numplat>0) return( plats )
 
 ### END function trough
 }

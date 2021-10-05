@@ -1,14 +1,14 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2021 Stephen R. Meyers
 ###
 ###########################################################################
 ### plotEha: create time-frequency plots from eha results using image 
 ###          or image.plot (SRM: Aug. 8, 2013; April 20, 2014; January 16, 2015
-###                              February 10, 2017; January 30, 2018)
+###                              February 10, 2017; January 30, 2018; August 25, 2021)
 ###                                                                 
 ###########################################################################
 
-plotEha <- function (spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,pl=0,norm=NULL,palette=1,centerZero=T,ncolors=100,colorscale=F,xlab=NULL,ylab=NULL,filetype=0,output=T,verbose=T)
+plotEha <- function (spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,pl=0,norm=NULL,palette=6,centerZero=T,ncolors=100,colorscale=F,xlab=NULL,ylab=NULL,filetype=0,output=T,verbose=T)
 {  
 
 # uses fields library for tim.colors
@@ -19,10 +19,10 @@ plotEha <- function (spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1
   spec=data.frame(spec)
 
 # error checking
-  if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5) 
+  if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5 && palette != 6) 
      {
-       cat("\n**** WARNING: palette option not valid. Will use palette = 1.\n")
-       palette = 1
+       cat("\n**** WARNING: palette option not valid. Will use palette = 6.\n")
+       palette = 6
      }
      
   if (is.null(xlab)) xlab = c("Frequency")
@@ -50,7 +50,8 @@ plotEha <- function (spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1
   if(is.null(norm) && pl == 3) stop("**** ERROR: variable norm is not defined! Terminating now!")
   if(!is.null(norm)) norm=data.frame(norm)
 
-# use fields library for access to 'tim.colors' only
+# use fields library for access to 'tim.colors'
+# use viridisLite for access to 'viridis'
 
 # for plotting
   if(is.null(xmin)) xmin = min(freq)
@@ -91,6 +92,9 @@ plotEha <- function (spec,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1
 #  blue to red plot
 # if(palette == 5) colPalette = append(colorRampPalette(c("#023858","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
  if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+# viridis colormap
+ if(palette == 6) colPalette = viridis(ncolors, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
+
 
 # this centers the color scale on zero (an equal number of color divisions above and below zero), as recommended by Nature (Feb. 10, 2017)
  if(max(sp_plot) > 0 && min(sp_plot) < 0 && centerZero)

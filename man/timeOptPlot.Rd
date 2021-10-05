@@ -35,7 +35,7 @@ S.R. Meyers, 2015,
 }
 
 \examples{
-\dontrun{
+ \dontrun{
 # generate a test signal with precession and eccentricity
 ex=etp(tmin=1,tmax=1000,dt=1,pWt=1,oWt=0,eWt=1,esinw=TRUE,genplot=FALSE,verbose=FALSE)
 # convert to meters with sedimentation rate of 2 cm/kyr
@@ -48,5 +48,5 @@ timeOptPlot(ex,res1,res2,simres,flow=0.035,fhigh=0.065,roll=10^3,
  targetE=c(405.6795,130.719,123.839,98.86307,94.87666),
  targetP=c(23.62069,22.31868,19.06768,18.91979),xlab="Depth (m)",
  ylab="Value",fitR=0.832,verbose=T)
-}
+ }
 }

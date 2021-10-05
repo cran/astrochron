@@ -1,11 +1,12 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2021 Stephen R. Meyers
 ###
 ###########################################################################
 ### imbrie: Imbrie and Imbrie (1980) ice model. Model follows convention
 ###         used in Analyseries.
 ###          (SRM: April 14-16, 2015; June 19, 2018; December 5-6, 2018; 
-###                January 7, 2019)
+###                January 7, 2019; December 3, 2020; January 14, 2021; 
+###                October 4, 2021)
 ###
 ###########################################################################
 
@@ -49,7 +50,7 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
 
 
 # flip so we are going from past to present
-  insolation <- insolation[order(insolation[1], na.last = NA, decreasing = T),]
+  insolation <- insolation[order(insolation[,1], na.last = NA, decreasing = T),]
   insolation[1] <- insolation[1]*-1  
 
 # center the insolation to mean of zero
@@ -63,7 +64,7 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
 
   if(is.null(times))
    {
-# caculate first dydt
+# calculate first dydt
 # follow convention of Analyseries.
 # if present ice sheet index is less than or equal to -insolation, grow  
      if(x[1]>y[1]) dydt[1] <- ( (1-b) / Tm ) * ( x[1]-y[1] )
@@ -82,7 +83,7 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
    {
      ice=data.frame(cbind(times,Tm,b))    
 # also flip sequence of ice model parameters to match insolation direction
-     ice <- ice[order(ice[1], na.last = NA, decreasing = T),]
+     ice <- ice[order(ice[,1], na.last = NA, decreasing = T),]
      ice[1] <- ice[1]*-1
 # find first value to use
      getTime=max(which( ice[1] <= insolation[1,1] ))
@@ -103,7 +104,7 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
   out<-data.frame(cbind(insolation[burnin:npts,1],y[burnin:npts]))
 
 # flip to original direction
-  out <- out[order(out[1], na.last = NA, decreasing = T),]
+  out <- out[order(out[,1], na.last = NA, decreasing = T),]
   out[1] <- out[1]*-1  
 
   if(standardize) 
@@ -112,16 +113,17 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
      out[2] <- out[2]/max(out[2])
    }  
 
-if(genplot==1 || genplot==2)
+if(genplot==1 || genplot==2 || genplot==3)
   {
 # remove burn in points, and make a data frame
   insolation<-data.frame(cbind(insolation[burnin:npts,1],insolation[burnin:npts,2]))
 
 # flip to original direction
-  insolation <- insolation[order(insolation[1], na.last = NA, decreasing = T),]
+  insolation <- insolation[order(insolation[,1], na.last = NA, decreasing = T),]
   insolation[1] <- insolation[1]*-1  
   
 ### plots
+# 2 plots, no animation
    if(genplot==1) 
     {
      par(mfrow=c(2,1))
@@ -131,22 +133,37 @@ if(genplot==1 || genplot==2)
      polygon(c(min(out[,1]),out[,1],max(out[,1])),c(min(out[,2]),out[,2],min(out[,2])),col="cornflowerblue",border=NA)
    }
 
+# three plots with animation
    if(genplot==2) 
     {
-      dev.new(height=6,width=10)
+      dev.new(height=5.5,width=10)
       layout(matrix(c(1,2,3,3), 2, 2, byrow = FALSE))
       pts2=length(out[,2])
       xlim=c(min(insolation[1:pts2,2]),max(insolation[1:pts2,2]))
       ylim=c(min(out[1:pts2,2]),max(out[1:pts2,2]))
       for(i in pts2:1)
        {
-         plot(insolation[i:pts2,1],insolation[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Insolation",main="Insolation model",type="l",ylim=xlim,col="red")
-         plot(out[i:pts2,1],out[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Ice volume",main="Ice volume model",type="l",ylim=ylim,col="cornflowerblue")
-         plot(insolation[i:pts2,2],out[i:pts2,2],type="l",xlab="Insolation",ylab="Ice volume",col="darkgreen",lty=2,xlim=xlim,ylim=ylim)
+         plot(insolation[i:pts2,1],insolation[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Insolation",main="Insolation model",type="l",ylim=xlim,col="red",lwd=2)
+         plot(out[i:pts2,1],out[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Ice volume",main="Ice volume model",type="l",ylim=ylim,col="cornflowerblue",lwd=2)
+         plot(insolation[i:pts2,2],out[i:pts2,2],type="l",xlab="Insolation",ylab="Ice volume",col="darkgreen",lty=2,xlim=xlim,ylim=ylim,lwd=2)
          points(insolation[i,2],out[i,2],col="darkgreen",pch=16)
          Sys.sleep(0.15)
        }
     }    
+
+# three plots, no animation
+   if(genplot==3) 
+    {
+      dev.new(height=5.5,width=10)
+      layout(matrix(c(1,2,3,3), 2, 2, byrow = FALSE))
+      plot(insolation,cex=0.5,xlab="Time (ka BP)",ylab="Insolation",main="Insolation model",type="l",col="red",lwd=2)
+      plot(out,cex=0.5,xlab="Time (ka BP)",ylab="Ice volume",main="Ice volume model",type="l",col="cornflowerblue",lwd=2)
+      polygon(c(min(out[,1]),out[,1],max(out[,1])),c(min(out[,2]),out[,2],min(out[,2])),col="cornflowerblue",border=NA)
+      plot(insolation[,2],out[,2],type="l",xlab="Insolation",ylab="Ice volume",col="darkgreen",lty=2,lwd=2)
+      points(insolation[,2],out[,2],col="darkgreen",pch=16)
+    }    
+    
+# END all genplot
   }
   
   if(output) return(out)

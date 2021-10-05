@@ -86,7 +86,7 @@ I. Wendt and C. Carl, 1991,
 \seealso{ \code{\link{stepHeat}} }
 
 \examples{
-\dontrun{
+ \dontrun{
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
 # YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {
@@ -102,5 +102,5 @@ wtMean(age,sd)
 # to calculate the weighted mean without interactive plots and data culling
 wtMean(age,sd,cull=0,output=TRUE,genplot=FALSE,verbose=FALSE)
 }
-}
+ }
 }

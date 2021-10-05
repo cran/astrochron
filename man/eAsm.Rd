@@ -6,7 +6,7 @@ Calculate Evolutive Average Spectral Misfit with Monte Carlo spectra simulations
 }
 \usage{
 eAsm(spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,
-      numsed=50,linLog=1,iter=100000,ydir=1,output=4,genplot=F)
+      numsed=50,linLog=1,iter=100000,ydir=1,palette=2,output=4,genplot=F)
 }
 \arguments{
   \item{spec}{Time-frequency spectral results to evaluate. Must have the following format: column 
@@ -23,6 +23,7 @@ eAsm(spec,siglevel=0.9,target,fper=NULL,rayleigh,nyquist,sedmin=1,sedmax=5,
   \item{linLog}{Use linear or logarithmic scaling for sedimentation rate grid spacing? (0=linear, 1=log)}
   \item{iter}{Number of Monte Carlo simulations for significance testing. Maximum allowed is 100,000.}
   \item{ydir}{Direction for y-axis in plots (depth or height). -1 = values increase downwards (slower plotting!), 1 = values increase upwards.}
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) viridis}
   \item{output}{Return output as a new data frame? (0 = nothing, 1 = Ho-SL, 2 = ASM, 3 = # astronomical terms, 4 = everything)}
   \item{genplot}{Generate summary plots? (T or F)}
 }
@@ -45,7 +46,7 @@ S.R. Meyers, B.B. Sageman and M.A. Arthur, 2012,
 }
 
 \examples{
-\dontrun{
+ \dontrun{
 # use modelA as an example
 data(modelA)
 
@@ -68,5 +69,5 @@ HoSL18.23=extract(res[1],get=18.23,pl=1)
 
 # extract ASM result at 18.23 m
 asm18.23=extract(res[2],get=18.23,pl=0)
-}
+ }
 }

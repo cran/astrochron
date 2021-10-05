@@ -3,14 +3,15 @@
 ###
 ###########################################################################
 ### anchorTime function - (SRM: November 23, 2012; June 10, 2013; 
-###                             October 13, 2016; January 14, 2021)
+###                             October 13, 2016; January 14, 2021;
+###                             October 4, 2021)
 ###
 ### This script will anchor a floating time series to a radioisotopic age (or otherwise)
 ###  it centers a time series on a given (floating) time datum and 
 ###  assigns the anchored age.
 ###########################################################################
 
-anchorTime <- function (dat,time,age,timeDir=1,flipOut=F,verbose=T,genplot=T)
+anchorTime <- function (dat,time,age,timeDir=1,flipOut=F,genplot=T,verbose=T)
 {
    dat <- data.frame(dat)
    time=as.numeric(time)

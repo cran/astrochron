@@ -1,11 +1,12 @@
 \name{slideCor}
 \alias{slideCor}
-\title{Identify optimal spatial/temporal shift to maximize correlation between two stratigraphic series.}
+\title{Identify optimal spatial/temporal shift to maximize correlation between two stratigraphic/time series.}
 \description{
-Identify optimal spatial/temporal shift to maximize correlation between two stratigraphic series.
+Identify optimal spatial/temporal shift to maximize correlation between two stratigraphic/time series.
 }
 \usage{
-slideCor(dat1,dat2,rev=F,cormethod=1,minpts=5,output=T,genplot=T,verbose=T)
+slideCor(dat1,dat2,rev=F,cormethod=1,minpts=NULL,detrend=F,rmin=NULL,
+         output=T,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat1}{Stratigraphic series 1. First column should be location (e.g., depth), second column should be data value.}
@@ -13,6 +14,8 @@ slideCor(dat1,dat2,rev=F,cormethod=1,minpts=5,output=T,genplot=T,verbose=T)
   \item{rev}{Reverse polarity of stratigraphic series 2 (multiply proxy data value by -1)? (T or F)}
   \item{cormethod}{Method used for calculation of correlation coefficient (1=Pearson, 2=Spearman rank, 3=Kendall)}
   \item{minpts}{Minimum number of data points for calculation of correlation coefficient.}
+  \item{detrend}{Remove linear trend from each window? (T or F)}
+  \item{rmin}{Minimum r and r2 value shown on plots. By default all r and r2 values will be displayed.}
   \item{output}{Output correlation coefficient results as a dataframe? (T or F)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
@@ -53,13 +56,14 @@ ex1 <- ar1(npts=1000,dt=1)
 ex2 <- iso(ex1,xmin=200,500)
 ex2[1] <- ex2[1]-200
 
-slideCor(ex1,ex2)
+res=slideCor(ex1,ex2)
 
 # Example 2: an astronomical signal
 ex1=etp(tmin=0,tmax=1000)
-# isolate a section
+# isolate a 200 ka section
 ex2=iso(ex1,xmin=400,xmax=600)
+# convert to a floating timescale (elapsed time)
 ex2[1] <- ex2[1]-400
 
-slideCor(ex1,ex2)
+res=slideCor(ex1,ex2)
 }

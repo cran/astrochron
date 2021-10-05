@@ -6,7 +6,8 @@ Frequency-domain minimal tuning: Use interactive graphical interface and sorting
 }
 \usage{
 trackFreq(spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmin=NULL,
-          xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,ncolors=100,genplot=T,verbose=T)
+          xmax=NULL,ymin=NULL,ymax=NULL,h=6,w=4,ydir=1,palette=6,ncolors=100,genplot=T,
+          verbose=T)
 }
 \arguments{
   \item{spec}{Time-frequency spectral results to evaluate. Must have the following format: column 
@@ -25,6 +26,7 @@ trackFreq(spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmi
   \item{h}{Height of plot in inches.}
   \item{w}{Width of plot in inches.}
   \item{ydir}{Direction for y-axis in plots (depth or height). -1 = values increase downwards (slower plotting!), 1 = values increase upwards.} 
+  \item{palette}{What color palette would you like to use? (1) rainbow, (2) grayscale, (3) blue, (4) red, (5) blue-white-red, (6) viridis}
   \item{ncolors}{Number of colors to use in plot.}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
@@ -33,7 +35,7 @@ trackFreq(spec,threshold=NULL,pick=T,fmin=NULL,fmax=NULL,dmin=NULL,dmax=NULL,xmi
 \seealso{ \code{\link{eha}} and \code{\link{traceFreq}} }
 
 \examples{
-\dontrun{
+ \dontrun{
 # Check to see if this is an interactive R session, for compliance with CRAN standards.
 # YOU CAN SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {
@@ -51,5 +53,5 @@ out=eha(dat,output=4)
 freq=trackFreq(out,0.8)
 
 }
-}
+ }
 }

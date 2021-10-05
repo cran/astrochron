@@ -6,11 +6,11 @@
 ###          (SRM: Oct. 30, 2012; Jan. 18, 2013; May 20, 2013; June 19, 2013;
 ###                June 28, 2013; August 15, 2013; April 7, 2015; 
 ###                February 16, 2016; November 22, 2017; July 3, 2018;
-###                January 14, 2021)
+###                January 14, 2021; May 26, 2021)
 ###
 ###########################################################################
 
-autoPlot <- function (dat,cols=NULL,vertical=T,ydir=NULL,nrows=NULL,plotype=1,smooth=0,xgrid=1,output=F,genplot=T,verbose=T)
+autoPlot <- function (dat,cols=NULL,dmin=NULL,dmax=NULL,vertical=T,ydir=NULL,nrows=NULL,plotype=1,smooth=0,xgrid=1,output=F,genplot=T,verbose=T)
 {
 
 cat("\n----- PLOTTING (AND SMOOTHING) STRATIGRAPHIC DATA SERIES-----\n")
@@ -47,17 +47,30 @@ if(!is.null(cols))
      { 
        dat<-dat[,!delCol]
        ncols <- ncols-sum(delCol)
-       cat("\n * Some columns contain all NA entries, and will be removed\n")
+       if(verbose) cat("\n * Some columns contain all NA entries, and will be removed\n")
      }
   
 if(verbose) cat(" * Number of variables to plot=", ncols,"\n")
 
 if(genplot) 
  {
+  if(is.null(dmin)) dmin=min(dat[,1])
+  if(is.null(dmax)) dmax=max(dat[,1])
+# check for error on input
+  if(dmin<min(dat[,1])) 
+   {
+     if(verbose) cat("\n**** WARNING: dmin set too low. Resetting to default.\n")
+     dmin=min(dat[,1])
+    } 
+  if(dmax>max(dat[,1])) 
+   {
+     if(verbose) cat("\n**** WARNING: dmax set too high. Resetting to default.\n")  
+     dmax=max(dat[,1])
+   }  
   if(vertical && is.null(ydir)) ydir=-1
   if(!vertical && is.null(ydir)) ydir=1 
-  if(ydir == 1) ylimset = c(min(dat[,1]), max(dat[,1]))
-  if(ydir == -1) ylimset = c(max(dat[,1]), min(dat[,1]))
+  if(ydir == 1) ylimset = c(dmin, dmax)
+  if(ydir == -1) ylimset = c(dmax, dmin)
   if(vertical) par(mar = c(4, 2.5, 1, 2))
   if(!vertical) par(mar = c(2.5, 4, 1, 2))
   if(is.null(nrows))

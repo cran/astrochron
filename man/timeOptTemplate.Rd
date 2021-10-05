@@ -37,7 +37,7 @@ timeOptTemplate(dat,template=NULL,sedmin=0.5,sedmax=5,difmin=NULL,difmax=NULL,fa
   \item{detrendTemplate}{Remove linear trend from sedimentation rate template? (T or F)}
   \item{flipTemplate}{Flip direction of sedimentation rate template? (T or F)}
   \item{ncores}{Number of cores to use for parallel processing}
-  \item{output}{Which results you like to return to console? (0) no output; (1) return sedimentation rate grid, r2; (2) return optimal time series, bandpassed series, Hilbert and fitted periods}
+  \item{output}{Which results you like to return to console? (0) no output; (1) return sedimentation rate grid, r2opt; (2) return optimal time series, bandpassed series, Hilbert and fitted periods; (3) return the optimal sedimentation rate at each depth or height}
   \item{genplot}{Generate summary plots? (0 = nothing, 1=summary plot, 2=progress + summary plots)}
   \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (0 = nothing, 1=minimal, 2=everything)}

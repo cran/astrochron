@@ -10,12 +10,12 @@
 ###                      May 24, 2015; Sept. 10, 2015; August 22, 2016;
 ###                      September 3, 2016; December 12-13, 2016; 
 ##                       February 10-14, 2017; March 20, 2017; November 20, 2017;
-###                      January 14, 2021)
+###                      January 14, 2021; August 25, 2021)
 ###
 ### uses EHA (FORTRAN) library and built-in functions from R
 ###########################################################################
 
-eha <- function (dat,tbw=2,pad=defaultPad,fmin=0,fmax=Nyq,step=dt*10,win=dt*100,demean=T,detrend=T,siglevel=0.90,sigID=F,ydir=1,output=0,pl=1,palette=1,centerZero=T,ncolors=100,xlab=NULL,ylab=NULL,genplot=2,verbose=T)
+eha <- function (dat,tbw=2,pad=defaultPad,fmin=0,fmax=Nyq,step=dt*10,win=dt*100,demean=T,detrend=T,siglevel=0.90,sigID=F,ydir=1,output=0,pl=1,palette=6,centerZero=T,ncolors=100,xlab=NULL,ylab=NULL,genplot=2,verbose=T)
 {
 
 # uses fields library for plotting, multitaper library to generate dpss tapers
@@ -49,10 +49,10 @@ dt <- dat[2,1]-dat[1,1]
        stop("**** TERMINATING NOW!")
      }
 
-   if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5) 
+   if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5 && palette != 6) 
      {
-       cat("\n**** WARNING: palette option not valid. Will use palette = 1.\n")
-       palette = 1
+       cat("\n**** WARNING: palette option not valid. Will use palette = 6.\n")
+       palette = 6
      }
 
 if(verbose)
@@ -228,6 +228,8 @@ if(nspec > 1)
  if(palette == 4) colPalette = colorRampPalette(c("white","red2"))(ncolors)
 #  blue to red plot
  if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+# viridis colormap
+ if(palette == 6) colPalette = viridis(ncolors, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
 
  if (genplot == 1 || genplot == 2 || genplot == 3)
   {

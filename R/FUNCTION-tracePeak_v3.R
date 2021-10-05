@@ -4,18 +4,24 @@
 ###########################################################################
 ### tracePlot: this is a tool to interactively trace peak trajectories on 
 ###            plots, for results from such functions as eTimeOpt, eha, eAsm
-###            (SRM: December 7, 2017; January 14, 2021)
+###            (SRM: December 7, 2017; January 14, 2021; August 30, 2021)
 ###  
 ###########################################################################
 
-tracePeak <- function (dat,color=2,h=6,w=4,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,ydir=-1,ncolors=100,path=1)
+tracePeak <- function (dat,color=2,h=6,w=4,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,ydir=-1,palette=6,ncolors=100,path=1)
 {
 
   cat("---- INTERACTIVELY TRACE TRAJECTORY ON PLOT ----\n")
   cat("\n  *****  Select path by clicking     *****\n")
   cat("  Stop by pressing ESC-key (Mac) or STOP button (Windows)\n")
 
-# use fields library for access to 'tim.colors'
+# use fields library for access to 'tim.colors', and viridisLite for access to 'viridis'
+  if( palette != 1 && palette != 2 && palette != 3 && palette != 4 && palette != 5 && palette != 6) 
+    {
+       cat("\n**** WARNING: palette option not valid. Will use palette = 6.\n")
+       palette = 6
+    }
+
   dat=data.frame(dat)
 
 # assign sedimentation rates from first column of dat
@@ -41,6 +47,20 @@ tracePeak <- function (dat,color=2,h=6,w=4,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NU
   if(path==2) pltype="l"
   if(path==3) pltype="p"
 
+# set color palette
+#  rainbow colors
+  if(palette == 1) colPalette = tim.colors(ncolors)
+#  grayscale
+  if(palette == 2) colPalette = gray.colors(n=ncolors,start=1,end=0,gamma=1.75)
+#  dark blue scale (from larry.colors)
+  if(palette == 3) colPalette = colorRampPalette(c("white","royalblue"))(ncolors)
+#  red scale
+  if(palette == 4) colPalette = colorRampPalette(c("white","red2"))(ncolors)
+#  blue to red plot
+  if(palette == 5) colPalette = append(colorRampPalette(c("royalblue","white"))(ncolors/2),colorRampPalette(c("white","red2"))(ncolors/2))
+# viridis colormap
+  if(palette == 6) colPalette = viridis(ncolors, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
+
 # set up plot
   dev.new(height=h,width=w)
   par(mfrow=c(1,1))
@@ -48,7 +68,7 @@ tracePeak <- function (dat,color=2,h=6,w=4,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NU
 
   if (ydir == -1) ylimset=c(ymax,ymin)
   if (ydir == 1) ylimset=c(ymin,ymax)
-  image(sedrates,loc,sp,xlim=xlimset,ylim=ylimset,col = tim.colors(ncolors),xlab="Parameter",ylab="Depth/Height/Time",main="Click on plot to define trajectory")       
+  image(sedrates,loc,sp,xlim=xlimset,ylim=ylimset,col = colPalette,xlab="Parameter",ylab="Depth/Height/Time",main="Click on plot to define trajectory")       
      
 # Now overlay x-y plot for graphical interface
   par(new=T)

@@ -7,7 +7,8 @@
 ###                         June 5, 2013; June 13, 2013; July 30-31, 2013;
 ###                         August 3, 2013; August 7-10, 2013; Nov. 26, 2013;
 ###                         October 18, 2014; October 22, 2014; January 21, 2015;
-###                         September 10, 2015; November 20-29, 2017; January 14, 2021)
+###                         September 10, 2015; November 20-29, 2017; 
+###                         January 14, 2021; October 4, 2021)
 ###
 ### simple unwindowed periodogram
 ###########################################################################
@@ -181,6 +182,7 @@ if(verbose)
           plot(fft.out[,1],fft.out[,3], type="l",col="red", ylab="Power", xlim=c(xmin,xmax),xlab="Frequency", main="Periodogram Power",bty="n")
           if(background > 0)
            { 
+             lines(fft.out[,1],fft.out[,6],lwd=2)
              lines(fft.out[,1],fft.out[,7],lwd=1,lty=3)
              lines(fft.out[,1],fft.out[,8],lwd=1,lty=3)
              lines(fft.out[,1],fft.out[,9],lwd=1,lty=3)
@@ -193,6 +195,7 @@ if(verbose)
          plot(fft.out[ii,1],log(fft.out[ii,3]), type="l",col="red", ylab="Log Power", xlim=c(xmin,xmax), xlab="Frequency", main="Log Periodogram Power",bty="n")
          if(background > 0)
            { 
+             lines(fft.out[ii,1],log(fft.out[ii,6]),lwd=2)
              lines(fft.out[ii,1],log(fft.out[ii,7]),lwd=1,lty=3)
              lines(fft.out[ii,1],log(fft.out[ii,8]),lwd=1,lty=3)
              lines(fft.out[ii,1],log(fft.out[ii,9]),lwd=1,lty=3)
