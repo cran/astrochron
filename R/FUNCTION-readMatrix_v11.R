@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2020 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### readMatrix - (SRM: May 2, 2014; September 28, 2014; January 22, 2015; 
 ###               March 1, 2015; August 6, 2015; September 10, 2015; 
 ###               September 16, 2015; November 18, 2016; July 26, 2017;
-###               December 15, 2017; December 5, 2020)
+###               December 15, 2017; December 5, 2020; July 27, 2023)
 ###
 ### Read a matrix from file 
 ### The file can include any number of columns, each representing a different variable.
@@ -182,11 +182,11 @@ if(genplot)
       {
         xlab = names(dat)[i]
         plotdat = subset(dat[,i], !(dat[,i] == "NA"))
-        if(class(dat[,i]) == "numeric")
+        if( inherits(dat[,i],"numeric") )
           {
             hist(plotdat,freq=F,xlab=xlab,main=""); lines(density(plotdat, bw="nrd0"),col="red")
           } 
-        if(class(dat[,i]) != "numeric")
+        if( !inherits(dat[,i],"numeric") )
           {
         if(verbose) cat("\n  WARNING: column",i,"contains non-numeric values.  Will NOT generate a plot.\n")
           }

@@ -2,12 +2,12 @@
 ### function timeOptMCMC - (SRM: November 1-29, 2016; December 5, 2016; 
 ###                              April 1, 2017; April 10, 2017; 
 ###                              April 14, 2017; April 16, 2017; April 17, 2017;
-###                              April 20-21, 2017; May 11, 2018)
+###                              April 20-21, 2017; May 11, 2018; July 26, 2023)
 ##################################################################################
 
 # prior name: FUNCTION-timeOptMCMCgaus_v27.R
 
-timeOptMCMC <- function (dat,iopt=1,sedmin=0.5,sedmax=5,sedstart=NULL,gAve=NULL,gSd=NULL,gstart=NULL,kAve=NULL,kSd=NULL,kstart=NULL,rhomin=0,rhomax=0.9999,rhostart=NULL,sigmamin=NULL,sigmamax=NULL,sigmastart=NULL,ran=F,fit=1,ftol=0.01,roll=10^3,nsamples=1000,epsilon=NULL,test=F,burnin=-1,detrend=T,output=1,savefile=F,genplot=1,verbose=T)
+timeOptMCMC <- function (dat,iopt=1,sedmin=0.5,sedmax=5,sedstart=NULL,gAve=NULL,gSd=NULL,gstart=NULL,kAve=NULL,kSd=NULL,kstart=NULL,rhomin=0,rhomax=0.9999,rhostart=NULL,sigmamin=NULL,sigmamax=NULL,sigmastart=NULL,ran=T,fit=1,ftol=0.01,roll=10^3,nsamples=1000,epsilon=NULL,test=F,burnin=-1,detrend=T,output=1,savefile=F,genplot=1,verbose=T)
 {
 
 #######################################################################################
@@ -495,7 +495,7 @@ if(genplot==2)
 # initialize nacc, which will keep track of the number of accepted candidates
 nacc=0
 
-# now for each parameter (this only useful when ran=T)
+# now for each parameter
 nacc_Sed=0
 nacc_k=0
 nacc_g1=0
@@ -556,17 +556,20 @@ for(iter in 1:nsamples)
 
 
 #### APRIL 20, 2017: sample parameters with varying frequency, based on sensitiviy tests
-   if(ran) pick = runif(1,min=0,max=1)
+   if(ran) 
+    {
+      pick = runif(1,min=0,max=1)
 # 25% prob of sedrate   
-   if(pick >= 0 && pick <0.25) select = 1
+      if(pick >= 0 && pick <0.25) select = 1
 # 25% prob of k  
-   if(pick >= 0.25 && pick <0.5) select = 2
+      if(pick >= 0.25 && pick <0.5) select = 2
 # 30% prob of g's  
-   if(pick >= 0.5 && pick <0.8) select = 3
+      if(pick >= 0.5 && pick <0.8) select = 3
 # 10% prob of sigma_spec and rho_spec  
-   if(pick >= 0.8 && pick <0.9) select = 4       
+      if(pick >= 0.8 && pick <0.9) select = 4       
 # 10% prob of sigma_env and rho_env  
-   if(pick >= 0.9 && pick <1) select = 5 
+      if(pick >= 0.9 && pick <1) select = 5 
+    }  
 
 
 # to hardwire search for sedrate and k only, use next line

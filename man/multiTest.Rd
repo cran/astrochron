@@ -8,7 +8,7 @@ Adjust spectral p-values for multiple comparisons, using a range of approaches.
 multiTest(spec,flow=NULL,fhigh=NULL,pl=T,output=T,genplot=T,verbose=T)
 }
 \arguments{
-  \item{spec}{A data frame with two columns: frequency, uncorrected confidence level. If 8 columns are input, the results are assumed to come from mtm, mtmML96, lowspec or mtmPL. If 9 columns are input, the results are assumed to come from periodogram.}
+  \item{spec}{A data frame with two columns: frequency, uncorrected confidence level. If more than 2 columns are input, the results are assumed to come from periodogram, mtm, mtmML96, lowspec or mtmPL.}
   \item{flow}{Vector of lower bounds for each frequency band of interest. Order must match fhigh.}
   \item{fhigh}{Vector of upper bounds for each frequency band of interest. Order must match flow.}
   \item{pl}{Include graphs of uncorrected p-values? (T or F)}

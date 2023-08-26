@@ -1,5 +1,7 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2016 Stephen R. Meyers
+c Copyright (C) 2023 Stephen R. Meyers
+
+c changed dfloat to dble for CRAN compliance. SRM: June 24, 2023
 
       SUBROUTINE DETREND (ipts,y)
 c determine least squares fit.
@@ -14,23 +16,23 @@ c intialized least squares variables
 c calculate running totals
       do i = 1,ipts                                                  
 c sum of x^2
-        xx = xx + (dfloat(i)*dfloat(i))                          
+        xx = xx + (dble(i)*dble(i))                          
 c sum of x
-        sumx = sumx + dfloat(i) 
+        sumx = sumx + dble(i) 
 c sum of y
         sumy = sumy + y(i)
 c sum of xy
-        xy = xy + ( dfloat(i) * y(i) ) 
+        xy = xy + ( dble(i) * y(i) ) 
       end do
 c calculate the slope (Mendenhall and Sincich)
-      mn=xy - ((sumx*sumy)/dfloat(ipts))
-      md= xx - (dfloat(ipts)*(sumx/dfloat(ipts))**2)
+      mn=xy - ((sumx*sumy)/dble(ipts))
+      md= xx - (dble(ipts)*(sumx/dble(ipts))**2)
       m=mn/md
 c calculate the y-intercept (Mendenhall and Sincich)
-      b=(sumy/dfloat(ipts)) - (m * sumx/dfloat(ipts))
+      b=(sumy/dble(ipts)) - (m * sumx/dble(ipts))
 c now removed the linear trend
       do i = 1,ipts
-        aline = (m*dfloat(i)) + b 
+        aline = (m*dble(i)) + b 
         y(i)= y(i) - aline
       end do
       return                                                           

@@ -1,5 +1,7 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2016 Stephen R. Meyers
+c Copyright (C) 2023 Stephen R. Meyers
+
+c changed dfloat to dble for CRAN compliance. SRM: June 24, 2023
 
       SUBROUTINE dupmean_R(ipts,x,y,npts,xx,yy)     ! this added for R
 c define variables
@@ -24,7 +26,7 @@ c search data for dups
                 irmpts=irmpts+1
               endif
            end do
-           if (k.gt.1) yy(i)=yy(i)/dfloat(k)  ! this changed for R
+           if (k.gt.1) yy(i)=yy(i)/dble(k)  ! this changed for R
        end do
 
 100     npts=ipts-irmpts            ! added for R

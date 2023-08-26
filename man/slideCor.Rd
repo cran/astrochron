@@ -66,4 +66,7 @@ ex2=iso(ex1,xmin=400,xmax=600)
 ex2[1] <- ex2[1]-400
 
 res=slideCor(ex1,ex2)
+# now anchor the floating time scale
+anchor <- ex1[res[which.max(res[,2]),1],1]
+ex2.anchor <- anchorTime(dat=ex2, time=0, age=anchor, timeDir=2)
 }

@@ -15,7 +15,7 @@ timeOptSimPwrLaw(dat,numsim=2000,beta=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,nums
   \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
   \item{numsim}{Number of Monte Carlo power law (1/f) simulations.}
   \item{beta}{Power law coefficient for 1/f noise. Positive number yields a negative slope. By default this will be estimated from the stratigraphic series.}
-  \item{sedrate}{Sedimentation rate for investigation (cm/ka). This options is for compatibility with prior versions of timeOptSim. Please use sedmin, sedmax, numsed.}
+  \item{sedrate}{Sedimentation rate for investigation (cm/ka). This option is for compatibility with prior versions of timeOptSim. Please use sedmin, sedmax, numsed.}
   \item{sedmin}{Minimum sedimentation rate for investigation (cm/ka).}
   \item{sedmax}{Maximum sedimentation rate for investigation (cm/ka).}
   \item{numsed}{Number of sedimentation rates to investigate in optimization grid.}

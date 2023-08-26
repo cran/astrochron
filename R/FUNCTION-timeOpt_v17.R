@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2022 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOpt - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014; 
@@ -12,7 +12,7 @@
 ###                          November 9, 2016; February 13, 2017; 
 ###                          April 11, 2017; April 23, 2017; Sept. 8, 2017
 ###                          December 11, 2017; December 13-18, 2017;
-###                          July 25, 2019; January 14, 2021)
+###                          July 25, 2019; January 14, 2021; July 30, 2022)
 ###########################################################################
 
 timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,check=T,verbose=T)
@@ -64,6 +64,10 @@ if (detrend)
 # standardize data series
    dat[2]=dat[2]-colMeans(dat[2])
    dat[2]=dat[2]/sapply(dat[2],sd)
+
+# calculate Fourier coefficients for the stratigraphic series once (in the spatial domain),
+#   and rescale with different sedimentation rates later
+   fc_dat <- periodogram(dat,padfac=2,demean=T,detrend=F,output=2,nrm=0,genplot=F,verbose=F)
 
 # convert sedmin and sedmax from cm/ka to m/ka for processing
    sedmin=sedmin/100
@@ -310,10 +314,13 @@ for (ii in 1:numsed)
     ts[1] = time
 
 # bandpass precession or short eccentricity band
-    bp = taner(ts,padfac=2,flow=flow,fhigh=fhigh,roll=roll,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
+#  convert frequencies in fc_dat from spatial to temporal, given present sedimentation rate
+    fc_dat2=fc_dat
+    fc_dat2[1]=fc_dat2[1]*sedrate[ii]
+    bp = tanerFC(fc_dat2,npts=npts,flow=flow,fhigh=fhigh,roll=roll,output=1,genplot=F,verbose=F)
 
 # hilbert transform for instantaneous amplitude
-    hil = hilbert(bp,padfac=2,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
+    hil = hilbert(bp,padfac=2,demean=T,detrend=F,addmean=F,genplot=F,check=F,verbose=F)
 
 # execute functions
 # for precession modulations
@@ -377,10 +384,12 @@ if(genplot == T || output == 2)
     ts[1] = time 
 
 # filter record    
-    bp = taner(ts,padfac=2,flow=flow,fhigh=fhigh,roll=roll,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
+    fc_dat2=fc_dat
+    fc_dat2[1]=fc_dat2[1]*ans[ptRp,1]
+    bp = tanerFC(fc_dat2,npts=npts,flow=flow,fhigh=fhigh,roll=roll,output=1,genplot=F,verbose=F)
 # get filter window
-    bpWin= taner(ts,padfac=2,flow=flow,fhigh=fhigh,roll=roll,demean=T,detrend=F,addmean=F,genplot=F,verbose=F,output=2)
-    hil = hilbert(bp,padfac=2,demean=T,detrend=F,addmean=F,genplot=F,verbose=F)
+    bpWin= tanerFC(fc_dat2,npts=npts,flow=flow,fhigh=fhigh,roll=roll,output=2,genplot=F,verbose=F)
+    hil = hilbert(bp,padfac=2,demean=T,detrend=F,addmean=F,genplot=F,check=F,verbose=F)
  
 # perform fitting at optimal sedimentation rate for plotting
 if(fit == 1) 

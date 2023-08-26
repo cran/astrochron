@@ -13,7 +13,8 @@ If either dat1 or dat2 have only one column, the resampling is skipped.
 The significance of the correlation is determined using the method of Ebisuzaki W. (1997).
 }
 \usage{
-surrogateCor(dat1,dat2,firstDiff=F,cormethod=1,nsim=1000,output=2,genplot=T,verbose=T)
+surrogateCor(dat1,dat2,firstDiff=F,cormethod=1,nsim=1000,output=2,genplot=T,check=T,
+             verbose=T)
 }
 \arguments{
   \item{dat1}{Data series with one or two columns. If two columns, first should be location (e.g., depth), second column should be data value.}
@@ -23,6 +24,7 @@ surrogateCor(dat1,dat2,firstDiff=F,cormethod=1,nsim=1000,output=2,genplot=T,verb
   \item{nsim}{Number of phase-randomized surrogate series to generate. If nsim <=1, simulation is deactivated.}
   \item{output}{Return which of the following?: 1= correlation coefficients for each simulation;  2= correlation coefficient for data series; 3= data values used in correlation estimate (resampled)}  
   \item{genplot}{Generate summary plots? (T or F)}
+  \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (T or F)}
 }
 

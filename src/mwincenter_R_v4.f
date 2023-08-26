@@ -1,7 +1,7 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2017 Stephen R. Meyers
-
-c mwin_R.f: code to determine start and end points for a moving window of fixed
+c Copyright (C) 2023 Stephen R. Meyers
+     
+c mwincenter_R.f: code to determine start and end points for a moving window of fixed
 c           duration (e.g. 500 kiloyears). for use with unevenly sampled data.
 c
 c           input is a single column (vector) with time/depth/height locations.  
@@ -10,11 +10,16 @@ c           routine ticks up one point at a time.
 c
 c           output is vector with start points and vector with end points for each
 c           'window'.  to be executed from R. (SRM: March 15, 2013).
+c
 
 c removed 'stop' statement, replaced with return. SRM: June 21, 2013
-c additional modification for R compliance. SRM: May 24, 2017; June 13, 2017
+c additional modification for R compliance. SRM: May 24, 2017
+c this version searches +/- 0.5 * winsize around each input datum (x). 
+c (SRM: June 13-14, 2017)
+c changed dfloat to dble for CRAN compliance. SRM: June 24, 2023
 
-       subroutine mwin_R(ipts,winsize,x,npts,n1,n2,avex,midx1,midx2)
+      subroutine mwincenter_R(ipts,winsize,x,npts,n1,n2,avex,midx1,
+     $midx2)
 
 c ipts = number of data points
 c winsize = size of moving window
@@ -25,61 +30,62 @@ c npts = number of elements in n1 and n2
 c avex = vector with mean location for each window
 c midx1 = vector with middle location for each window
 c midx2 = vector with midpoint for each window (in case window was not actually winsize)
-
+   
 c define variables and constants, set up arrays
-       implicit real(8) (a-h,o-z)                      ! this modified for R compliance   
-       real(8) midx1,midx2                             ! this modified for R compliance   
-       DIMENSION x(ipts),midx1(ipts),midx2(ipts),avex(ipts)
-       DIMENSION n1(ipts),n2(ipts)
+      implicit real(8) (a-h,o-z)                      ! this modified for R compliance   
+      real(8) midx1,midx2                             ! this modified for R compliance   
+      DIMENSION x(ipts),midx1(ipts),midx2(ipts),avex(ipts)
+      DIMENSION n1(ipts),n2(ipts)
 
 c set machine precision constant x 10^3
       epsm=1.11022302D-13
 
-c determine when to stop moving window analysis
-       stopwin=x(ipts)-winsize
-c determine where to start and end first window
-       winstart=x(1)
-       winend=x(1)+winsize
+c determine where to start first window
+      do i=ipts,1,-1
+         if( (x(i)-winsize/2.d0) - x(1) .ge. -1*epsm) istart=i
+      end do
+      
+c determine where to end last window
+      do i=1,ipts
+        if(x(i) - (x(ipts)-winsize/2.d0) .le. epsm) iend=i
+      end do
 
-c npts will be the number of points in the output vectors n1 and n2
-       npts=0
+c npts is the number of points in the output vectors n1 and n2
+      npts=iend-istart+1
+            
 c loop over data, calculate moving average
-       do i=1,ipts
-c intialize variables, arrays
-         avex(i)=0.d0
-         n1(i) = i
+      k=1
+      do i=istart,iend
+c initialize variables, arrays
+         avex(k)=0.d0
 c identify data in current window 
-         do j=i,ipts
-           if(x(j)-winend.le.epsm) iout=j
+         winstart=x(i)-winsize/2.d0
+         do j=ipts,1,-1
+           if(x(j)-winstart. ge. -1*epsm) iin=j
          end do
-         n2(i)=iout
-         npts=npts+1
-         do j=i,iout
-           avex(i)=avex(i)+x(j)
-c keep track of the last depth
-           xhold=x(j)
+         n1(k) = iin
+         winend=x(i)+winsize/2.d0
+         do j=1,ipts
+           if(x(j)-winend .le. epsm) iout=j
+         end do
+         n2(k)=iout
+         do j=iin,iout
+           avex(k)=avex(k)+x(j)
          end do
 c kpts stores the number of points in the moving window
-         kpts=iout-i+1
+         kpts=iout-iin+1
 c also calculate the average hieght/depth
-         avex(i)=avex(i)/dfloat(kpts)
+         avex(k)=avex(k)/dble(kpts)
 
 c determine depth/height location
 c in 1st scenario, assign data to the middle of the the 'winsize' window
-         midx1(i)=(winend+winstart)/2.d0
+         midx1(k)=x(i)
 c in 2nd scenario, adjust in case window was not actually winsize
-         midx2(i)= xhold - ( (xhold-x(i))/2.d0 )
+         midx2(k)= x(iin) + ( x(iout)-x(iin) ) / 2.d0 
 c in 3rd scenario, assign data to average x (we've already calculated this)
-c set start and end values of next window
-         winstart=x(i+1)
-         winend=x(i+1) + winsize
-c check to see if we are at the end of the data series
-         if(x(i+1)-stopwin.ge.epsm) then
-           goto 40
-         endif
 c end big loop
-       end do
-40     continue
+         k=k+1
+      end do
 
-       return 
-       end
+      return 
+      end

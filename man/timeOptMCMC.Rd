@@ -17,7 +17,7 @@ uniform (uninformative).
 timeOptMCMC(dat,iopt=1,sedmin=0.5,sedmax=5,sedstart=NULL,gAve=NULL,
         gSd=NULL,gstart=NULL,kAve=NULL,kSd=NULL,kstart=NULL,
         rhomin=0,rhomax=0.9999,rhostart=NULL,sigmamin=NULL,sigmamax=NULL,sigmastart=NULL,
-        ran=F,fit=1,ftol=0.01,roll=10^3,nsamples=1000,epsilon=NULL,test=F,burnin=-1,
+        ran=T,fit=1,ftol=0.01,roll=10^3,nsamples=1000,epsilon=NULL,test=F,burnin=-1,
         detrend=T,output=1,savefile=F,genplot=1,verbose=T)
 }
 \arguments{

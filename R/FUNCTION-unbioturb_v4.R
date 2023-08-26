@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Huaran Liu and Stephen Meyers
+### Copyright (C) 2022 Huaran Liu and Stephen Meyers
 
 #'  Bioturbation removal function 
 #'  
@@ -98,10 +98,10 @@ unbioturb <- function( dat, G, ML, v, pt = 0.2, wiener = TRUE, fhigh=NULL, outpu
          panel.first = grid())
     abline(v=tdepo*dt*ML/v, col="red", lty=2, lwd=3)
     
-    plot(out[,1], out[,2], type = "l", col = "black", lwd = 2,
-         main = "Unbioturbated Series (black) & Proxy Observation (blue)", xlab = "Time (kyr, young -> old)",
-         panel.first = grid())
-    lines(dat[,1], dat[,2], type = "l", col = "blue", lwd = 2)
+    plot(out[,1],out[,2], xlim=c(min(dat[,1]),max(dat[,1])),ylim=c(min(dat[,2],out[,2]),max(dat[,2],out[,2])),
+         main = "Unbioturbated Series (blue) & Proxy Observation (gray)", xlab = "Time (kyr, young -> old)",
+         panel.first = grid(), type="l", col = "blue", lwd = 2)
+    lines(dat[,1], dat[,2], type = "l", col = "#0000005F", lwd = 2)
     abline(v=dat_interp$x[length(dat_interp$x)*pt/2], col="black", lty=2, lwd=1)
     abline(v=dat_interp$x[length(dat_interp$x)*(1-pt/2)], col="black", lty=2, lwd=1)
   }

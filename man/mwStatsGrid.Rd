@@ -15,7 +15,7 @@ mwStatsGrid(dat,cols=NULL,win=NULL,step=NULL,start=NULL,end=NULL,output=T,norm=F
   \item{cols}{A vector that identifies the variable column to be extracted (first column automatically extracted).}
   \item{win}{Moving window size, in units of space or time.}
   \item{step}{Moving window step size, in units of space or time.}
-  \item{start}{Starting point for analysis, in units ofr space or time.}
+  \item{start}{Starting point for analysis, in units of space or time.}
   \item{end}{Ending point for analysis, in units of space or time.}
   \item{norm}{Normalize density estimates to maximum value? (T or F). If false, density estimates are normalized to unit area.}
   \item{output}{Output results? (T or F)}

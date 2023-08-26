@@ -4,7 +4,7 @@
 ###########################################################################
 ### confAdjust function - (SRM: November 14-30, 2017; December 6, 2017; 
 ###                             April 13, 2018; April 17, 2018; 
-###                             January 8, 2019)
+###                             January 8, 2019; June 18, 2022)
 ###
 ### apply multiple comparisons correction to spectrum confidence levels
 ###########################################################################
@@ -19,24 +19,6 @@ spec <- data.frame(spec)
 ipts <- length(spec[,1])
 df <- spec[2,1]-spec[1,1]
 
-# if there are more than 8 columns, we assume the results come from lowspec,mtm,mtmPL,or mtmML96
-#  periodogram does not have this output structure
-if(length(spec)==8)
- {
-   freq <- spec[,1]
-   pwrRaw <- spec[,2]
-   RawAR <- spec[,5]
- }
-
-# if there are more than 9 columns, we assume the results come from periodogram
-if(length(spec)==9)
- {
-   freq <- spec[,1]
-   pwrRaw <- spec[,3]
-   RawAR <- spec[,6]
- }
-
- 
 # if there are 3 columns, they must be in the order: freq, power, background
 if(length(spec)==3)
  {
@@ -44,6 +26,25 @@ if(length(spec)==3)
    pwrRaw <- spec[,2]
    RawAR <- spec[,3]
  }
+ 
+# if there are more than 3 columns, we assume the results come from lowspec, mtm, mtmPL, 
+#  mtmML96, or periodogram. Note that periodgram has a different order!
+if(length(spec)>3)
+ {
+   freq <- spec[,1]
+   if(colnames(spec)[2]=="Power" || colnames(spec)[2]== "Prewhite_power") 
+    {
+      pwrRaw <- spec[,2]
+      RawAR <- spec[,5]
+    }
+# for results from periodogram
+   if(colnames(spec)[2]=="Amplitude") 
+    {
+      pwrRaw <- spec[,3]
+      RawAR <- spec[,6]
+    }  
+ }
+ 
 
 if(length(spec)<3 || length(spec)>9)
      {

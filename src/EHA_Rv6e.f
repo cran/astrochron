@@ -1,5 +1,5 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2016 Stephen R. Meyers
+c Copyright (C) 2023 Stephen R. Meyers
 c
 c Contact Stephen Meyers (smeyers@geology.wisc.edu) for information on
 c updates. 
@@ -42,6 +42,8 @@ c ftest = ftest output
 c power = power output
 c height = height output
 c ier = returns 0 if FFT conducted correctly, 1 if error
+
+c changed dfloat to dble for CRAN compliance. SRM: June 24, 2023
 
 c====================================================================== 
 c     STEP 1: Define variable types, constants, and set up arrays.
@@ -89,17 +91,17 @@ c     Last taper to use.
 c     Periodogram frequency resolution (Rayleigh resolution). Thomson
 c     (1990) suggests that F-testing works well down to this resolution.
 c     We will employ it as the f-test bandwidth.
-      fdf = 1.d0 / (dfloat(npts) * dt)
+      fdf = 1.d0 / (dble(npts) * dt)
 c     Frequency grid due to padding.
-      df = 1.d0 / (dfloat(newpts) * dt)
+      df = 1.d0 / (dble(newpts) * dt)
 c     The bandwidth resolution (halfwidth) of the MTM power spectra, fw, 
 c     is determined by the "time-bandwidth product", tbw = tot * fw, 
 c     where tot is the total length of the data window.
 c     Calculate length of data window.
-      tot = dfloat(npts) * dt
+      tot = dble(npts) * dt
 c     Frequency resolution (halfwidth) of MTM power spectra.      
       fw = tbw / tot
-      tbwp = tbw/dfloat(npts)
+      tbwp = tbw/dble(npts)
 c     Calculate number of points in output spectra.
 c     If we have real data, only want positive frequencies (fft symmetry).
 c      nfreq = nint((f2-f1)/df) + 1    !now this is determined in R, May 2013
@@ -187,8 +189,8 @@ c     Start through loop for evolutive spectra.
       l1 = -inc + 1                                                     
       do i = 1,nspec                                               
 c     Calculate depth / height / time indicator.
-c        height(i)=first+(dfloat(i-1)*dt*dfloat(inc))+(dfloat(npts-1)*    !removed 'first' (addressed in R script), May 2013
-        height(i)=(dfloat(i-1)*dt*dfloat(inc))+(dfloat(npts-1)*        
+c        height(i)=first+(dble(i-1)*dt*dble(inc))+(dble(npts-1)*    !removed 'first' (addressed in R script), May 2013
+        height(i)=(dble(i-1)*dt*dble(inc))+(dble(npts-1)*        
      $         dt/2.d0)
         l1 = l1 + inc  
         l2 = l1 + npts - 1  
@@ -213,10 +215,10 @@ c     squares (sig2).  This scaling factor will be used in the
 c     adaptive amplitude routine to estimate the spectral energy 
 c     at a given frequency that leaks in from outside the frequency 
 c     band of interest (a.k.a. bias).
-        sbias = sig2/dfloat(npts**2)
+        sbias = sig2/dble(npts**2)
 c     Now divide sig2 by npts-1 to get the variance of the data window.
 c     This can be used to normalize the power results.
-        sig2 = sig2 / dfloat(npts-1) 
+        sig2 = sig2 / dble(npts-1) 
  
 c====================================================================== 
 c     STEP 7: Apply tapers.                                   
@@ -269,7 +271,7 @@ c     Define the tolerance level for convergence.
 c     Compute the squared moduli, normalized by the variance. 
 c     Restrict analysis to frequencies of interest.                         
         do n = ifstart,ifend 
-          ff = dfloat(n - 1) * df ! Modified for R, May 2013, SRM
+          ff = dble(n - 1) * df ! Modified for R, May 2013, SRM
           do k = k1,k2                                                  
             spw(k) = (x1(k,n)**2 + y1(k,n)**2) / sbias  
           end do  
@@ -334,7 +336,7 @@ c     expected values mu(f) of the eigencoefficients, and store the real
 c     and imaginary values temporarily in x and y (respectively).
 c     Restict analysis to frequencies of interest.
         do n = ifstart,ifend                   
-c          ff = dfloat(n - 1) * df ! Modified for R, May 2013, SRM
+c          ff = dble(n - 1) * df ! Modified for R, May 2013, SRM
 c     x and y are the real and imaginary amplitude buffers for the final
 c     amplitude estimiate.
           x(n) = 0.d0  
@@ -362,7 +364,7 @@ c      begin frequency loop
         ick=1
         do n = ifstart,ifend 
 c     Find frequency location.                                                
-          f(ick) = dfloat(n - 1) * df ! Modified for R, May 2013, SRM    
+          f(ick) = dble(n - 1) * df ! Modified for R, May 2013, SRM    
           backgrnd = 0.d0 
           do k = k1,k2                                                  
 c     Estimate the continuous spectrum (background) by subtracting the
@@ -380,7 +382,7 @@ c     The numerator of the F-test is an estimate of the power in the
 c     line components (aka the variance explained by the model).  
 c     The F-test compares this power (model variance) to the 
 c     background spectra (residual variance).   
-          ftest(i,ick)=(dfloat(kmany)-1.D0)*(x(n)**2+y(n)**2)*u/backgrnd 
+          ftest(i,ick)=(dble(kmany)-1.D0)*(x(n)**2+y(n)**2)*u/backgrnd 
   
 c====================================================================   
 c     STEP 12: Calculate amplitude and phase.

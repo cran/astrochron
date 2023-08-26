@@ -26,7 +26,8 @@ SEXP  Root_Search(SEXP Gval)
  /* Other parameters*/
  int i, N = 300;                     // Number of alphas 
  double Il, Iu, Im;                  // lower, upper, middle point
- double fl, fu, fm, rt =  0.0001;
+ /* double fl, fu, fm, rt =  0.0001; modified for CRAN compliance, SRM Aug. 24, 2023 */
+ double fl, fm, rt =  0.0001;
  double eps = 10E-13;
 
  /* Output alphas */
@@ -40,7 +41,7 @@ SEXP  Root_Search(SEXP Gval)
        do{
 
           fl = Il/(*G)*cos(Il)/sin(Il)-Il*Il+1.0/4.0/(*G)/(*G);
-          fu = Iu/(*G)*cos(Iu)/sin(Iu)-Iu*Iu+1.0/4.0/(*G)/(*G);
+ /*       fu = Iu/(*G)*cos(Iu)/sin(Iu)-Iu*Iu+1.0/4.0/(*G)/(*G); removed for CRAN compliance, SRM Aug. 24, 2023 */
           fm = Im/(*G)*cos(Im)/sin(Im)-Im*Im+1.0/4.0/(*G)/(*G);
           if( fl*fm > 0.0){
               Il = Im;}

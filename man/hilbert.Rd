@@ -2,13 +2,15 @@
 \alias{hilbert}
 \title{Hilbert transform of stratigraphic series}
 \description{
-Calculate instantaneous amplitude (envelope) via Hilbert Transform of stratigraphic series
+Calculate instantaneous amplitude (envelope) and phase via Hilbert Transform of stratigraphic series
 }
 \usage{
-hilbert(dat,padfac=2,demean=T,detrend=F,output=T,addmean=F,genplot=T,check=T,verbose=T)
+hilbert(dat,phase=F,padfac=2,demean=T,detrend=F,output=T,addmean=F,genplot=T,check=T,
+        verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series to Hilbert Transform. First column should be location (e.g., depth), second column should be data value.}
+  \item{phase}{Calculate instantaneous phase? (T or F)}
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points.}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}

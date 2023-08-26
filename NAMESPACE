@@ -7,20 +7,24 @@ importFrom(fields, image.plot)
 importFrom(fields, tim.colors)
 importFrom(viridisLite, viridis)
 importFrom("grDevices", "boxplot.stats", "colors", "dev.new", "dev.off", "gray", "tiff", "jpeg", "pdf", "png", "bmp", "rainbow", "xy.coords")
-importFrom("grDevices", "colorRampPalette", "gray.colors")
-importFrom("graphics", "abline", "axis", "boxplot", "grid", "hist", "identify", "image", "layout", "lines", "locator", "mtext", "par", "plot", "points", "polygon", "rect", "segments", "text")
+importFrom("grDevices", "colorRampPalette", "gray.colors", "hcl.colors")
+importFrom("graphics", "abline", "axis", "boxplot", "contour", "grid", "hist", "identify", "image", "layout", "lines", "locator", "mtext", "par", "plot", "points", "polygon", "rect", "segments", "text")
 importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm", "predict", "na.omit", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var")
 importFrom("stats", "p.adjust")
 importFrom("utils", "download.file", "head", "read.table", "write.table")
 importFrom("utils", "setTxtProgressBar", "txtProgressBar")
-
 importFrom(doParallel, registerDoParallel)
 importFrom(parallel, makeCluster)
 importFrom(parallel, stopCluster)
 importFrom(iterators, icount)
 importFrom(foreach, foreach)
 importFrom(foreach, "%dopar%")
-
+importFrom(palinsol, la04)
+importFrom(palinsol, calins)
+importFrom(palinsol, Insol)
+importFrom(palinsol, Insol_l1l2)
+importFrom(palinsol, thrins)
+importFrom(palinsol, Milankovitch)
 
 export(anchorTime,
        ar1,
@@ -31,6 +35,7 @@ export(anchorTime,
        autoPlot,
        bandpass,
        bergerPeriods,
+       bicoherence,
        bioturb,
        calcPeriods,
        cb,
@@ -66,6 +71,9 @@ export(anchorTime,
        idPts,
        imbrie,
        impulseResponse,
+       insoSeries,
+       insoDiff,
+       insoMap,
        integratePower,
        iso,
        linage,
@@ -115,6 +123,7 @@ export(anchorTime,
        surrogates,
        synthStrat,
        taner,
+       tanerFC,
        testBackground,
        testPrecession,
        testTilt,

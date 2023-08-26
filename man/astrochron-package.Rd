@@ -13,11 +13,11 @@ to time scale development and paleoclimate analysis.
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2021-11-05\cr
+Version: \tab 1.2\cr
+Date: \tab 2023-08-25\cr
 License: \tab GPL-3\cr
 }
-%%~~ An overview of how to use the package, including the most important functions ~~
+%%~~ An overview of how to use the package ~~
 }
 \author{
 Stephen Meyers
@@ -29,13 +29,13 @@ Maintainer: Stephen Meyers <smeyers@geology.wisc.edu>
 
 Development of the 'astrochron' package is partially supported by the U.S. National Science Foundation and the Heising-Simons Foundation:
 
-\emph{Leveraging the Geologic Record to Constrain Solar System Evolution, Earth-Moon Dynamics, Paleoclimate Change and Geological Time (Award 2021-2797)}
+\emph{Leveraging the Geologic Record to Constrain Solar System Evolution, Earth-Moon Dynamics, Paleoclimate Change and Geological Time (Heising-Simons Foundation Award 2021-2797)}
 
-\emph{Collaborative Research: Improving the Late Cretaceous-Eocene geomagnetic polarity time scale by integrating the global magnetic anomaly record and astrochronology (Award OCE 2051616)}
+\emph{Collaborative Research: Improving the Late Cretaceous-Eocene geomagnetic polarity time scale by integrating the global magnetic anomaly record and astrochronology (U.S. National Science Foundation Award OCE 2051616)}
 
-\emph{CAREER: Deciphering the Beat of a Timeless Rhythm - The Future of Astrochronology (Award EAR 1151438)}
+\emph{CAREER: Deciphering the Beat of a Timeless Rhythm - The Future of Astrochronology (U.S. National Science Foundation Award EAR 1151438)}
 
-\emph{Collaborative Research: Evolution of the Climate Continuum - Late Paleogene to Present (Award OCE 1003603)}
+\emph{Collaborative Research: Evolution of the Climate Continuum - Late Paleogene to Present (U.S. National Science Foundation Award OCE 1003603)}
 
 
 
@@ -75,6 +75,7 @@ mtm(modelAInterp,tbw=2,ar=TRUE,pl=2)
 ###  pad to 1000 points, and output Harmonic F-test confidence level results
 fCL=eha(modelAInterp,win=8,pad=1000,output=4)
 
+### Perform Average Spectral Misfit analysis
 ### Extract Harmonic F-test spectrum at approximately 22 meters height
 spec=extract(fCL,22)
 ### In this extracted spectrum, identify F-test peak maxima exceeding 90% confidence level
@@ -90,7 +91,7 @@ target=c(1/405.47,1/126.98,1/96.91,1/37.66,1/22.42,1/18.33)
 asm(freq=freqs,target=target,rayleigh=rayleigh,nyquist=nyquist,sedmin=0.5,sedmax=3,numsed=100,
     linLog=1,iter=100000,output=FALSE)
 
-# Check to see if this is an interactive R session, for compliance with CRAN standards.
+# Check to see if this is an interactive R session (for compliance with CRAN standards).
 # YOU SHOULD SKIP THE FOLLOWING LINE IF YOU ARE USING AN INTERACTIVE SESSION.
 if(interactive()) {
 

@@ -1,10 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### getData: download data from astrochon server. 
 ###          (SRM: October 21, 2015; April 13, 2018; June 3, 2018; 
-###                November 27, 2018; December 14, 2018, January 7, 2019)
+###                November 27, 2018; December 14, 2018, January 7, 2019;
+###                July 25, 2023)
 ###
 ###########################################################################
 
@@ -35,7 +36,7 @@ getData <- function (dat="1262-a*")
         if(dat=="graptolite")
         {
           cat(" * Downloading graptolite Hidden Markov Model turnover probability series\n\n")
-          cat("   Please cite: Crampton, J.S., Meyers, S.R., Cooper, R.A., et al., 2018\n") 
+          cat("   Please cite: Crampton, J.S., Meyers, S.R., Cooper, R.A., et al., 2018,\n") 
           cat("   Pacing of Paleozoic Macroevolutionary Rates by Milankovitch Grand\n")
           cat("   Cycles, PNAS.\n")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/graptolite.txt.bz2",tempDat)
@@ -44,7 +45,7 @@ getData <- function (dat="1262-a*")
         if(dat=="Xiamaling-CuAl")
         {
           cat(" * Downloading Cu/Al data series from the Xiamaling Formation\n\n")
-          cat("   Please cite: Zhang, S., Wang, X., Hammarlund, E.U., et al., 2015\n") 
+          cat("   Please cite: Zhang, S., Wang, X., Hammarlund, E.U., et al., 2015,\n") 
           cat("   Orbital forcing of climate 1.4 billion years ago, PNAS,\n")
           cat("   www.pnas.org/cgi/doi/10.1073/pnas.1502239112.\n")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/Xiamaling-CuAl.txt.bz2",tempDat)
@@ -63,7 +64,7 @@ getData <- function (dat="1262-a*")
         if(dat=="AEB-18O")
         {
           cat(" * Downloading planktonic foraminifera d18O data series from AEB\n\n")
-          cat("   Please cite: van der Laan, E.,Hilgen, F.J., Lourens, L.J., de Kaenel,\n") 
+          cat("   Please cite: van der Laan, E., Hilgen, F.J., Lourens, L.J., de Kaenel,\n") 
           cat("   E.,Gaboardi, S., Iaccarino, S., 2012, Astronomical forcing of Northwest\n")
           cat("   African climate and glacial history during the late Messinian (6.5-5.5 Ma):\n")
           cat("   Palaeogeography, Palaeoclimatology, Palaeoecology, 313-314, 107-126.\n") 
@@ -100,6 +101,14 @@ getData <- function (dat="1262-a*")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/DVCP2017-18O.txt.bz2",tempDat)
         }
 
+        if(dat=="AND2A-clast")
+        {
+          cat(" * Downloading Andrill 2A clast abundance data\n\n")
+          cat("   Please cite: Panter, K.S., Talarico, F.M, Basset, K., et al., 2009,\n") 
+          cat("   Petrologic and geochemical composition of the AND-2A core, ANDRILL\n")
+          cat("   Southern McMurdo Sound Project, Antarctica: Terra Antartica 15, 147-192.\n")
+          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/AND2A-clast.txt.bz2",tempDat)
+        }
 
         cat(" * Decompressing\n")
         dat <- read.table(bzfile(tempDat),header=T)

@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### function surrogateCor: calculate signifiance of correlation coefficient
@@ -12,14 +12,15 @@
 ###                                   October 10, 2014; November 13, 2015; 
 ###                                   Dec. 25, 2015; May 20-25, 2016; 
 ###                                   June 7, 2016; July 1, 2016; July 22, 2016;
-###                                   January 9, 2019; January 14, 2021)
+###                                   January 9, 2019; January 14, 2021;
+###                                   April 12, 2023)
 ###
 ### see also http://www.mathworks.com/matlabcentral/fileexchange/10881-weaclim/content/ebisuzaki.m
 ###########################################################################
 
 
 
-surrogateCor <- function (dat1=NULL,dat2=NULL,firstDiff=F,cormethod=1,nsim=1000,output=2,genplot=T,verbose=T)
+surrogateCor <- function (dat1=NULL,dat2=NULL,firstDiff=F,cormethod=1,nsim=1000,output=2,genplot=T,check=T,verbose=T)
 {
 
 if(verbose) 
@@ -33,12 +34,15 @@ if(is.null(dat1) || is.null(dat2)) { stop("\n**** ERROR: dat1 and dat2 must be p
 dat1<- data.frame(dat1)
 dat2<- data.frame(dat2)
 
+if(check)
+ {
 # check if dat1 and dat2 have same number of columns
-if(length(dat1)!= length(dat2))
-  {
-    cat("\n**** ERROR: dat1 and dat2 have different number of columns\n")
-    stop("**** TERMINATING NOW!")
-  }
+   if(length(dat1)!= length(dat2))
+    {
+      cat("\n**** ERROR: dat1 and dat2 have different number of columns\n")
+      stop("**** TERMINATING NOW!")
+    }
+ }  
 
 ############################################
 # if both dat1 and dat2 have two columns
@@ -47,15 +51,20 @@ if(length(dat1)==2 && length(dat2)==2)
  {
 if(verbose) cat("\n * IMPLEMENTING RESAMPLING ALGORITHM\n")
 # sort to ensure increasing depth/height/time
-if(verbose) cat("\n * Sorting datasets to ensure increasing order, removing empty entries\n")
-dat1 <- dat1[order(dat1[,1],na.last=NA,decreasing=F),]
-dat2 <- dat2[order(dat2[,1],na.last=NA,decreasing=F),]
+if(check)
+ {
+   if(verbose) cat("\n * Sorting datasets to ensure increasing order, removing empty entries\n")
+   dat1 <- dat1[order(dat1[,1],na.last=NA,decreasing=F),]
+   dat2 <- dat2[order(dat2[,1],na.last=NA,decreasing=F),]
+ } 
 
 n1=length(dat1[,1])
 n2=length(dat2[,1])
 if(verbose) cat(" * Number of data points in dat1=",n1,"\n")
 if(verbose) cat(" * Number of data points in dat2=",n2,"\n")
 
+if(check)
+ {
 # check for duplicate depths/heights in dat1
    dx1=dat1[2:n1,1]-dat1[1:(n1-1),1]
    if(min(dx1) == 0)
@@ -71,6 +80,8 @@ if(verbose) cat(" * Number of data points in dat2=",n2,"\n")
        cat("\n**** ERROR: duplicate depth/height datum found in dat2\n")
        stop("**** TERMINATING NOW!")
      }  
+# end check
+ }
 
 # isolate data from interval that is shared by dat1 and dat2
 xmin= max( min(dat1[,1]), min(dat2[,1]) )
@@ -167,11 +178,16 @@ if(length(dat1)==1 && length(dat2)==1)
  if(verbose) cat("\n * NO RESAMPLING APPLIED\n")
  n1=length(dat1[,1])
  n2=length(dat2[,1])
+ 
+if(check)
+  {
  if(n1 != n2)
       {
        cat("\n**** ERROR: dat1 and dat2 must have the same number of points")
        stop("**** TERMINATING NOW!")
      }  
+  }
+  
  if(verbose) cat("\n * Number of data points per variable=",n1,"\n")
 
  x1SR=dat1[,1]
@@ -258,18 +274,18 @@ for (i in 1:nsim)
 if(verbose) cat(" * Evaluating significance level\n")
 #   number of results with abs(surrcor) > abs(datcor)
     pnumgt = sum(abs(surrcor)>abs(datcor))    
-    cat("\n * Number of simulations with |r<sim>| > |r<dat>| = ", pnumgt,"\n")
+if(verbose) cat("\n * Number of simulations with |r<sim>| > |r<dat>| = ", pnumgt,"\n")
     pvalue=pnumgt/nsim
-    if(pvalue >= (10/nsim) && (10/nsim) <=1 ) cat(" * P-value =", pvalue,"\n")  
+    if(pvalue >= (10/nsim) && (10/nsim) <=1 ) if(verbose) cat(" * P-value =", pvalue,"\n")  
     if((10/nsim) > 1 ) 
       {
        pvalue=1
-       cat(" * P-value = 1 \n")  
+       if(verbose) cat(" * P-value = 1 \n")  
       } 
     if(pvalue < (10/nsim) && (10/nsim) <=1 ) 
      {
        pvalue=10/nsim
-       cat(" * P-value <", pvalue,"\n")
+       if(verbose) cat(" * P-value <", pvalue,"\n")
      }  
      
 # end if nsim >1
@@ -336,9 +352,10 @@ if(genplot)
   }
   
   if(output==1 && nsim>1) return(surrcor)
-  if(output==2) 
+  if(output==2)
    {
-     out= data.frame( cbind(datcor,pvalue) )
+     if(nsim>1) out= data.frame( cbind(datcor,pvalue) )
+     if(nsim<=1) out= data.frame(datcor)
      return(out)
    }
   if(output==3 && length(dat1)==2 && length(dat2)==2) 

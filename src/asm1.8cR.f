@@ -1,5 +1,5 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2016 Stephen R. Meyers
+c Copyright (C) 2023 Stephen R. Meyers
 
 c Contact Stephen Meyers (smeyers@geology.wisc.edu) for information on
 c updates. 
@@ -120,9 +120,10 @@ c calculate average spectral misfit
 
 c ************ DETERMINE SIGNIFICANCE LEVELS **************
 
-c initialize random number.
-c it calls the fortran 95 routine in file init_random_seed.f95            !SRM: Jan. 13, 2014
-       CALL init_random_seed()                                            !SRM: Jan. 13, 2014
+c random number generation modified for CRAN compliance                    !SRM: Aug. 24, 2023
+c see https://cran.r-project.org/doc/manuals/R-exts.html#Calling-C-from-Fortran-and-vice-versa
+c create random seed                                                       !SRM: Aug. 24, 2023
+       CALL getseed()                                                      !SRM: Aug. 24, 2023
 c initialize tickers for random frequency generation routine
        iexceedNyq=0
        iaddRay=0
@@ -136,18 +137,16 @@ c calculate frequency spacing to use in bootstrap sampling
        endif
        
 c   Start model iteration loop
-       do iboot=1,iterations
-
+       do iboot=1,iterations                  
 c using the approach in Meyers and Sageman (2007)
         if(ispecgen.eq.1) then                                             !SRM: June 6, 2013
 c generate frequencies
 c these frequencies were originally determined using a flat                !SRM: Jan. 13, 2014
 c white noise ran number generator (Num. Rec. ran2).                       !SRM: Jan. 13, 2014
-c now replaced with intrinsic subroutine random_number                     !SRM: Jan. 13, 2014
-c generator returns value between 0 and 1, exclusive of 1,                 !SRM: Jan. 13, 2014
-c using the KISS algorithm                                                 !SRM: Jan. 13, 2014
 35       do i=1,numfreq
-           CALL RANDOM_NUMBER(e)
+c random number generation modified for CRAN compliance                    !SRM: Aug. 24, 2023
+c           CALL RANDOM_NUMBER(e)                                          !SRM: Aug. 24, 2023
+          CALL getunif(e)                                                  !SRM: Aug. 24, 2023
 c linearly rescale random value to frequency within the range of interest
 c new values are beteween Rayleigh and Nyquist.
           freq2(i)=( (Quist-Rayleigh)*e ) + Rayleigh
@@ -187,7 +186,9 @@ c if using the bootstrap approach
 c generate frequencies
 c OPTION 1: Pick one random number from flat white noise, scaled to be between Rayleigh and Nyquist
 70        if(isetfreq.eq.1) then
-            CALL RANDOM_NUMBER(e)
+c random number generation modified for CRAN compliance                    !SRM: Aug. 24, 2023
+c           CALL RANDOM_NUMBER(e)                                          !SRM: Aug. 24, 2023
+            CALL getunif(e)                                                !SRM: Aug. 24, 2023
 c rescale random value to frequency within the range of interest
 c new values are between Rayleigh and Nyquist.
             freq2(1)=( (Quist-Rayleigh)*e ) + Rayleigh
@@ -197,7 +198,9 @@ c OPTION 2: Pick 'numfreq' random numbers scaled between Rayliegh and Nyquist (a
 c simulations; ispecgen.eq.1), then sort and use the lowest one.
           if(isetfreq.eq.2) then
             do i=1,numfreq
-             CALL RANDOM_NUMBER(e)
+c random number generation modified for CRAN compliance                    !SRM: Aug. 24, 2023
+c           CALL RANDOM_NUMBER(e)                                          !SRM: Aug. 24, 2023
+            CALL getunif(e)                                                !SRM: Aug. 24, 2023
 c linearly rescale random value to frequency within the range of interest
 c new values are beteween Rayleigh and Nyquist.
              freq2(i)=( (Quist-Rayleigh)*e ) + Rayleigh
@@ -228,7 +231,10 @@ c  so most recalculate each time
           endif
 
           do i=2,numfreq
-85         CALL RANDOM_NUMBER(e)
+          
+c random number generation modified for CRAN compliance                    !SRM: Aug. 24, 2023
+c 85         CALL RANDOM_NUMBER(e)                                         !SRM: Aug. 24, 2023
+85           CALL getunif(e)                                               !SRM: Aug. 24, 2023          
 c the random number is from 0-1 excluding the end values
 c linearly rescale random value to be an integer between 1 and numfreq-1
 c note that DINT truncates toward zero, that is, the fractional portion of its magnitude 
@@ -249,7 +255,6 @@ c if maximum frequency exceeds Nyquist then start this iteration over
           end do
 c end boostrap section
         endif
-      
 
 c calculate ASM for this iteration
         call specmisfit(epsm,freq2,Rayleigh,sedrate,iStoreMin,
@@ -263,6 +268,9 @@ c save misfit values for sorting
 
 c end iterations loop
        end do
+c random number generation modified for CRAN compliance                    !SRM: Aug. 24, 2023
+       CALL putseed()                                                      !SRM: Aug. 24, 2023        
+      
 
 c now sort ASM model results,
 c loop over sedrates 

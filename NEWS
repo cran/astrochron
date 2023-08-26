@@ -1,3 +1,30 @@
+astrochron v1.2 (Release date: 2023-08-25)
+================
+
+New functions:
+
+* function tanerFC
+
+The following function accompanies Sullivan et al. (in press 2023):
+* function bicoherence
+
+
+Other changes:
+* function surrogateCor: added compliance check option, modified verbose output setting, fixed p-value reporting when nsim <=1
+* function hilbert: added option for calculating instantaneous phase
+* function periodogram: added options for (1) robust AR1 model, (2) Bonferroni corrections, (3) compliance check. Also modified to output all positive and negative Fourier coefficients when output=2.
+* function multiTest: corrected auto-read of spectral results from functions periodogram, mtmML96, etc.
+* function confAdjust: corrected auto-read of spectral results from functions periodogram, mtmML96, etc.
+* function calcPeriods: added s-terms to calculate obliquity periods
+* function imbrie: modifications to text and graphing for plots
+* function read: minor edits
+* function timeOpt: now uses tanerFC instead of taner
+* function timeOptMCMC: previously timeOptMCMC would crash when option ran=F; this has been fixed
+* functions read, readMatrix: modifications for CRAN compliance
+* assorted Fortran modifications for CRAN compliance: 'dfloat' replaced with 'dble', now using R's random number generator
+
+
+
 astrochron v1.1 (Release date: 2021-11-05)
 ================
 
@@ -53,12 +80,12 @@ astrochron v0.9 (Release date: 2019-01-08)
 
 New functions: 
 
-* diffAccum
-* imbrie
-* synthStrat
-* testTilt
-* timeOptTemplate
-* timeOptTemplateSim
+* function diffAccum
+* function imbrie
+* function synthStrat
+* function testTilt
+* function timeOptTemplate
+* function timeOptTemplateSim
 
 Other changes:
 
@@ -86,19 +113,19 @@ astrochron v0.8 (Release date: 2018-05-16)
 
 New functions: 
 
-* calcPeriods
-* confAdjust
-* eTimeOpt
-* eTimeOptTrack
-* makeNoise
-* mtmPL
-* multiTest
-* pwrLaw
-* pwrLawFit
-* testBackground
-* timeOptMCMC
-* tracePeak
-* trackPeak
+* function calcPeriods
+* function confAdjust
+* function eTimeOpt
+* function eTimeOptTrack
+* function makeNoise
+* function mtmPL
+* function multiTest
+* function pwrLaw
+* function pwrLawFit
+* function testBackground
+* function timeOptMCMC
+* function tracePeak
+* function trackPeak
 
 Other changes:
 

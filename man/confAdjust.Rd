@@ -9,7 +9,7 @@ confAdjust(spec,npts,dt,tbw=3,ntap=5,flow=NULL,fhigh=NULL,output=T,
     xmin=df,xmax=NULL,pl=1,genplot=T,verbose=T)
 }
 \arguments{
-  \item{spec}{A data frame with three columns: frequency, power, background power. If 8 columns are input, the results are assumed to come from mtm, mtmML96, lowspec or mtmPL. If 9 columns are input, the results are assumed to come from periodogram.}
+  \item{spec}{A data frame with three columns: frequency, power, background power. If more than 3 columns are input, the results are assumed to come from periodogram, mtm, mtmML96, lowspec or mtmPL.}
   \item{npts}{Number of points in stratigraphic series.}
   \item{dt}{Sampling interval of stratigraphic series.}
   \item{tbw}{MTM time-bandwidth product.}

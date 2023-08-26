@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### Read function - (SRM: January 24, 2012; updated January 31, 2012; 
@@ -10,7 +10,7 @@
 ###                  August 6, 2015; September 11, 2015; September 16, 2015; 
 ###                  October 8, 2015; November 19, 2016; March 20, 2017; July 26, 2017;
 ###                  December 15, 2017; July 4, 2018; August 13, 2018; January 14, 2021;
-###                  June 22, 2021)
+###                  June 22, 2021; November 7, 2022; July 27, 2023)
 ###
 ### Read a time series file. 
 ###########################################################################
@@ -201,10 +201,10 @@ dup <- function (ipts,x,y)
       mindt=min(dt) 
 # save a copy of dat before averaging   
       dat1=dat    
-       if(mindt < 1.11022302E-13)
+       if(mindt < 1e-9)
         {
          if(verbose) cat(" * Duplicates found\n")
-         if(ave && (class(dat[,2]) == "numeric" || class(dat[,2]) == "integer") )
+         if( ave && ( inherits(dat[,2],"numeric") || inherits(dat[,2],"integer") ) )
            {  
              if(verbose) cat(" * Duplicates values will be averaged.\n")
 ### call to Fortran routine for quick duplicate averaging
@@ -216,10 +216,8 @@ dup <- function (ipts,x,y)
              colnames(dat2)[2] <- colnames(dat[2])
              dat <- dat2
             }
+         else if(verbose) cat(" * Duplicates found, but will not be averaged.\n")
         } 
-        else {
-          if(verbose) cat(" * Duplicates found, but will not be averaged.\n")
-        }
     }
 
 ### if we have more than two columns, then sort and remove NA's in first column
@@ -241,7 +239,7 @@ dup <- function (ipts,x,y)
       t2<-dat[2:(npts),1]
       dt=t2-t1
       mindt=min(dt) 
-      if(mindt < 1.11022302E-13)
+      if(mindt < 1e-9)
        {
          if(verbose)
           {
@@ -281,11 +279,11 @@ dup <- function (ipts,x,y)
       
 if(genplot && cols==2)
  {
-   if(class(dat[,2]) == "numeric" || class(dat[,2]) == "integer")
+   if( inherits(dat[,2],"numeric") || inherits(dat[,2],"integer") )
     {
 ### plot data series. Note, cex is the factor by which to increase or decrease default symbol size
       par(mfrow=c(2,2))
-      if(ave && (class(dat[,2]) == "numeric" || class(dat[,2]) == "integer") )
+      if( ave && ( inherits(dat[,2],"numeric") || inherits(dat[,2],"integer") ) )
        {
         plot(dat,type="l",col="gray",ylim=c(min(dat1[,2]),max(dat1[,2])),xlab=xlab,ylab=ylab,main="Stratigraphic Series")
         mtext("(red=original data, black=post-averaging)",cex=0.8)
@@ -303,7 +301,7 @@ if(genplot && cols==2)
 ### Normal probabilty plot (Normal Q-Q Plot)
       qqnorm(dat[,2],main=paste("Normal Q-Q plot of",ylab)); qqline(dat[,2], col="red",lwd=2); grid()
     }
-   if(class(dat[,2]) != "numeric" && class(dat[,2]) != "integer")
+   if( !inherits(dat[,2],"numeric") && !inherits(dat[,2],"integer") )
     {
       if(verbose) cat("\n  WARNING: data contains non-numeric values.  Will NOT generate plots.\n")
     }
@@ -318,11 +316,11 @@ if(genplot && cols>2)
       {
         xlab = names(dat)[i]
         plotdat = subset(dat[,i], !(dat[,i] == "NA"))
-        if(class(dat[,i]) == "numeric" || class(dat[,i]) == "integer")
+        if( inherits(dat[,i],"numeric") || inherits(dat[,i],"integer") )
           {
             hist(plotdat,freq=F,xlab=xlab,main=""); lines(density(plotdat, bw="nrd0",na.rm=T),col="red",lwd=2)
           } 
-        if(class(dat[,i]) != "numeric" && class(dat[,i]) != "integer")
+        if( !inherits(dat[,i],"numeric") && !inherits(dat[,i],"integer") )
           {
         if(verbose) cat("\n  WARNING: column",i,"contains non-numeric values.  Will NOT generate a plot.\n")
           }

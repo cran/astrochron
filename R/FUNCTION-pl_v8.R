@@ -6,7 +6,8 @@
 ###                                      July 31, 2013; September 16, 2013
 ###                                      January 13, 2014; January 14, 2014;
 ###                                      February 13, 2014; June 30, 2014;
-###                                      February 3, 2015; December 5, 2020)
+###                                      February 3, 2015; December 5, 2020;
+###                                      December 14, 2022)
 ###
 ###########################################################################
 
@@ -19,7 +20,7 @@ if(is.null(h) || is.null(w))
    h=7
    w=7
  }
-mar=c(5.1,4.1,4.1,2.1)
+
 if(is.null(mar)) mar=c(5.1,4.1,4.1,2.1)
 if(!is.null(mar) && length(mar)!=4) 
  {

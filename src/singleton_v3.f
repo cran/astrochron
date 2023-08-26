@@ -74,7 +74,7 @@ C
 C  SRM: changed all float and trig. functions to double precision
 C       changed variable initializtion to 0.d0
 C       changed dimensions of (1) to (*) for R compliance
-C       chanaged REAL*8 to REAL(8) for R compliance
+C       changed REAL*8 to REAL(8) for R compliance
 C       use 1 for forward fft, -1 for inverse
 C_____________________________________________________________________  
       SUBROUTINE SINGLETON(A,B,NTOT,N,NSPAN,ISN,IERR)
@@ -108,7 +108,7 @@ C  THE FOLLOWING TWO CONSTANTS SHOULD AGREE WITH THE ARRAY DIMENSIONS.
       KSPAN=KS                                                          
       NN=NT-INC                                                         
       JC=KS/N                                                           
-      RADDF=RADD*DFLOAT(JC)*0.5d0 !SRM                                         
+      RADDF=RADD*DBLE(JC)*0.5d0 !SRM                                         
       I=0                                                               
       JF=0                                                              
 C  DETERMINE THE FACTORS OF N                                           
@@ -153,7 +153,7 @@ C  DETERMINE THE FACTORS OF N
       J=J-1                                                             
       IF(J .NE. 0) GO TO 90                                             
 C  COMPUTE FOURIER TRANSFORM                                            
-  100 SD=RADDF/DFLOAT(KSPAN) !SRM                                             
+  100 SD=RADDF/DBLE(KSPAN) !SRM                                             
       CD=2.d0*DSIN(SD)**2 !SRM                                                 
       SD=DSIN(SD+SD) !SRM                                                    
       KK=1                                                              
@@ -330,7 +330,7 @@ C  TRANSFORM FOR ODD FACTORS
       IF(K .EQ. 5) GO TO 510                                            
       IF(K .EQ. JF) GO TO 640                                           
       JF=K                                                              
-      S1=RADD/DFLOAT(K) !SRM                                                  
+      S1=RADD/DBLE(K) !SRM                                                  
       C1=DCOS(S1) !SRM                                                        
       S1=DSIN(S1) !SRM                                                       
       IF(JF .GT. MAXF) GO TO 998                                        

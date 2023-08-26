@@ -5,8 +5,8 @@
 ### imbrie: Imbrie and Imbrie (1980) ice model. Model follows convention
 ###         used in Analyseries.
 ###          (SRM: April 14-16, 2015; June 19, 2018; December 5-6, 2018; 
-###                January 7, 2019; December 3, 2020; January 14, 2021; 
-###                October 4, 2021)
+###                January 7, 2019; December 3, 2020; January 14, 2021;
+###                September 21, 2022; November 7, 2022)
 ###
 ###########################################################################
 
@@ -143,10 +143,10 @@ if(genplot==1 || genplot==2 || genplot==3)
       ylim=c(min(out[1:pts2,2]),max(out[1:pts2,2]))
       for(i in pts2:1)
        {
-         plot(insolation[i:pts2,1],insolation[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Insolation",main="Insolation model",type="l",ylim=xlim,col="red",lwd=2)
-         plot(out[i:pts2,1],out[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Ice volume",main="Ice volume model",type="l",ylim=ylim,col="cornflowerblue",lwd=2)
-         plot(insolation[i:pts2,2],out[i:pts2,2],type="l",xlab="Insolation",ylab="Ice volume",col="darkgreen",lty=2,xlim=xlim,ylim=ylim,lwd=2)
-         points(insolation[i,2],out[i,2],col="darkgreen",pch=16)
+         plot(insolation[i:pts2,1],insolation[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Insolation",main="Insolation model",font.lab=2,type="l",ylim=xlim,col="red",lwd=2)
+         plot(out[i:pts2,1],out[i:pts2,2],cex=0.5,xlab="Time (ka BP)",ylab="Ice volume",main="Ice volume model",font.lab=2,type="l",ylim=ylim,col="cornflowerblue",lwd=2)
+         plot(insolation[i:pts2,2],out[i:pts2,2],type="l",xlab="Insolation",ylab="Ice volume",font.lab=2,col="darkgreen",lty=2,xlim=xlim,ylim=ylim,lwd=2)
+         points(insolation[i,2],out[i,2],col="black",pch=16)
          Sys.sleep(0.15)
        }
     }    

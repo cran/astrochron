@@ -5,23 +5,27 @@
 Calculate periodogram for stratigraphic series
 }
 \usage{
-periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,output=0,
-             f0=F,fNyq=T,xmin=0,xmax=Nyq,pl=1,genplot=T,verbose=T)
+periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,medsmooth=0.2,
+             bc=F,output=0,f0=F,fNyq=T,xmin=0,xmax=Nyq,pl=1,genplot=T,check=T,
+            verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series to analyze. First column should be location (e.g., depth), second column should be data value.}
-  \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points. padfac will automatically promote the total padded series length to an even number, to ensure the Nyquist frequency is calculated. However, if padfac is set to 0, no padding will be implemented.}
+  \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points. padfac will automatically promote the total padded series length to an even number, to ensure the Nyquist frequency is calculated. padfac must be >= 1.}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
   \item{nrm}{Power normalization: 0 = no normalization; 1 = divide Fourier transform by npts.}
-  \item{background}{Estimate noise model background spectrum and confidence levels? (0= No, 1= AR1, 2= Power Law)}
-  \item{output}{Return output as new data frame? (0= no; 1= frequency,amplitude,power,phase (+ background fit and confidence levels, if background selected); 2= frequency,real coeff.,imag. coeff)}
+  \item{background}{Estimate noise model background spectrum and confidence levels? (0= No, 1= AR1, 2= Power Law, 3= Robust AR1)}
+  \item{medsmooth}{Robust AR1 median smoothing parameter (1 = use 100\% of spectrum; 0.20 = use 20\%)}
+  \item{bc}{Apply Bonferroni correction? (T or F)}
+  \item{output}{Return output as new data frame? 0= no; 1= frequency, amplitude, power, phase (+ background fit and confidence levels if background selected); 2= frequency, real coeff., imag. coeff. If option 2 is selected, all frequencies from negative to positive Nyquist are returned, regardless of the f0 and fNyq settings}
   \item{f0}{Return results for the zero frequency? (T or F)}
   \item{fNyq}{Return results for the Nyquist frequency? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}
   \item{pl}{Power spectrum plotting: 1 = log power, 2 = linear power}
   \item{genplot}{Generate summary plots? (T or F)}
+  \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (T or F)}
 }
 

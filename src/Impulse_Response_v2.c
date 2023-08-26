@@ -30,7 +30,7 @@ SEXP Impulse_Response(SEXP delta_t, SEXP NT, SEXP Gval, SEXP alpha, SEXP verbose
         double *G = REAL(Gval);
 	PROTECT(alpha = AS_NUMERIC(alpha));
         double *a; a  = NUMERIC_POINTER(alpha);
-        int *verb = INTEGER(verbose);
+/*      int *verb = INTEGER(verbose);  removed for CRAN compliance, SRM Aug. 24, 2023  */
         
         /* parameters needed for calculation */
         int  N = length(alpha);                           // Number of alphas

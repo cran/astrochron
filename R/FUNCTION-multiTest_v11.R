@@ -4,7 +4,7 @@
 ###########################################################################
 ### multiTest function - (SRM: November 19-30, 2017; December 4, 2017;
 ###                            April 13, 2018; April 17, 2018; July 7, 2018;
-###                            January 8, 2019)
+###                            January 8, 2019; May 28, 2022; June 18, 2022)
 ###
 ### apply multiple comparisons correction to spectrum confidence levels
 ###########################################################################
@@ -24,19 +24,14 @@ if(length(spec)==2)
   rawPvals = (100-spec[,2])/100
  }
 
-# if there are 8 columns, we assume the results come from lowspec,mtm,mtmPL,or mtmML96
-# note that periodgram has a different order!
-if(length(spec)==8)
+# if there are more than 2 columns, we assume the results come from lowspec, mtm, mtmPL, 
+#  mtmML96, or periodogram. Note that periodgram has a different order!
+if(length(spec)>2)
  {
    freq <- spec[,1]
-   rawPvals = (100-spec[,4])/100
- }
- 
-# if there are 9 columns, we assume the results come from periodogram
-if(length(spec)==9)
- {
-   freq <- spec[,1]
-   rawPvals = (100-spec[,5])/100
+   if(colnames(spec)[2]=="Power" || colnames(spec)[2]== "Prewhite_power") rawPvals = (100-spec[,4])/100
+# for results from periodogram
+   if(colnames(spec)[2]=="Amplitude") rawPvals = (100-spec[,5])/100
  }
 
 if(length(spec)<2 || length(spec)>9)
