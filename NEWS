@@ -1,3 +1,27 @@
+astrochron v1.3 (Release date: 2024-05-27)
+================
+
+New functions:
+
+* function stratPCA
+
+Other changes:
+
+* function eha: modifications to FORTRAN source code for compliance with Debian and Fedora Linux clang compilers
+* function asm: modifications to FORTRAN source code for compliance with Debian and Fedora Linux clang compilers
+* function eAsm: modifications to FORTRAN source code for compliance with Debian and Fedora Linux clang compilers
+* function idPts: added 'iso' option to automatically isolate data between minimum and maximum selected x-values (similar to function iso), other minor edits
+* function zoomIn: minor edits
+* function timeOpt: added 'r2max' option, added output of full TimeOpt regression model
+* function timeOptSim: added 'r2max' option
+* function timeOptSimPwrLaw: added 'r2max' option
+* function timeOptMCMC: some changes to console output
+* function rankSeries: added 'start' option
+* function strats: fixed so no plot initiated when 'genplot' = 0
+* function autoPlot: minor edits
+* function insoMap: minor edits
+
+
 astrochron v1.2 (Release date: 2023-08-25)
 ================
 
@@ -8,8 +32,8 @@ New functions:
 The following function accompanies Sullivan et al. (in press 2023):
 * function bicoherence
 
-
 Other changes:
+
 * function surrogateCor: added compliance check option, modified verbose output setting, fixed p-value reporting when nsim <=1
 * function hilbert: added option for calculating instantaneous phase
 * function periodogram: added options for (1) robust AR1 model, (2) Bonferroni corrections, (3) compliance check. Also modified to output all positive and negative Fourier coefficients when output=2.

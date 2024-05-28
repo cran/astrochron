@@ -1,5 +1,5 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2023 Stephen R. Meyers
+c Copyright (C) 2024 Stephen R. Meyers
 
 c Contact Stephen Meyers (smeyers@geology.wisc.edu) for information on
 c updates. 
@@ -18,6 +18,7 @@ c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 c initialize variable types
       implicit real(8) (a-h,o-z)       !SRM: Aug 28, 2016; this modified for R compliance
+      save saveAsm, store              !SRM: May 27, 2024; this modified for R compliance
 
 c set maximum number of iterations
       parameter (mxdata=100000)

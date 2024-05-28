@@ -43,7 +43,7 @@ ex[1]<-ex[1]*0.02
 # evaluate precession modulations
 res1=timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,output=1)
 res2=timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,output=2)
-simres=timeOptSim(ex,sedrate=2,numsim=2000,fit=1,output=2)
+simres=timeOptSim(ex,sedmin=0.5,sedmax=5,numsed=100,numsim=2000,fit=1,output=2)
 timeOptPlot(ex,res1,res2,simres,flow=0.035,fhigh=0.065,roll=10^3,
  targetE=c(405.6795,130.719,123.839,98.86307,94.87666),
  targetP=c(23.62069,22.31868,19.06768,18.91979),xlab="Depth (m)",

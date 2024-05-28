@@ -6,7 +6,7 @@
 ###          (SRM: Oct. 30, 2012; Jan. 18, 2013; May 20, 2013; June 19, 2013;
 ###                June 28, 2013; August 15, 2013; April 7, 2015; 
 ###                February 16, 2016; November 22, 2017; July 3, 2018;
-###                January 14, 2021; May 26, 2021)
+###                January 14, 2021; May 26, 2021; Oct. 11, 2023)
 ###
 ###########################################################################
 
@@ -75,8 +75,8 @@ if(genplot)
   if(!vertical) par(mar = c(2.5, 4, 1, 2))
   if(is.null(nrows))
    {
-    if(ncols<=4) nrows = 1
-    if(ncols>4) nrows = ceiling(sqrt(ncols-1))
+    if(ncols<=5) nrows = 1
+    if(ncols>5) nrows = ceiling(sqrt(ncols-1))
     ncols1 = nrows
     par(mfrow = c(nrows, ncols1))
    }

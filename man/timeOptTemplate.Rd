@@ -59,7 +59,7 @@ if output = 1, a data frame containing the following will be returned:
 Sedimentation rate (cm/ka), r-squared value (r^2_envelope, r^2_spectra, or r^2_opt)
 
 if output = 2, a data frame containing the following will be returned:
-Time (ka), tuned time series, bandpassed series, envelope, reconstructed model
+Time (ka), tuned time series, bandpassed series, envelope, TimeOpt-reconstructed eccentricity model
 }
 
 \seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, \code{\link{timeOpt}}, \code{\link{timeOptSim}}, and \code{\link{timeOptTemplatePlot}}}

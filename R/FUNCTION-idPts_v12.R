@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2017 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### idPts: identify points in plot (SRM: Oct. 29, 2012; Nov. 23, 2012;
@@ -8,11 +8,11 @@
 ###                                      April 10, 2014; April 21, 2014;
 ###                                      April 23, 2014; Nov. 19, 2014;
 ###                                      February 4, 2015; June 1, 2015;
-###                                      September 14, 2017)
+###                                      September 14, 2017; September 12, 2023)
 ###########################################################################
 
 
-idPts <- function (dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,logx=F,logy=F,plotype=1,annotate=1,output=1,verbose=T)
+idPts <- function (dat1,dat2=NULL,ptsize=0.5,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,logx=F,logy=F,plotype=1,annotate=1,iso=F,output=1,verbose=T)
 {    
     if(verbose) cat("\n----- INTERACTIVELY IDENTIFY POINTS IN PLOT -----\n")
     dat1 <- data.frame(dat1)
@@ -59,8 +59,8 @@ idPts <- function (dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NU
 
     if(is.null(xmin)) xmin=min(xx)
     if(is.null(xmax)) xmax=max(xx)
-    if(is.null(ymin)) ymin=min(yy)
-    if(is.null(ymax)) ymax=max(yy)
+    if(is.null(ymin)) ymin=min(subset(yy, (xx >= xmin) & (xx <= xmax) ) )
+    if(is.null(ymax)) ymax=max(subset(yy, (xx >= xmin) & (xx <= xmax) ) )
    
     par(mfrow=c(1,1))
     if(logx && logy) setlog="xy"
@@ -102,10 +102,16 @@ identifyPch <- function(x, y=NULL, loc=NULL, n=length(x), pch=19, cex, ...)
     if(setIn==2) pts <- identifyPch(xx,yy,loc,cex=ptsize)
 
     if(output==1) 
-     {
+     { 
        out <- data.frame(cbind(xx[pts],yy[pts]))
        colnames(out) <- c("x","y")
-       return(out)
+       if(!iso) return(out)
+       if(iso && setIn==1) 
+        {
+          if(verbose) cat("\n * Isolating data between minimum and maximum selected x-values\n")
+          out2=iso(cbind(xx,yy),xmin=min(out[,1]),xmax=max(out[,1]),genplot=F,verbose=F)
+          return(out2)
+        } 
      }  
         
     if(output==2) 

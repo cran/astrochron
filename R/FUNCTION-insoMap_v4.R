@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2022 Stephen R. Meyers
+### Copyright (C) 2024 Stephen R. Meyers
 ###
 ###########################################################################
 ### function insoMap : calculate insolation map using Laskar et al. (2004)
 ###                    solution, with palinsol (SRM: November 7-9, 2022;
-###                    July 22-24, 2023)
+###                    July 22-24, 2023; March 12, 2024)
 ###
 ###########################################################################
 
@@ -87,7 +87,7 @@ identifyPch <- function(x, y=NULL, n=length(x), pch=19, ...)
       abline(v=long2[pts],col="red",lwd=2,lty=4)
       if(verbose) cat("\n * Extracting record from=",long2[pts],"degrees\n")     
       dev.new()
-      plot(MM[pts,],lat,type="l",lwd=2,col="red",ylab="Latitude (degrees)",xlab=expression(paste("Incoming Solar Radiation W/m"^"2")),main=paste("True Solar long2itude=",round(long2[pts],2)))
+      plot(MM[pts,],lat,type="l",lwd=2,col="red",ylab="Latitude (degrees)",xlab=expression(paste("Incoming Solar Radiation W/m"^"2")),main=paste("True Solar longitude=",round(long2[pts],2)))
       mtext(paste("Tilt=",round(obl,2),"    Eccentricity=",round(ecc,2),"    Perihelion=",round(varpi,2)),side=3,font=2)
       abline(h=c(90-obl,obl,0,-1*obl,-90+obl),col="black",lwd=1,lty=4)
       text(50,-90+obl,round(-90+obl,2),font=2)

@@ -19,7 +19,7 @@ gVal= c(5.579378,7.456665,17.366595,17.910194,4.257564)
 kVal= 50.475838
 calcPeriods(g=gVal, k=kVal)
 
-# calculate eccentricity and precession periods for two sets of g's and k
+# calculate eccentricity and precession periods for three sets of g's and k
 gVal= matrix(c(5.579378,7.456665,17.366595,17.910194,4.257564,5.494302,7.452619,
       17.480760,18.348310,4.257451,5.531285,7.456848,17.320480,17.912240,4.257456),
       nrow=3,ncol=5,byrow=TRUE)

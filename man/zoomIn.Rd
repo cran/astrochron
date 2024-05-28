@@ -6,7 +6,7 @@ Dynamically explore cross-plot, zoom-in into specfied region. Accepts one datafr
 with two columns, or two dataframes/vectors with one column.
 }
 \usage{
-zoomIn(dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1,
+zoomIn(dat1,dat2=NULL,ptsize=0.5,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1,
        verbose=T)
 }
 \arguments{

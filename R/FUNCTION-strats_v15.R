@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### strats - (SRM: January 25, 2012; March 9, 2012; April 24, 2013; 
@@ -7,7 +7,7 @@
 ###                July 31, 2014; August 1, 2014; August 12-14, 2014;
 ###                November 7, 2014; April 7-8, 2015; May 18, 2015;
 ###                September 10, 2015; October 17, 2015; July 22, 2016;
-###                January 14, 2021)
+###                January 14, 2021; September 15, 2023)
 ### 
 ### summary statistics for stratigraphic data series
 ###########################################################################
@@ -23,8 +23,11 @@ strats <- function (dat,output=0,genplot=1)
    ii=length(dat)
    
 ### set up plots   
-   if(ii==1) par(mfrow=c(2,2)) 
-   if(ii>=2) par(mfrow=c(2,3))
+   if(genplot>0)
+    {
+      if(ii==1) par(mfrow=c(2,2)) 
+      if(ii>=2) par(mfrow=c(2,3))
+    }  
    
    if(ii>2) 
      {

@@ -1,13 +1,13 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### zoomIn: explore cross-plot, allow user to zoom into specfied region.
-###                                      (SRM: April 16, 2014; June 30, 2014)
+###                                      (SRM: April 16, 2014; June 30, 2014; Sept. 13, 2023)
 #
 ###########################################################################
 
-zoomIn <- function (dat1,dat2=NULL,ptsize=1,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1,verbose=T)
+zoomIn <- function (dat1,dat2=NULL,ptsize=0.5,xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,plotype=1,verbose=T)
 {
     
     if(verbose) cat("\n----- DYNAMICALLY EXPLORE CROSS-PLOT -----\n")

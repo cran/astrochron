@@ -1,15 +1,15 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### rankSeries: generate rank stratigraphic series from bedding thickness
 ###              data, then interpolate to specified interval.
 ###              (June 25, 2014; July 21, 2015; July 22, 2016; 
-###                October 15, 2018)
+###                October 15, 2018; September 14, 2023)
 ###
 ###########################################################################
 
-rankSeries <- function (dat,dt=NULL,genplot=T,verbose=T)
+rankSeries <- function (dat,dt=NULL,start=0,genplot=T,verbose=T)
 {
 
   if (verbose) cat("\n----- CREATE LITHOFACIES RANK SERIES -----\n")
@@ -60,11 +60,13 @@ rankSeries <- function (dat,dt=NULL,genplot=T,verbose=T)
           out=dat2
        }
 
+      out[1] = out[1] + start
+      
 if(genplot)
   {
 ### plots
     par(mfrow=c(2,2))
-    plot(out,cex=0.5,xlab="Stratigraphic Height",ylab="Bed Rank",main="Rank series (blue circle=base of bed)", type="l"); points(height[1:(ipts)],dat[,2], col="blue",cex=1); points(out, col="red",cex=0.5)
+    plot(out,cex=0.5,xlab="Stratigraphic Height",ylab="Bed Rank",main="Rank series (blue circle=base of bed)", type="l"); points(height[1:(ipts)]+start,dat[,2], col="blue",cex=1); points(out, col="red",cex=0.5)
 ### plot the denisty and the histogram together
     hist(out[,2],freq=F,xlab="Bed Rank",main="Distribution of bed rank"); lines(density(out[,2], bw="nrd0"),col="red"); grid()
 ### boxplot

@@ -14,7 +14,7 @@ periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,medsmooth=0.2,
   \item{padfac}{Pad with zeros to (padfac*npts) points, where npts is the original number of data points. padfac will automatically promote the total padded series length to an even number, to ensure the Nyquist frequency is calculated. padfac must be >= 1.}
   \item{demean}{Remove mean from data series? (T or F)}
   \item{detrend}{Remove linear trend from data series? (T or F)}
-  \item{nrm}{Power normalization: 0 = no normalization; 1 = divide Fourier transform by npts.}
+  \item{nrm}{Power normalization: 0 = no normalization; 1 = divide Fourier coefficients by npts.}
   \item{background}{Estimate noise model background spectrum and confidence levels? (0= No, 1= AR1, 2= Power Law, 3= Robust AR1)}
   \item{medsmooth}{Robust AR1 median smoothing parameter (1 = use 100\% of spectrum; 0.20 = use 20\%)}
   \item{bc}{Apply Bonferroni correction? (T or F)}

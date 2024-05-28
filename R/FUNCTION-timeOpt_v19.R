@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2022 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOpt - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014; 
@@ -12,10 +12,11 @@
 ###                          November 9, 2016; February 13, 2017; 
 ###                          April 11, 2017; April 23, 2017; Sept. 8, 2017
 ###                          December 11, 2017; December 13-18, 2017;
-###                          July 25, 2019; January 14, 2021; July 30, 2022)
+###                          July 25, 2019; January 14, 2021; July 30, 2022;
+###                          October 11, 2023; November 9, 2023)
 ###########################################################################
 
-timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,check=T,verbose=T)
+timeOpt <- function (dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,r2max=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,output=0,title=NULL,genplot=T,check=T,verbose=T)
 {
 
 if(verbose) cat("\n----- TimeOpt: Assessment of Amplitude Modulation & Bundling-----\n")
@@ -326,13 +327,17 @@ for (ii in 1:numsed)
 # for precession modulations
     if(fit == 1) 
       {
+# envelope fit
          res = fitIt(sedrate[ii],hil,targetE)
+# power fit
          pwrOut = fitIt(sedrate[ii],ts,targetTot)
        }
 # for short eccentricity modulations
     if(fit == 2) 
       {
+# envelope fit
          res = fitIt(sedrate[ii],hil,targetE[1])
+# power fit
          pwrOut = fitIt(sedrate[ii],ts,targetTot)
        }
     
@@ -352,7 +357,7 @@ ptPwr=which.max(ans[,3])
 # check for multiple maxima
 sumMax = sum( ans[,3] == max(ans[,3]) )
 if(sumMax > 1 && verbose) cat("\n**** WARNING: Multiple spectral power maxima detected.\n") 
-# find sedimentation rate with maxima in correlation
+# find sedimentation rate with maxima in envelope correlation
 ptCor=which.max(ans[,2])
 # check for multiple maxima
 sumMax = sum( ans[,2] == max(ans[,2]) )
@@ -370,6 +375,22 @@ if(verbose)
   cat(" * Maximum (envelope r^2) x (spectral power r^2) =", rPwr[ptRp],"at sedimentation rate of", 100*ans[ptRp,1],"cm/ka\n")
  }
   
+# select which maxima to use for plotting and output
+if(r2max==1) 
+  {
+    r2use=ptRp
+    if(verbose) cat("\n * Plotting/outputting time series calibrated to (envelope r^2) x (spectral power r^2) maximum \n")
+  }  
+if(r2max==2) 
+  {
+    r2use=ptPwr
+    if(verbose) cat("\n * Plotting/outputting time series calibrated to (spectral power r^2) maximum \n")
+  }  
+if(r2max==3) 
+  {
+    r2use=ptCor
+    if(verbose) cat("\n * Plotting/outputting time series calibrated to (envelope r^2) maximum \n")
+  }
 
 #######################################################################################
 if(genplot == T || output == 2)
@@ -380,12 +401,12 @@ if(genplot == T || output == 2)
 # create new time vector
 # index vector for time
     it <- seq(1,npts,by=1)    
-    time = (dx/ans[ptRp,1]) * (it-1)
+    time = (dx/ans[r2use,1]) * (it-1)
     ts[1] = time 
 
 # filter record    
     fc_dat2=fc_dat
-    fc_dat2[1]=fc_dat2[1]*ans[ptRp,1]
+    fc_dat2[1]=fc_dat2[1]*ans[r2use,1]
     bp = tanerFC(fc_dat2,npts=npts,flow=flow,fhigh=fhigh,roll=roll,output=1,genplot=F,verbose=F)
 # get filter window
     bpWin= tanerFC(fc_dat2,npts=npts,flow=flow,fhigh=fhigh,roll=roll,output=2,genplot=F,verbose=F)
@@ -394,13 +415,13 @@ if(genplot == T || output == 2)
 # perform fitting at optimal sedimentation rate for plotting
 if(fit == 1) 
  {
-   xm <- genCycles(ans[ptRp,1], targetE, npts)
-   xm2 <- genCycles(ans[ptRp,1], targetTot, npts)
+   xm <- genCycles(ans[r2use,1], targetE, npts)
+   xm2 <- genCycles(ans[r2use,1], targetTot, npts)
  }  
 if(fit == 2) 
  {
-   xm <- genCycles(ans[ptRp,1], targetE[1], npts)
-   xm2 <- genCycles(ans[ptRp,1], targetTot, npts)
+   xm <- genCycles(ans[r2use,1], targetE[1], npts)
+   xm2 <- genCycles(ans[r2use,1], targetTot, npts)
  }
 lm.0 <- lm(hil[,2] ~ xm)
 lm.2 <- lm(ts[,2] ~ xm2)
@@ -532,9 +553,9 @@ if(genplot)
 # return optimal time series, hilbert and fitted periods
      if(output == 2) 
       {
-        out <- data.frame (cbind(ts[,1],ts[,2],bp[,2],hil[,2],lm.0$fitted) )
-        if(fit==1) colnames(out) <- c("time","value","filtered_precession","precession_envelope","reconstructed_ecc_model")
-        if(fit==2) colnames(out) <- c("time","value","filtered_short_ecc","short_ecc_envelope","reconstructed_ecc_model")
+        out <- data.frame (cbind(ts[,1],ts[,2],bp[,2],hil[,2],lm.0$fitted,lm.2$fitted) )
+        if(fit==1) colnames(out) <- c("time","value","filtered_precession","precession_envelope","reconstructed_ecc_model","full_regression_model")
+        if(fit==2) colnames(out) <- c("time","value","filtered_short_ecc","short_ecc_envelope","reconstructed_ecc_model","full_regression_model")
         return(out)
       }  
 

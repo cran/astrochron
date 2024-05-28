@@ -6,7 +6,7 @@ Perform Monte Carlo power law (1/f) simulations to evaluate significance of Time
 }
 \usage{
 timeOptSimPwrLaw(dat,numsim=2000,beta=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,
-         linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,
+         linLog=1,limit=T,fit=1,r2max=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,
          targetE=NULL,targetP=NULL,detrend=T,ncores=2,output=0,genplot=T,
          check=T,verbose=T)
  }
@@ -22,6 +22,7 @@ timeOptSimPwrLaw(dat,numsim=2000,beta=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,nums
   \item{linLog}{Use linear or logarithmic scaling for sedimentation rate grid spacing? (0=linear, 1=log)}
   \item{limit}{Limit evaluated sedimentation rates to region in which full target signal can be recovered? (T or F)}
   \item{fit}{Test for (1) precession amplitude modulation or (2) short eccentricity amplitude modulation?}
+  \item{r2max}{Which maximum in r2 do you want to use for the time model calibration? (1) r^2_opt, (2) r^2_spectral, (3) r^2_envelope}
   \item{fitModPwr}{Include the modulation periods in the spectral fit? (T or F)}
   \item{flow}{Low frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{fhigh}{High frequency cut-off for Taner bandpass (half power point; in cycles/ka)}

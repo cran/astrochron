@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2023 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOptSim - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014;
@@ -10,12 +10,12 @@
 ###                             February 25, 2016; October 18-26, 2016;
 ###                             December 13, 2017; December 18-19, 2017; 
 ###                             May 10, 2018; May 16, 2018; June 1, 2018; 
-###                             January 14, 2021)
+###                             January 14, 2021; September 13, 2023)
 ###########################################################################
 
 # modified from timeOptSimMulti_v4.R. this version of timeOptSim is parallelized
 
-timeOptSim <- function (dat,numsim=2000,rho=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,ncores=2,output=0,genplot=T,check=T,verbose=T)
+timeOptSim <- function (dat,numsim=2000,rho=NULL,sedrate=NULL,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,r2max=1,fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,ncores=2,output=0,genplot=T,check=T,verbose=T)
 {
 
 if(verbose) cat("\n----- TimeOpt Monte Carlo Simulation -----\n")
@@ -82,12 +82,17 @@ if (detrend)
       if(verbose) cat(" * Raw AR1 =",rho,"\n")
     }  
 
-   res=timeOpt(dat,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)
-   datCorPwr = max(res[,4])
+   res=timeOpt(dat,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,r2max=r2max,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)
+   if (r2max==1) datCorMax = max(res[,4])
+   if (r2max==2) datCorMax = max(res[,3])
+   if (r2max==3) datCorMax = max(res[,2])
+
    
 if(verbose)
  {  
-  cat(" * (Envelope r^2) x (Spectral Power r^2) =", datCorPwr,"\n")
+  if (r2max==1) cat(" * (Envelope r^2) x (Spectral Power r^2) =", datCorMax,"\n")
+  if (r2max==2) cat(" * (Spectral Power r^2) =", datCorMax,"\n")
+  if (r2max==3) cat(" * (Envelope r^2) =", datCorMax,"\n")
  }
 
 #######################################################################################
@@ -140,10 +145,14 @@ if(verbose)
   sim[2]=sim[2]-colMeans(sim[2])
   sim[2]=sim[2]/sapply(sim[2],sd)
                
-  simres=max(timeOpt(sim,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)[4])
+  simres=timeOpt(sim,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,r2max=r2max,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)
+
+  if(r2max==1) simMax = max(simres[,4])
+  if(r2max==2) simMax = max(simres[,3])
+  if(r2max==3) simMax = max(simres[,2])
 
 # return results
-  simres
+  simMax
 
 # end foreach loop
 }
@@ -156,29 +165,34 @@ if(verbose)
   simres=resParallel
 
 # now sort results, determine how many have values > your result
-# envelope * spectral power
-    numgt = sum(simres>datCorPwr)
-    pvalCorPwr=numgt/numsim 
-    if(pvalCorPwr < (10/numsim) && (10/numsim) <=1 ) pvalCorPwr= 10/numsim
-    if(pvalCorPwr >= (10/numsim) && (10/numsim) <=1 ) pvalCorPwr=pvalCorPwr   
-    if((10/numsim) > 1 ) pvalCorPwr=1
+    numgt = sum(simres>datCorMax)
+    pval=numgt/numsim 
+    if(pval < (10/numsim) && (10/numsim) <=1 ) pval= 10/numsim
+    if(pval >= (10/numsim) && (10/numsim) <=1 ) pval=pval   
+    if((10/numsim) > 1 ) pval=1
      
-    if(verbose) cat("\n * (Envelope r^2) * (Spectral Power r^2) p-value =",pvalCorPwr, "\n")
-
+    if(verbose) 
+     {
+       if (r2max==1) cat("\n * (Envelope r^2) * (Spectral Power r^2) p-value =",pval, "\n")
+       if (r2max==2) cat("\n * (Spectral Power r^2) p-value =",pval, "\n")
+       if (r2max==3) cat("\n * (Envelope r^2) p-value =",pval, "\n")
+     }
      
     if(genplot)
      { 
       dev.new(title = paste("TimeOpt Monte Carlo Results"), height = 5, width = 6)
       par(mfrow=c(1,1))
-      plot(density(simres), col="black",xlim=c(0,1),type="l",xlab=expression(paste({"r"^2}["opt"])),main=expression(bold(paste({"r"^2}["opt"]," Monte Carlo Results"))),cex.lab=1.1,lwd=2)
+      if (r2max==1) plot(density(simres), col="black",xlim=c(0,1),type="l",xlab=expression(paste({"r"^2}["opt"])),main=expression(bold(paste({"r"^2}["opt"]," Monte Carlo Results"))),cex.lab=1.1,lwd=2)
+      if (r2max==2) plot(density(simres), col="black",xlim=c(0,1),type="l",xlab=expression(paste({"r"^2}["spectral"])),main=expression(bold(paste({"r"^2}["spectral"]," Monte Carlo Results"))),cex.lab=1.1,lwd=2)
+      if (r2max==3) plot(density(simres), col="black",xlim=c(0,1),type="l",xlab=expression(paste({"r"^2}["envelope"])),main=expression(bold(paste({"r"^2}["envelope"]," Monte Carlo Results"))),cex.lab=1.1,lwd=2)
       polygon(density(simres),col="red",border=NA)
 #      grid()
-      abline(v=datCorPwr,col="blue",lwd=2,lty=3)
-      mtext(round(datCorPwr,digits=5),side=3,line=0,at=datCorPwr,cex=1,font=4,col="blue")
+      abline(v=datCorMax,col="blue",lwd=2,lty=3)
+      mtext(round(datCorMax,digits=5),side=3,line=0,at=datCorMax,cex=1,font=4,col="blue")
      }
      
 # output = (0) nothing, (1) envelope*spectral power r^2 p-value, (2) output simulation r^2 results
-     if(output == 1) return(data.frame(pvalCorPwr))
+     if(output == 1) return(data.frame(pval))
      if(output == 2) return(data.frame(simres))
      
 ### END function timeOptSim

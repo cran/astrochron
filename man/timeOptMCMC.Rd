@@ -80,67 +80,16 @@ in g, k and s;  moving each group of parameters (sedrate, k or g's) has specific
 consequences we can isolate. 
 
 
-Here are some additional notes on the application of timeOptMCMC:
-
-(1) Before conducting a timeOptMCMC analysis, run timeOpt to get a sense of the optimal 
-sedimentation rate region(s).
-
-(2) Make epsilon as large as you reasonably can, to maximize the chance of jumping between 
-modes. Think of epsilon as analogous to a diffusion coefficient. A good strategy is to run 
-a coarse resolution analysis (large epsilon) to identify the optimum region, then use as 
-small an epsilon as possible to explore that optimum region. Note that larger epsilon 
-yields less correlation in candidates. If you want to determine the time constant 
-(thus number of independent samples) associated with a given epsilon, calculate the 
-autocovariance function for accepted candidates (post-burnin).  Decimation is useful for 
-generating independent samples if desired.
-
-(3) For greatest efficiency, the percentage of accepted candidates is typically expected 
-to be between 23-44 percent (see Gelman et al., 1996, "Efficient Metropolis jumping rules").  
-However, the multimodal nature of the parameter space may require smaller acceptance rates.
-
-(4) To ensure that the MCMC algorithm is exploring the full parameter space, run an 
-analysis with 'test=T'. This option will accept all MCMC candidates. The histogram for 
-each parameter value should approximate the prior distribution. If this is not the case, 
-epsilon should be increased.
-
-(5) It is expected that the MAP should be close to the mode when you have enough samples, 
-although this is not guaranteed.
-
-(6) There are different strategies for implementing the algorithm. One can run one long 
-chain, or run multiple short chains and combine.
-
-(7) If you run a very long test chain, you can decimate to conduct a rarefaction analysis 
-(of the parameters).
-
-(8) For testing, it is recommended to run at least 3 very long chains. Ideally they should 
-be long enough that you can't tell the difference. Plot likelihood versus each candidate, 
-and also sigma vs each candidate, for each run.  This will allow identification of 
-simulations that have gone into local minima.
-
-(9) The following are useful estimates to consider: mean of candidate values (post-burnin), 
-MAP, mode of kernel density estimate (post-burnin), 95 percent Credible Interval from 
-kernel density estimate (post-burnin).
-
-(10) Keep in mind that a parabolic plot of log-likelihood vs. parameter value (quadratic
-in log-likelihood) indicates a Gaussian distribution.
-
-For additional information see Meyers & Malinverno (2018), Meyers (2015), Tarantola (2005), 
-and Malinverno & Briggs (2004).
+For additional guidance on the application of TimeOptMCMC, please see the guide "Bayesian Inversion with TimeOptMCMC" (Meyers, 2024), and Meyers and Malinverno (2018).
 }
 
 \references{
-A. Gelman et al., 1996, 
-\emph{Efficient Metropolis jumping rules}, Bayesian Statistics 5, p. 599-607.
-
-A. Malinverno and V.A. Briggs, 2004,
-\emph{Expanded uncertainty quantification in inverse problems: Hierarchical Bayes and empirical bayes}: Geophysics, 69, doi:10.1190/1.1778243.
+S.R. Meyers, 2024,
+\emph{Bayesian Inversion with TimeOptMCMC}: EarthArXiv, https://doi.org/10.31223/X5DQ3H
 
 S.R. Meyers, 2015,
 \emph{The evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data: An inverse approach for astrochronologic testing and time scale optimization}: Paleoceanography, 30, doi:10.1002/2015PA002850.
 
 S.R. Meyers and A. Malinverno, 2018,
 \emph{Proterozoic Milankovitch cycles and the history of the solar system}: Proceedings of the National Academy of Sciences, www.pnas.org/cgi/doi/10.1073/pnas.1717689115.
-
-A. Tarantola, 2005, 
-\emph{Inverse Problem Theory and Methods for Model Parameter Estimation}, Society for Industrial and Applied Mathematics, 339 pages.
 }

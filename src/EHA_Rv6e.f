@@ -1,5 +1,5 @@
 c This code is a component of astrochron: An R Package for Astrochronology
-c Copyright (C) 2023 Stephen R. Meyers
+c Copyright (C) 2024 Stephen R. Meyers
 c
 c Contact Stephen Meyers (smeyers@geology.wisc.edu) for information on
 c updates. 
@@ -49,7 +49,9 @@ c======================================================================
 c     STEP 1: Define variable types, constants, and set up arrays.
 c====================================================================== 
 c     Set variable types.
-      implicit real(8) (a-h,o-z)                                         
+      implicit real(8) (a-h,o-z)
+      save xx,yy,dpss,dg,dcf,x,y,x1,y1                        !SRM: added May 27, 2024; this modified for R compliance
+
 c     Define maximum number of data points in data series.
       parameter (mxdata=200000)
 c     Define maximum number of DPSS tapers (max number of fft's).
@@ -72,7 +74,6 @@ c     Dimension amplitude and f-test work arrays.
 c     Define constants
       pi = 4.d0 * datan(1.d0)
       rad = 180.d0 / pi                                                 
-
 
 c====================================================================== 
 c     STEP 2: Define moving window MTM options.

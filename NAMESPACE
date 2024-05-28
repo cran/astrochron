@@ -1,37 +1,29 @@
 useDynLib(astrochron, .registration = TRUE)
 
-importFrom(IDPmisc, rfbaseline)
-importFrom(multitaper, spec.mtm)
-importFrom(multitaper, dpss)
-importFrom(fields, image.plot)       
-importFrom(fields, tim.colors)
-importFrom(viridisLite, viridis)
-importFrom("grDevices", "boxplot.stats", "colors", "dev.new", "dev.off", "gray", "tiff", "jpeg", "pdf", "png", "bmp", "rainbow", "xy.coords")
-importFrom("grDevices", "colorRampPalette", "gray.colors", "hcl.colors")
+importFrom("IDPmisc", "rfbaseline")
+importFrom("multitaper", "spec.mtm", "dpss")
+importFrom("fields", "image.plot", "tim.colors")       
+importFrom("viridisLite", "viridis")
+importFrom("grDevices", "boxplot.stats", "dev.new", "dev.off", "tiff", "jpeg", "pdf", "png", "bmp")
+importFrom("grDevices", "xy.coords", "gray", "rainbow", "colors", "colorRampPalette", "gray.colors", "hcl.colors")
 importFrom("graphics", "abline", "axis", "boxplot", "contour", "grid", "hist", "identify", "image", "layout", "lines", "locator", "mtext", "par", "plot", "points", "polygon", "rect", "segments", "text")
-importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm", "predict", "na.omit", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var")
-importFrom("stats", "p.adjust")
-importFrom("utils", "download.file", "head", "read.table", "write.table")
-importFrom("utils", "setTxtProgressBar", "txtProgressBar")
-importFrom(doParallel, registerDoParallel)
-importFrom(parallel, makeCluster)
-importFrom(parallel, stopCluster)
-importFrom(iterators, icount)
-importFrom(foreach, foreach)
-importFrom(foreach, "%dopar%")
-importFrom(palinsol, la04)
-importFrom(palinsol, calins)
-importFrom(palinsol, Insol)
-importFrom(palinsol, Insol_l1l2)
-importFrom(palinsol, thrins)
-importFrom(palinsol, Milankovitch)
+importFrom("stats", "approx", "approxfun", "ar", "arima.sim", "as.ts", "cor", "density", "dnorm", "fft", "ksmooth", "lm", "loess", "median", "nls", "optim", "pchisq", "pf", "pnorm")
+importFrom("stats", "predict", "na.omit", "qchisq", "qqline", "qqnorm", "qt", "rnorm", "runif", "runmed", "sd", "spec.ar", "var", "p.adjust")
+importFrom("utils", "download.file", "head", "read.table", "write.table", "setTxtProgressBar", "txtProgressBar")
+importFrom("doParallel", "registerDoParallel")
+importFrom("parallel", "makeCluster", "stopCluster")
+importFrom("iterators", "icount")
+importFrom("foreach", "foreach", "%dopar%")
+importFrom("palinsol", "la04", "calins", "Insol", "Insol_l1l2", "thrins", "Milankovitch")
+importFrom("grDevices", "colorRamp", "rgb")
+importFrom("stats", "promax", "varimax")
 
 export(anchorTime,
        ar1,
        ar1etp,
        arcsinT,
-       asm,
        armaGen,
+       asm,
        autoPlot,
        bandpass,
        bergerPeriods,
@@ -118,6 +110,7 @@ export(anchorTime,
        slideCor,
        sortNave,
        stepHeat,
+       stratPCA,
        strats,
        surrogateCor,
        surrogates,

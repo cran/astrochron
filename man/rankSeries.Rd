@@ -4,11 +4,12 @@
 \description{
 Create lithofacies rank series from bed thickness data.}
 \usage{
-rankSeries(dat,dt,genplot=T,verbose=T)
+rankSeries(dat,dt,start=0,genplot=T,verbose=T)
 }
 \arguments{
   \item{dat}{First column should be bed thickness, and second column should bed lithofacies rank.}
   \item{dt}{Sampling interval for piecewise linear interpolation. By default a grid spacing that is 5 times smaller than the thinnest bed is used. If dt is set to zero, interpolation is skipped.}
+  \item{start}{Start at what time/depth/height value?}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }

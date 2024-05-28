@@ -5,9 +5,9 @@
 TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data, as in Meyers (2015).
 }
 \usage{
-timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,
-        flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,detrend=T,
-        output=0,title=NULL,genplot=T,check=T,verbose=T)
+timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,r2max=1,
+        fitModPwr=T,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,
+        detrend=T,output=0,title=NULL,genplot=T,check=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series for astrochronologic assessment. First column should be depth or height (in meters), second column should be data value.}
@@ -17,6 +17,7 @@ timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,
   \item{linLog}{Use linear or logarithmic scaling for sedimentation rate grid spacing? (0=linear, 1=log; default value  is 1)}
   \item{limit}{Limit evaluated sedimentation rates to region in which full target signal can be recovered? (T or F)}
   \item{fit}{Test for (1) precession amplitude modulation or (2) short eccentricity amplitude modulation?}
+  \item{r2max}{Which maximum in r2 do you want to use for the time model calibration? (1) r^2_opt, (2) r^2_spectral, (3) r^2_envelope}
   \item{fitModPwr}{Include the modulation periods in the spectral fit? (T or F)}
   \item{flow}{Low frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
   \item{fhigh}{High frequency cut-off for Taner bandpass (half power point; in cycles/ka)}
@@ -24,7 +25,7 @@ timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,fitModPwr=T,
   \item{targetE}{A vector of eccentricity periods to evaluate (in ka). These must be in order of decreasing period, with a first value of 405 ka.}
   \item{targetP}{A vector of precession periods to evaluate (in ka). These must be in order of decreasing period.}
   \item{detrend}{Remove linear trend from data series? (T or F)}
-  \item{output}{Which results would you like to return to the console? (0) no output; (1) return sedimentation rate grid, r^2_envelope, r^2_power, r^2_opt; (2) return optimal time series, bandpassed series, envelope, reconstructed eccentricity model}
+  \item{output}{Which results would you like to return to the console? (0) no output; (1) return sedimentation rate grid, r^2_envelope, r^2_power, r^2_opt; (2) return optimal time series, filtered precession, precession envelope, TimeOpt-reconstructed eccentricity model, full TimeOpt-regression model}
   \item{title}{A character string (in quotes) specifying the title for the graphics window (optional)}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}
@@ -79,7 +80,7 @@ if output = 1, a data frame containing the following will be returned:
 Sedimentation rate (cm/ka), r^2_envelope, r^2_spectral, r^2_opt
 
 if output = 2, a data frame containing the following will be returned:
-Time (ka), tuned time series, bandpassed series, envelope, reconstructed model
+Time (ka), tuned time series, filtered precession, precession envelope, TimeOpt-reconstructed eccentricity model, full TimeOpt-regression model
 }
 
 \seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, \code{\link{timeOptPlot}}, and \code{\link{timeOptSim}} }
@@ -95,7 +96,6 @@ S.R. Meyers, 2015,
 ex=etp(tmin=1,tmax=1000,dt=5,pWt=1,oWt=0,eWt=1,esinw=TRUE,genplot=FALSE,verbose=FALSE)
 # convert to meters with sedimentation rate of 2 cm/kyr
 ex[1]<-ex[1]*0.02
-# evaluate precession modulations
 timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,output=0)
 # evaluate short eccentricity modulations
 timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=2,output=0)
