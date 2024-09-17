@@ -28,7 +28,12 @@ mtm(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,siglevel=0.9,ar1=T,output=0,
 }
 
 \details{
-
+The power spectrum normalization approach applied here divides the Fourier coefficients by the 
+number of points (npts) in the stratigraphic series, which is equivalent to dividing the power 
+by (npts*npts). The (npts*npts) normalization has the convenient property whereby
+-- for an unpadded series -- the sum of the power in the positive frequencies is equivalent 
+to half of variance; the other half of the variance is in the negative frequencies.
+ 
 If ar1=T, candidiate astronomical cycles are identified via isolation of those frequencies 
 that achieve the required (e.g., 90 percent) "red noise" confidence level and MTM harmonic F-test 
 confidence level. Allowance is made for the smoothing inherent in the MTM power spectral estimate 
@@ -39,18 +44,20 @@ further reduce the false positive rate, a requirement that significant F-tests m
 power spectrum high, which is parameterized as occurring above the local red noise background estimate.
 See Meyers (2012) for futher information.
 
+Note that the 'spec.mtm' function in package 'multitaper' (Rahim et al., 2014) is used for MTM spectrum estimation.
+
 }
 
 \references{
 S.R. Meyers, 2012,
 \emph{Seeing Red in Cyclic Stratigraphy: Spectral Noise Estimation for Astrochronology}: Paleoceanography, 27, PA3228, doi:10.1029/2012PA002307.
 
-Rahim, K.J. and Burr W.S. and Thomson, D.J., 2014, \emph{Appendix A: Multitaper R package in "Applications of Multitaper Spectral Analysis to Nonstationary Data"}, PhD diss., Queen's Univieristy, pp 149-183. http://hdl.handle.net/1974/12584
+Rahim, K.J. and Burr W.S. and Thomson, D.J., 2014, \emph{Applications of Multitaper Spectral Analysis to Nonstationary Data}. PhD thesis, Queen's University. R package version 1.0-17, https://CRAN.R-project.org/package=multitaper.
 
 Thomson, D. J., 1982, \emph{Spectrum estimation and harmonic analysis}, Proc. IEEE, 70, 1055-1096, doi:10.1109/PROC.1982.12433.
 }
 
-\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, and \code{\link{spec.mtm}}}
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}}
 
 \examples{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka

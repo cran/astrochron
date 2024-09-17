@@ -33,11 +33,25 @@ mtmAR(dat,tbw=3,ntap=NULL,order=1,method="mle",CItype=1,padfac=5,demean=T,detren
   \item{genplot}{Generate summary plots? (T or F)}
   \item{verbose}{Verbose output? (T or F)}
 }
+
+\details{
+The power spectrum normalization approach applied here divides the Fourier coefficients by the 
+number of points (npts) in the stratigraphic series, which is equivalent to dividing the power 
+by (npts*npts). The (npts*npts) normalization has the convenient property whereby
+-- for an unpadded series -- the sum of the power in the positive frequencies is equivalent 
+to half of variance; the other half of the variance is in the negative frequencies.
+
+Note that the 'spec.mtm' function in package 'multitaper' (Rahim et al., 2014) is used for MTM spectrum estimation.
+
+}
+
 \references{
+Rahim, K.J. and Burr W.S. and Thomson, D.J., 2014, \emph{Applications of Multitaper Spectral Analysis to Nonstationary Data}. PhD thesis, Queen's University. R package version 1.0-17, https://CRAN.R-project.org/package=multitaper.
+
 Thomson, D. J., L. J. Lanzerotti, and C. G. Maclennan, 2001, \emph{The interplanetary magnetic field: Statistical properties and discrete modes}, J. Geophys.Res., 106, 15,941-15,962, doi:10.1029/2000JA000113.
 }
 
-\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, and \code{\link{spec.mtm}}}
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmML96}}, and \code{\link{periodogram}}}
 
 \examples{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka

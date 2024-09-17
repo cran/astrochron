@@ -29,7 +29,15 @@ periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,medsmooth=0.2,
   \item{verbose}{Verbose output? (T or F)}
 }
 
-\seealso{ \code{\link{mtm}} and \code{\link{lowspec}} }
+\details{
+The power spectrum normalization approach applied here (nrm=1) divides the Fourier coefficients 
+by the number of points (npts) in the stratigraphic series, which is equivalent to dividing the 
+power by (npts*npts). The (npts*npts) normalization has the convenient property whereby
+-- for an unpadded series -- the sum of the power in the positive frequencies is equivalent 
+to half of variance; the other half of the variance is in the negative frequencies.
+}
+
+\seealso{ \code{\link{mtm}} and \code{\link{lowspec}}}
 
 
 \examples{

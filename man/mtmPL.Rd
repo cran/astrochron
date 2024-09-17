@@ -38,6 +38,14 @@ within +/- half the power spectrum bandwidth resolution. One additional criterio
 further reduce the false positive rate, a requirement that significant F-tests must occur on a local 
 power spectrum high, which is parameterized as occurring above the local red noise background estimate.
 See Meyers (2012) for futher information.
+
+The power spectrum normalization approach applied here divides the Fourier coefficients by the 
+number of points (npts) in the stratigraphic series, which is equivalent to dividing the power 
+by (npts*npts). The (npts*npts) normalization has the convenient property whereby
+-- for an unpadded series -- the sum of the power in the positive frequencies is equivalent 
+to half of variance; the other half of the variance is in the negative frequencies.
+
+Note that the 'spec.mtm' function in package 'multitaper' (Rahim et al., 2014) is used for MTM spectrum estimation.
 }
 
 \references{
@@ -51,4 +59,4 @@ Thomson, D. J., 1982,
 \emph{Spectrum estimation and harmonic analysis}, Proc. IEEE, 70, 1055-1096, doi:10.1109/PROC.1982.12433.
 }
 
-\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, and \code{\link{spec.mtm}}}
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, and \code{\link{periodogram}}}

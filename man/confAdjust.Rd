@@ -46,7 +46,7 @@ S. Vaughan, R.J. Bailey, and D.G. Smith, 2011,
  \emph{Detecting cycles in stratigraphic data: Spectral analysis in the presence of red noise}. Paleoceanography 26, PA4211, doi:10.1029/2011PA002195.
 }
 
-\seealso{ \code{\link{testBackground}},\code{\link{multiTest}},\code{\link{spec.mtm}}, \code{\link{lowspec}}, and \code{\link{periodogram}} }
+\seealso{ \code{\link{testBackground}},\code{\link{multiTest}}, \code{\link{lowspec}}, and \code{\link{periodogram}} }
 
 \examples{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka

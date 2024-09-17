@@ -56,8 +56,10 @@ optimized for 2 and 3 pi DPSS, using a 'span' of 1. By default the robustness cr
 estimated. Both 'b' and the 'span' can be expliclty set using parameters 'b_tun' and 'lowspan'.
 Note that it is permissible to decrease 'lowspan' from its default value, but this will result in 
 an overly conservative false positive rate. However, it may be necessary to reduce 'lowspan' to provide 
-an approporiate background fit for some stratigraphic data. Another option is to decimate the data
-series prior to spectral estimation.
+an approporiate background fit for some stratigraphic data. Other options include decimating the data
+series prior to spectral estimation, or using an alternative pre-whitening filter (e.g., see function prewhiteAR).
+
+Note that the 'rfbaseline' function in package 'IDPmisc' (Locher, 2024) is used for implementation of the procedure of Ruckstuhl et al. (2001).
 }
 
 \value{
@@ -71,6 +73,8 @@ If option 2 is selected, the 'significant' frequencies are returned (as describe
 W.S. Cleveland, 1979, 
 \emph{Locally weighted regression and smoothing scatterplots}: Journal of the American Statistical Association, v. 74, p. 829-836.
 
+\emph{Locher R (2024). IDPmisc: 'Utilities of Institute of Data Analyses and Process Design (www.zhaw.ch/idp)'}. R package version 1.1.21, https://CRAN.R-project.org/package=IDPmisc.
+
 S.R. Meyers, 2012,
 \emph{Seeing Red in Cyclic Stratigraphy: Spectral Noise Estimation for Astrochronology}: Paleoceanography, 27, PA3228, doi:10.1029/2012PA002307.
 
@@ -81,7 +85,7 @@ D.J. Thomson, 1982,
 \emph{Spectrum estimation and harmonic analysis}: IEEE Proceedings, v. 70, p. 1055-1096.
 }
 
-\seealso{ \code{\link{eha}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, \code{\link{rfbaseline}}, and \code{\link{spec.mtm}}}
+\seealso{ \code{\link{eha}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}}
 
 
 \examples{

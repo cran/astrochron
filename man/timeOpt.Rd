@@ -2,7 +2,7 @@
 \alias{timeOpt}
 \title{TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data}
 \description{
-TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data, as in Meyers (2015).
+TimeOpt: Evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data, as in Meyers (2015).  The method can also be used to evaluate records that express obliquity, as in Meyers (2019).
 }
 \usage{
 timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,r2max=1,
@@ -36,7 +36,8 @@ timeOpt(dat,sedmin=0.5,sedmax=5,numsed=100,linLog=1,limit=T,fit=1,r2max=1,
 TimeOpt is an astronomical testing algorithm for untuned (spatial) stratigraphic data. 
 The algorithm identifies the sedimentation rate(s) that simultaneously optimizes: 
 (1) eccentricity amplitude modulations within the precession band, and (2) the 
-concentration of spectral power at specified target astronomical periods.
+concentration of spectral power at specified target astronomical periods (Meyers, 2015).
+The method can also be adapted to evaluate records that express obliquity, as in Meyers (2019).
 
 For each temporal calibration investigated (i.e., sedimentation rate), the observed precession 
 band amplitude envelope is extracted using bandpass filtering and the Hilbert transform. 
@@ -73,6 +74,9 @@ A similar approach is applicable to evaluate short eccentricity amplitude modula
 The statistical significance of the r^2_opt is determined via Monte Carlo simulation 
 (see timeOptSim).
 
+See the examples below and Meyers (2019) for a demonstration of how TimeOpt can be adapted to 
+evaluate records that express obliquity.
+
 }
 
 \value{
@@ -86,8 +90,14 @@ Time (ka), tuned time series, filtered precession, precession envelope, TimeOpt-
 \seealso{ \code{\link{asm}}, \code{\link{eAsmTrack}}, \code{\link{testPrecession}}, \code{\link{timeOptPlot}}, and \code{\link{timeOptSim}} }
 
 \references{
+J. Laurin, S.R. Meyers, B.B. Sageman, and D.A. Waltham, 2005,
+\emph{Phase-lagged amplitude modulation of hemipelagic cycles: A potential tool for recognition and analysis of sea level change}: Geology, 33, doi.org/10.1130/G21350.1.
+
 S.R. Meyers, 2015,
-\emph{The evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data: An inverse approach for astrochronologic testing and time scale optimization}: Paleoceanography, 30, doi:10.1002/2015PA002850.
+\emph{The evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data: An inverse approach for astrochronologic testing and time scale optimization}: Paleoceanography, 30, doi.org/10.1002/2015PA002850.
+
+S.R. Meyers, 2019,
+\emph{Cyclostratigraphy and the problem of astrochronologic testing}: Earth-Science Reviews, 190, doi.org/10.1016/j.earscirev.2018.11.015.
 }
 
 \examples{
@@ -99,5 +109,29 @@ ex[1]<-ex[1]*0.02
 timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,output=0)
 # evaluate short eccentricity modulations
 timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=2,output=0)
+
+# generate a test signal with precession
+ex=etp(tmin=1,tmax=1000,dt=5,pWt=1,oWt=0,eWt=0,esinw=TRUE,genplot=FALSE,verbose=FALSE)
+# convert to meters with sedimentation rate of 2 cm/kyr
+ex[1]<-ex[1]*0.02
+timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,output=0)
+
+# generate a test signal with precession, obliquity and eccentricity
+ex=etp(tmin=1,tmax=1000,dt=5,pWt=1,oWt=1,eWt=1,esinw=TRUE,genplot=FALSE,verbose=FALSE)
+# convert to meters with sedimentation rate of 2 cm/kyr
+ex[1]<-ex[1]*0.02
+# define target periods for obliquity and precession
+targetOP=c(41.15226,23.62069,22.31868,19.06768,18.91979)
+timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,targetP=targetOP,output=0)
+
+# generate a test signal with obliquity
+ex=etp(tmin=1,tmax=1500,dt=5,pWt=0,oWt=1,eWt=0,genplot=FALSE,verbose=FALSE)
+# convert to meters with sedimentation rate of 2 cm/kyr
+ex[1]<-ex[1]*0.02
+# define target periods for obliquity and obliquity amplitude modulation
+targetO=c(41.15226)
+targetO_AM=c(1250,175.4386,109.8901,95.2381)
+timeOpt(ex,sedmin=0.5,sedmax=5,numsed=100,fit=1,fitModPwr=F,targetP=targetO,
+  targetE=targetO_AM,flow=1/70,fhigh=1/26,roll=10^15,output=0)
  }
 }

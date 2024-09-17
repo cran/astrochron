@@ -18,7 +18,8 @@ importFrom("palinsol", "la04", "calins", "Insol", "Insol_l1l2", "thrins", "Milan
 importFrom("grDevices", "colorRamp", "rgb")
 importFrom("stats", "promax", "varimax")
 
-export(anchorTime,
+export(accum,
+       anchorTime,
        ar1,
        ar1etp,
        arcsinT,
@@ -70,6 +71,7 @@ export(anchorTime,
        iso,
        linage,
        linterp,
+       linterpLH13,
        logT,
        lowpass,
        lowspec,

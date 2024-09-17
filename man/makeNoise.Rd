@@ -36,7 +36,7 @@ J. Timmer and K. Konig (1995),
 rho=0.8
 freq=seq(0,.5,by=0.005)
 Nyq=max(freq)
-AR1 = (1-(0.8^2)) / (  1 - (2*0.8*cos(pi*freq/Nyq)) + (0.8^2) )
+AR1 = (1-(rho^2)) / (  1 - (2*rho*cos(pi*freq/Nyq)) + (rho^2) )
 plot(freq,AR1,type="l")
 
 # make noise surrogates from the theoretical AR1 spectrum

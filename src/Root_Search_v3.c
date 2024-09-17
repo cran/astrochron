@@ -35,8 +35,9 @@ SEXP  Root_Search(SEXP Gval)
  double *a = REAL(alpha);
 
   for( i = 0; i< N; i++){
-       Il = i*PI+eps;
-       Iu = rt + PI;
+/*     replaced PI with M_PI for CRAN compliance, SRM Aug. 31, 2024 */
+       Il = i*M_PI+eps;
+       Iu = rt + M_PI;
        Im = (Iu+Il)/2;
        do{
 

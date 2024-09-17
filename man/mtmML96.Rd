@@ -56,8 +56,13 @@ further reduce the false positive rate, a requirement that significant F-tests m
 power spectrum high, which is parameterized as occurring above the local robust red noise background estimate.
 See Meyers (2012) for futher information.
 
+The power spectrum normalization approach applied here divides the Fourier coefficients by the 
+number of points (npts) in the stratigraphic series, which is equivalent to dividing the power 
+by (npts*npts). The (npts*npts) normalization has the convenient property whereby
+-- for an unpadded series -- the sum of the power in the positive frequencies is equivalent 
+to half of variance; the other half of the variance is in the negative frequencies.
 
-NOTE: If the (fast) Brent or Gauss-Newton methods fail, use the (slow) grid search approach.
+NOTES: If the (fast) Brent or Gauss-Newton methods fail, use the (slow) grid search approach. The function 'spec.mtm' in package 'multitaper' (Rahim et al., 2014) is used for MTM spectrum estimation.
 
 This version of the ML96 algorithm was first implemented in Patterson et al. (2014).
 }
@@ -73,6 +78,8 @@ M.O. Patterson, R. McKay, T. Naish, C. Escutia, F.J. Jimenez-Espejo, M.E. Raymo,
 S.R. Meyers, L. Tauxe, H. Brinkhuis, and IODP Expedition 318 Scientists,2014, 
 \emph{Response of the East Antarctic Ice Sheet to orbital forcing during the Pliocene and Early Pleistocene}, Nature Geoscience, v. 7, p. 841-847.
 
+Rahim, K.J. and Burr W.S. and Thomson, D.J., 2014, \emph{Applications of Multitaper Spectral Analysis to Nonstationary Data}. PhD thesis, Queen's University. R package version 1.0-17, https://CRAN.R-project.org/package=multitaper.
+
 Thomson, D. J., 1982, \emph{Spectrum estimation and harmonic analysis}, Proc. IEEE, 
 70, 1055-1096, doi:10.1109/PROC.1982.12433.
 
@@ -81,7 +88,7 @@ http://www.meteo.psu.edu/holocene/public_html/Mann/tools/MTM-RED/
 Tukey, J.W., 1977, \emph{Exploratory Data Analysis}, Addison.
 }
 
-\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{periodogram}}, \code{\link{runmed}}, and \code{\link{spec.mtm}}}
+\seealso{ \code{\link{eha}}, \code{\link{lowspec}}, \code{\link{mtm}}, \code{\link{mtmAR}}, \code{\link{periodogram}}, and \code{\link{runmed}}}
 
 \examples{
 # generate example series with periods of 400 ka, 100 ka, 40 ka and 20 ka

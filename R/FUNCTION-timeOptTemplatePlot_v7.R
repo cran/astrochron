@@ -4,7 +4,7 @@
 ###########################################################################
 ### timeOptTemplatePlot: generate summary figure for timeOptTemplate 
 ###                      (SRM: January 3-4, 2018; Jan 8, 2018; October 23, 2018;
-###                            November 22, 2018; November 24, 2018)
+###                            November 22, 2018; November 24, 2018; September 10, 2024)
 ###
 ###########################################################################
 
@@ -140,7 +140,7 @@ yRange=max(denPlot$y)-min(denPlot$y)
 maxR=max(max(denPlot$x),fitR)
 xlim2=c(0,maxR+maxR*0.5)
 if(max(xlim2) > 1) xlim2=c(0,1)
-plot(denPlot,xlim=xlim2,main="")
+plot(denPlot,xlim=xlim2,main="",xlab="")
 polygon(denPlot,col="black")
 mtext("# Simulations",side=2,line=2,cex=0.8)            
 mtext("Envelope & Spectral Fit",side=1,line=2,cex=0.8)   

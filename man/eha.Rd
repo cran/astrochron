@@ -33,6 +33,17 @@ eha(dat,tbw=2,pad,fmin,fmax,step,win,demean=T,detrend=T,siglevel=0.90,
   \item{verbose}{Verbose output? (T or F)}
 }
 
+\details{
+The power spectrum normalization approach applied here divides the Fourier coefficients by the 
+number of points (npts) in the stratigraphic series, which is equivalent to dividing the power 
+by (npts*npts). The (npts*npts) normalization has the convenient property whereby
+-- for an unpadded series -- the sum of the power in the positive frequencies is equivalent 
+to half of variance; the other half of the variance is in the negative frequencies.
+ 
+Note that the 'spec.mtm' function in package 'multitaper' (Rahim et al., 2014) is used for MTM spectrum estimation.
+
+}
+
 \seealso{ \code{\link{extract}}, \code{\link{lowspec}}, \code{\link{mtmAR}}, \code{\link{mtmML96}}, \code{\link{periodogram}}, \code{\link{trackFreq}} and \code{\link{traceFreq}} }
 
 \references{
