@@ -72,7 +72,7 @@ Astron. Astrophys., Volume 428, 261-285.
 ex<-cycles(start=0,end=1000,dt=2)
 
 ### now conduct astrochronologic testing
-res1=testPrecession(ex)
+testPrecession(ex)
 
 
 ### if you plan to run testPrecession repeatedly, it is advisable to download the astronomical
@@ -80,6 +80,6 @@ res1=testPrecession(ex)
 solution<-getLaskar()
 
 ### now conduct astrochronologic testing
-res2<-testPrecession(ex,solution=solution)
+testPrecession(ex,solution=solution)
  }
 }

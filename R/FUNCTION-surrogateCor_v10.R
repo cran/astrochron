@@ -13,7 +13,7 @@
 ###                                   Dec. 25, 2015; May 20-25, 2016; 
 ###                                   June 7, 2016; July 1, 2016; July 22, 2016;
 ###                                   January 9, 2019; January 14, 2021;
-###                                   April 12, 2023)
+###                                   April 12, 2023; November 10, 2024)
 ###
 ### see also http://www.mathworks.com/matlabcentral/fileexchange/10881-weaclim/content/ebisuzaki.m
 ###########################################################################
@@ -148,7 +148,7 @@ x2S=x2S-mean(x2S)
 if(n1S <= n2S) 
  {
    if(verbose) cat("\n * Resampling dat2 on dat1 sample grid.\n")
-   dat2SR=resample(dat2S,dat1S[,1],verbose=F,genplot=F)
+   dat2SR=resample(dat2S,dat1S[,1],verbose=F,check=F,genplot=F)
    dat1SR=dat1S
    denTitle1=c("Distribution of Values for dat1")
    denTitle2=c("Distribution of Resampled Values for dat2")
@@ -159,7 +159,7 @@ if(n1S <= n2S)
 if(n1S > n2S) 
  {
    if(verbose) cat(" * Resampling dat1 on dat2 sample grid.\n")
-   dat1SR=resample(dat1S,dat2S[,1],verbose=F,genplot=F)
+   dat1SR=resample(dat1S,dat2S[,1],verbose=F,check=F,genplot=F)
    dat2SR=dat2S
    denTitle1=c("Distribution of Resampled Values for dat1")
    denTitle2=c("Distribution of Values for dat2")
@@ -245,12 +245,12 @@ for (i in 1:nsim)
     if(n1S <= n2S) 
       {
         x1surNow=x1sur[,i]
-        x2surNow=resample(cbind(dat2S[,1],x2sur[,i]),dat1S[,1],verbose=F,genplot=F)[2]
+        x2surNow=resample(cbind(dat2S[,1],x2sur[,i]),dat1S[,1],verbose=F,check=F,genplot=F)[2]
         x2surNow=x2surNow[,1] 
       } 
     if(n1S > n2S) 
       {
-        x1surNow=resample(cbind(dat1S[,1],x1sur[,i]),dat2S[,1],verbose=F,genplot=F)[2]
+        x1surNow=resample(cbind(dat1S[,1],x1sur[,i]),dat2S[,1],verbose=F,check=F,genplot=F)[2]
         x1surNow=x1surNow[,1]
         x2surNow=x2sur[,i]
       }

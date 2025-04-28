@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2023 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### getData: download data from astrochon server. 
 ###          (SRM: October 21, 2015; April 13, 2018; June 3, 2018; 
 ###                November 27, 2018; December 14, 2018, January 7, 2019;
-###                July 25, 2023)
+###                July 25, 2023; January 27, 2025)
 ###
 ###########################################################################
 
@@ -108,6 +108,16 @@ getData <- function (dat="1262-a*")
           cat("   Petrologic and geochemical composition of the AND-2A core, ANDRILL\n")
           cat("   Southern McMurdo Sound Project, Antarctica: Terra Antartica 15, 147-192.\n")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/AND2A-clast.txt.bz2",tempDat)
+        }
+
+        if(dat=="U1521A-clast")
+        {
+          cat(" * Downloading U1521A clast abundance data\n\n")
+          cat("   Please cite: Zurli, L., Perotti, M., Talarico, F., 2021,\n") 
+          cat("   Data Report: petrology of gravel-sized clasts from Site U1521 core,\n")
+          cat("   IODP Expedition 374, Ross Sea: Proceedings of the International\n")
+          cat("   Ocean Discovery Program, 374.\n")
+          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/U1521A-clast.txt.bz2",tempDat)
         }
 
         cat(" * Decompressing\n")

@@ -15,6 +15,7 @@ extern SEXP Root_Search(SEXP);
 extern void F77_NAME(asm18_r)(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(dupmean_r)(void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(eha_rv6)(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void F77_NAME(imbrie_r)(void *, void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(mwin_r)(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(mwincenter_r)(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(mwingrid_r)(void *, void *, void *, void *, void *, void *, void *, void *);
@@ -22,6 +23,7 @@ extern void F77_NAME(peak_r)(void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(peakfilter_r)(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(trough_r)(void *, void *, void *, void *, void *, void *);
 extern void F77_NAME(tune_r)(void *, void *, void *, void *, void *, void *);
+
 
 static const R_CallMethodDef CallEntries[] = {
     {"Impulse_Response", (DL_FUNC) &Impulse_Response, 5},
@@ -33,6 +35,7 @@ static const R_FortranMethodDef FortranEntries[] = {
     {"asm18_r",      (DL_FUNC) &F77_NAME(asm18_r),      20},
     {"dupmean_r",    (DL_FUNC) &F77_NAME(dupmean_r),     6},
     {"eha_rv6",      (DL_FUNC) &F77_NAME(eha_rv6),      22},
+    {"imbrie_r",     (DL_FUNC) &F77_NAME(imbrie_r),        7},
     {"mwin_r",       (DL_FUNC) &F77_NAME(mwin_r),        9},
     {"mwincenter_r", (DL_FUNC) &F77_NAME(mwincenter_r),  9},
     {"mwingrid_r",   (DL_FUNC) &F77_NAME(mwingrid_r),    8},

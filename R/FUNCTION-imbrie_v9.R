@@ -1,16 +1,16 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2024 Stephen R. Meyers
 ###
 ###########################################################################
 ### imbrie: Imbrie and Imbrie (1980) ice model. Model follows convention
 ###         used in Analyseries.
 ###          (SRM: April 14-16, 2015; June 19, 2018; December 5-6, 2018; 
 ###                January 7, 2019; December 3, 2020; January 14, 2021;
-###                September 21, 2022; November 7, 2022)
+###                September 21, 2022; November 7, 2022; December 6, 2024)
 ###
 ###########################################################################
 
-imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,standardize=T,output=T,genplot=1,verbose=T)
+imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,standardize=T,output=T,genplot=1,check=T,verbose=T)
 {
 
   if(verbose) cat("\n----- GENERATING IMBRIE and IMBRIE (1980) ICE MODEL -----\n")
@@ -25,16 +25,16 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
   if(!is.null(insolation)) insolation=data.frame(insolation)
   npts=length(insolation[,1])
 
-  if(is.null(times)) 
+  if(check && is.null(times)) 
    {
-     if(length(Tm) != length(b))
+     if(length(Tm) != length(b) || length(Tm) != 1)
       {
         cat("\n**** ERROR: vectors Tm and b do not have matching entries\n")
         stop("    TERMINATING NOW!")
       }
    }
    
-   if(!is.null(times))
+   if(check && !is.null(times))
     {
       if(length(Tm) != length(times) || length(b) != length(times))
        {
@@ -48,7 +48,6 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
       }
    }     
 
-
 # flip so we are going from past to present
   insolation <- insolation[order(insolation[,1], na.last = NA, decreasing = T),]
   insolation[1] <- insolation[1]*-1  
@@ -56,52 +55,48 @@ imbrie <- function (insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,
 # center the insolation to mean of zero
   insolation[2] <- insolation[2]-colMeans(insolation[2])
 
-  y<-double(npts)
-  dydt<-double(npts)
-  y[1]<-initial
 # follow convention of Analyseries  
   x<-insolation[,2]*-1
-
+  
   if(is.null(times))
    {
-# calculate first dydt
-# follow convention of Analyseries.
-# if present ice sheet index is less than or equal to -insolation, grow  
-     if(x[1]>y[1]) dydt[1] <- ( (1-b) / Tm ) * ( x[1]-y[1] )
-# otherwise, decay
-     if(x[1]<=y[1]) dydt[1] <- ( (1+b) / Tm ) * ( x[1]-y[1] )
-# now calculate for remainder of record
-     for(i in 2:npts)
-      {
-        y[i]<-y[i-1] + dydt[i-1]
-        if(x[i]>y[i]) dydt[i] <- ( (1-b) / Tm ) * ( x[i]-y[i] )
-        if(x[i]<=y[i]) dydt[i] <- ( (1+b) / Tm ) * ( x[i]-y[i] )
-      }
+     b2=b
+     Tm2=Tm
+     ipts=1
    }
-
+     
   if(!is.null(times))
    {
      ice=data.frame(cbind(times,Tm,b))    
 # also flip sequence of ice model parameters to match insolation direction
      ice <- ice[order(ice[,1], na.last = NA, decreasing = T),]
      ice[1] <- ice[1]*-1
-# find first value to use
-     getTime=max(which( ice[1] <= insolation[1,1] ))
-     if(x[1]>y[1]) dydt[1] <- ( (1-ice[getTime,3]) / ice[getTime,2] ) * ( x[1]-y[1] )
-# otherwise, decay
-     if(x[1]<=y[1]) dydt[1] <- ( (1+ice[getTime,3]) / ice[getTime,2] ) * ( x[1]-y[1] )
-# now calculate for remainder of record
-     for(i in 2:npts)
-      {
-        getTime=max(which( ice[1] <= insolation[i,1] ))
-        y[i]<-y[i-1] + dydt[i-1]
-        if(x[i]>y[i]) dydt[i] <- ( (1-ice[getTime,3]) / ice[getTime,2] ) * ( x[i]-y[i] )
-        if(x[i]<=y[i]) dydt[i] <- ( (1+ice[getTime,3]) / ice[getTime,2] ) * ( x[i]-y[i] )
-      }
-    }
+     getTime <- double(npts)
+# assign values to each model step
+     for(i in 1:npts) getTime[i]=max(which( ice[1] <= insolation[i,1] ))
+     b2=ice[getTime,3]
+     Tm2=ice[getTime,2]
+     ipts=npts
+   }     
+
+runMod <- function (npts,x,ipts,Tm2,b2,yinit)
+ {
+    F_dat = .Fortran( 'imbrie_r',
+    
+    npts=as.integer(npts),x=as.double(x),ipts=as.integer(ipts),
+    Tm2=as.double(Tm2),b2=as.double(b2),yinit=as.double(yinit),
+    
+    y=double(npts)
+    )
+
+# return the results
+    return(F_dat)
+ }
+
+  resMod=runMod(npts=npts,x=x,ipts=ipts,Tm2=Tm2,b2=b2,yinit=initial)
 
 # remove burn in points, and make a data frame
-  out<-data.frame(cbind(insolation[burnin:npts,1],y[burnin:npts]))
+  out<-data.frame(cbind(insolation[burnin:npts,1],resMod$y[burnin:npts]))
 
 # flip to original direction
   out <- out[order(out[,1], na.last = NA, decreasing = T),]

@@ -1,3 +1,19 @@
+astrochron v1.5 (Release date: 2025-04-28)
+================
+
+Changes:
+
+* assorted functions: AR1 coefficient estimates updated to be consistent with R base function 'acf' (ar1, ar1etp,  lowspec, mtm,  mtmML96,  periodogram, prewhiteAR1, testPrecession, testTilt, timeOptSim, timeOptTemplateSim)
+* function imbrie: new fortran code and wrapper to speed up calculations
+* function periodogram: added option to return noise model coefficients (output=3)
+* function mtmML96: added option to return noise model coefficients (output=4)
+* function resample: added compliance check option
+* function linterpLH13: added compliance check option
+* function accum: added compliance check option
+* function surrogateCor: edits made to resample function call
+* function getData: added U1521A clast data
+
+
 astrochron v1.4 (Release date: 2024-09-17)
 ================
 
@@ -10,7 +26,7 @@ New functions:
 
 Other changes:
 
-* function ImpulseResponse: modifications to C source code for CRAN compliance
+* function impulseResponse: modifications to C source code for CRAN compliance
 * function timeOptPlot: minor edits
 * function timeOptTemplatePlot: minor edits
 
@@ -46,7 +62,7 @@ New functions:
 
 * function tanerFC
 
-The following function accompanies Sullivan et al. (in press 2023):
+The following function accompanies Sullivan et al. (2023):
 * function bicoherence
 
 Other changes:

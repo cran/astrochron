@@ -18,7 +18,7 @@ periodogram(dat,padfac=2,demean=T,detrend=F,nrm=1,background=0,medsmooth=0.2,
   \item{background}{Estimate noise model background spectrum and confidence levels? (0= No, 1= AR1, 2= Power Law, 3= Robust AR1)}
   \item{medsmooth}{Robust AR1 median smoothing parameter (1 = use 100\% of spectrum; 0.20 = use 20\%)}
   \item{bc}{Apply Bonferroni correction? (T or F)}
-  \item{output}{Return output as new data frame? 0= no; 1= frequency, amplitude, power, phase (+ background fit and confidence levels if background selected); 2= frequency, real coeff., imag. coeff. If option 2 is selected, all frequencies from negative to positive Nyquist are returned, regardless of the f0 and fNyq settings}
+  \item{output}{Return output as new data frame? 0= no; 1= frequency, amplitude, power, phase (+ background fit and confidence levels if background selected); 2= frequency, real coeff., imag. coeff. If option 2 is selected, all frequencies from negative to positive Nyquist are returned, regardless of the f0 and fNyq settings; 3= noise model coefficients (if background selected); 4= option 1+3}
   \item{f0}{Return results for the zero frequency? (T or F)}
   \item{fNyq}{Return results for the Nyquist frequency? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}

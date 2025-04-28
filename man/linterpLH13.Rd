@@ -7,7 +7,7 @@ Linearly interpolate stratigraphic series using the approach of Laepple and Huyb
 \usage{
 linterpLH13(dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw=20,smooth=0.05,
             logF=F, antialias=T,roll=10^10,nsim=1,ncores=2,output=T,maxF=NULL,pl=1,
-            genplot=T,verbose=1)
+            genplot=T,check=T,verbose=1)
 }
 \arguments{
   \item{dat}{Stratigraphic series for piecewise linear interpolation. First column should be location (e.g., depth), second column should be data value.}
@@ -27,6 +27,7 @@ linterpLH13(dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw=20,smooth=0.
   \item{pl}{Plot logarithm of spectral power (1) or linear spectral power (2)?}  
   \item{output}{Return interpolated series as new data frame? (T or F)}  
   \item{genplot}{Generate summary plots? (T or F)}
+  \item{check}{Conduct compliance checks before processing? (T or F). In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (0=none, 1=some reporting, 2=extensive reporting)}
 }
 

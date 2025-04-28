@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2023 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOptSim - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014;
@@ -10,7 +10,8 @@
 ###                             February 25, 2016; October 18-26, 2016;
 ###                             December 13, 2017; December 18-19, 2017; 
 ###                             May 10, 2018; May 16, 2018; June 1, 2018; 
-###                             January 14, 2021; September 13, 2023)
+###                             January 14, 2021; September 13, 2023; 
+###                             January 12, 2025)
 ###########################################################################
 
 # modified from timeOptSimMulti_v4.R. this version of timeOptSim is parallelized
@@ -74,13 +75,12 @@ if (detrend)
    dat[2]=dat[2]/sapply(dat[2],sd)
 
 ### what is the estimated AR1 coefficient?
-   if(is.null(rho))
-    {
-      lag0 <- dat[1:(npts-1),2]
-      lag1 <- dat[2:npts,2]
-      rho <- cor(lag0,lag1)
-      if(verbose) cat(" * Raw AR1 =",rho,"\n")
-    }  
+# npts is the length of data vector 'dat', mean of dat is already zero
+   if(is.null(rho)) 
+    { 
+      rho=sum(dat[1:(npts-1),2] * dat[2:npts,2]) / sum(dat[,2]^2)  
+      if(verbose) cat("\n * Estimated AR1 coefficient=",rho,"\n")
+    }
 
    res=timeOpt(dat,sedmin=sedmin,sedmax=sedmax,numsed=numsed,linLog=linLog,limit=limit,fit=fit,r2max=r2max,fitModPwr=fitModPwr,flow=flow,fhigh=fhigh,roll=roll,targetE=targetE,targetP=targetP,detrend=detrend,output=1,title=NULL,genplot=F,verbose=F,check=F)
    if (r2max==1) datCorMax = max(res[,4])

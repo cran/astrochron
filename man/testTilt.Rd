@@ -1,8 +1,8 @@
 \name{testTilt}
 \alias{testTilt}
-\title{Astrochronologic testing via the obliquity amplitude modulation approach of Zeeden et al. (2019 submitted).}
+\title{Astrochronologic testing via the obliquity amplitude modulation approach of Zeeden et al. (2019).}
 \description{
-Astrochronologic testing via the obliquity amplitude modulation approach of Zeeden et al. (2019 submitted).
+Astrochronologic testing via the obliquity amplitude modulation approach of Zeeden et al. (2019).
 }
 \usage{
 testTilt(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,rho=NULL,detrendEnv=T,
@@ -51,8 +51,9 @@ When nsim is > 0, the function will output the correlation coefficients for each
 
 
 \references{
-C. Zeeden, S.R. Meyers, F.J. Hilgen, L.J. Lourens, and J. Laskar, 2019 submitted,
-\emph{Time scale evaluation and the quantification of obliquity forcing}: Quaternary Science Reviews.
+C. Zeeden, S.R. Meyers, F.J. Hilgen, L.J. Lourens, and J. Laskar, 2019,
+\emph{Time scale evaluation and the quantification of obliquity forcing}: 
+Quaternary Science Reviews, 209, doi.org/10.1016/j.quascirev.2019.01.018.
 
 C. Zeeden, S.R. Meyers, L.J. Lourens, and F.J. Hilgen, 2015,
 \emph{Testing astronomically tuned age models}: Paleoceanography, 30, doi:10.1002/2014PA002762.
@@ -66,16 +67,16 @@ Astron. Astrophys., Volume 428, 261-285.
  \dontrun{
 ### as a test series, use the obliquity series from Laskar et al. (2004), spanning 
 ### the past 4 million years
-ex<-etp(tmin=0,tmax=4000,dt=2,eWt=0,oWt=1,pWt=0,solution=solution,standardize=FALSE)
+ex<-etp(tmin=0,tmax=4000,dt=2,eWt=0,oWt=1,pWt=0,standardize=FALSE)
 
 ### now conduct astrochronologic testing
-res1=testTilt(ex)
+testTilt(ex)
 
 ### if you plan to run testTilt repeatedly, it is advisable to download the astronomical
 ### solution
 solution<-getLaskar()
 
 ### now conduct astrochronologic testing
-res<-testTilt(ex,solution=solution)
+testTilt(ex,solution=solution)
  }
 }

@@ -47,7 +47,7 @@ ar1etp()
 # compare with a second model:
 # generate etp model spanning 0-2000 ka, with sampling interval of 5 ka.
 ex1=etp(tmin=0,tmax=2000,dt=5)
-# run simulations, with rho=-.7, and scaling noise to have 50% of the etp model variance
+# run simulations, with rho=-.7, and scaling noise to have 50 percent of the etp model variance
 ar1etp(etpdat=ex1,rho=0.7,wtAR=sqrt(0.5))
 
  }

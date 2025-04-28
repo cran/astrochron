@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### mtmML96 function - (SRM: December 22, 2013; July 31, 2014; January 31, 2015;
@@ -7,7 +7,8 @@
 ###                          February 26, 2015; March 6, 2015; September 10, 2015;
 ###                          December 14-15, 2015; May 20, 2016; August 22, 2016,
 ###                          October 4, 2016; March 20, 2017; November 20, 2017;
-###                          August 21, 2018; January 14, 2021)
+###                          August 21, 2018; January 14, 2021; November 10, 2024;
+###                          January 4, 2025)
 ###
 ### Perform Mann and Lees (1996) robust red noise mtm analysis, with some modifications.
 ### Uses multitaper library and built in functions from R.
@@ -90,10 +91,11 @@ if (detrend)
 if (!detrend && verbose) cat(" * Linear trend NOT subtracted\n")
 
 
-# what is the estimated AR1 coefficient for the combined signal?
-lag0 <- dat[1:(npts-1),2]
-lag1 <- dat[2:npts,2]
-rho_raw <- cor(lag0,lag1)
+# what is the estimated conventional AR1 coefficient?
+# npts is the length of data vector 'dat', which may or may not have been 
+# detrended/demeaned, so ensure mean value is zero
+d0=dat[,2]-mean(dat[,2])
+rho_raw=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
 if(verbose) cat(" * Estimated Conventional AR1 coefficient =",rho_raw,"\n")
 
 # calculate Nyquist freq
@@ -359,7 +361,7 @@ if(sigID && numpeak2 > 0)
  }
 }
 
-if (output==1) 
+if (output==1 || output ==5) 
  {
        spectrum <- data.frame(cbind(freq,pwrRaw,prob*100,chiCLMedAR*100,pwrMedAR,MedAR1_90,MedAR1_95,MedAR1_99,pwrMedian))
        colnames(spectrum)[1] <- 'Frequency'
@@ -371,7 +373,7 @@ if (output==1)
        colnames(spectrum)[7] <- 'AR1_95_power'
        colnames(spectrum)[8] <- 'AR1_99_power'       
        colnames(spectrum)[9] <- 'Median_Smoothed_Power'
-   return(spectrum)
+       if(output==1) return(spectrum)
  }
 
 if (output==2) 
@@ -389,10 +391,8 @@ if (output==3)
     return(sigfreq)
  }
 
-#if (output==4) 
-# {
-#   return(spec)
-# }
+if (output==4) return(data.frame(cbind(rho,So)))
+if (output==5) return(list(spectrum,data.frame(cbind(rho,So))))
 
 #### END function mtmML96
 }

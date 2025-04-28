@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### lowspec function - (SRM: September 28, 2012; October 8,11,15 2012; May 20-21, 2013; 
@@ -8,7 +8,7 @@
 ###                           February 1-3, 2015; February 26, 2015; March 5-6, 2015;
 ###                           September 10, 2015; August 21-22, 2016; March 20, 2017;
 ###                           June 12, 2017; November 19-20, 2017; August 21, 2018;
-###                           January 14, 2021)
+###                           January 14, 2021; January 4, 2025)
 ###
 ### "Seeing red" algorithm as an R function
 ###########################################################################
@@ -63,29 +63,22 @@ if((npts*lowspan) <= 100) {stop("**** ERROR: The series has too few data points.
 ### Prewhiten with Raw AR(1) filter
 ###########################################################################
 ### what is the estimated AR1 coefficient?
-    lag0 <- dat[1:(npts-1),2]
-    lag1 <- dat[2:npts,2]
-    rho_raw_sig <- cor(lag0,lag1)
-    if(verbose) cat("\n * Raw AR1 =",rho_raw_sig,"\n")
+# npts is the length of data vector 'dat', which may or may not have been 
+# detrended/demeaned, so ensure mean value is zero
+    d0=dat[,2]-mean(dat[,2])
+    rho_raw_sig=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
+    if(verbose) cat("\n * Estimated AR1 coefficient=",rho_raw_sig,"\n")
 
 if (setrho != 0)
   {
     if(verbose) cat(" * Prewhitening with AR1 coefficient of",setrho,"\n")
-    prewhite <- 1:(npts-1)
 ### now prewhiten
-    j=1
-    for (i in 2:npts )
-     { 
-       prewhite[j]=dat[i,2]-setrho*dat[i-1,2] 
-       j=j+1
-     } 
-
-### what is the new raw estimate for the AR(1) coefficient?
-    lag0 <- prewhite[1:(npts-2)]
-    lag1 <- prewhite[2:(npts-1)]
-    coeff_est_prewhite <- cor(lag0,lag1)
-    if(verbose) cat(" * Prewhitened AR1 =",coeff_est_prewhite,"\n")
+    prewhite=dat[2:npts,2] - setrho * dat[1:(npts-1),2]
     nnpts=npts-1
+### what is the new raw estimate for the AR(1) coefficient?
+    d0=prewhite-mean(prewhite)
+    coeff_est_prewhite=sum(d0[1:(nnpts-1)] * d0[2:nnpts]) / sum(d0^2)
+    if(verbose) cat(" * Prewhitened AR1 coefficient=",coeff_est_prewhite,"\n")
    }
    
 if (setrho == 0) 
@@ -156,7 +149,7 @@ if(b_tun < 0)
 
 if(b_tun >= 0) {tun = b_tun}
   
-### fit a LOWESS smoother to power spectrum using library rfbaseline
+### fit a LOWESS smoother to power spectrum using function rfbaseline in package IDPmisc
    baseout <- rfbaseline(freq,pwr,span=lowspan,NoXP=NULL,maxit=c(2,2),b=tun,weight=NULL,Scale = function(r) median(abs(r))/0.6745,delta = NULL,SORT=FALSE,DOT = FALSE, init = NULL)
    y.predict <- as.vector(baseout$fit)
 

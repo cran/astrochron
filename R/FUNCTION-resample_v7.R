@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2024 Stephen R. Meyers
 ###
 ###########################################################################
 ### resample: resample a time series using a new time axis
@@ -7,28 +7,31 @@
 ###           piecewise linearly interpolated from original data. 
 ###               (SRM: April 4, 2013; May 20, 2013; June 18-19, 2013;
 ###                     February 19, 2014; April 14, 2014; July 22, 2016; 
-###                     January 14, 2021)
+###                     January 14, 2021; November 9, 2024)
 ###
 ###########################################################################
 
-resample <- function (dat,xout,genplot=T,verbose=T)
+resample <- function (dat,xout,genplot=T,check=T,verbose=T)
 {
 
 if(verbose) cat("\n----- RESAMPLING STRATIGRAPHIC SERIES -----\n")
    
   dat <- data.frame(dat) 
   datpts = length(dat[,1])
-  xout<-data.frame(xout)
-  npts <- length(xout[,1])
+  xout<-as.vector(xout)
+  npts <- length(xout)
   
   if(verbose) cat(" * Number of data points in series prior to resampling:",datpts,"\n")
   if(verbose) cat(" * Number of resampling sites:",npts,"\n")
 
 ### sort to ensure increasing depth/height/time
-  if(verbose) cat(" * Sorting data, removing empty entries\n")
-  dat <- dat[order(dat[,1],na.last=NA,decreasing=F),]
-  xout <- xout[order(xout[,1],na.last=NA,decreasing=F),]
-# note: xout is no longer a data.frame, but dat is.
+  if(verbose && check) cat(" * Sorting data, removing empty entries\n")
+  if(check) 
+   {
+    dat <- dat[order(dat[,1],na.last=NA,decreasing=F),]
+    xout <- xout[order(xout,na.last=NA,decreasing=F)]
+# note: xout is not a data.frame, but dat is.
+   }
  
 ### cull xout if falls outside of the range of dat[,1]
   xout=xout[xout>=dat[1,1]]

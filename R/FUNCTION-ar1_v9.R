@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2015 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### AR1 : make AR1 noise - (SRM: January 24, 2012; April 29, 2012; 
 ###                         April 27-29, 2013; May 20-25, 2013; July 31, 2013;
 ###                         November 7, 2014; January 20, 2015; April 9, 2015;
-###                         July 22,2016)
+###                         July 22,2016; January 12, 2025)
 ###########################################################################
 
 ar1 <- function (npts=1024, dt=1, mean=0, sdev=1, rho=0.9, shuffle=F, nsim=1, genplot=T, verbose=T)
@@ -35,28 +35,28 @@ ar1 <- function (npts=1024, dt=1, mean=0, sdev=1, rho=0.9, shuffle=F, nsim=1, ge
         }
 ### generate AR(1) red noise
       red[1,i] <- white[1]
-      for (ii in 2:npts)  
 ### multiply previous value by coeff, then add innovation
-        { 
-          red[ii,i] <- rho*red[ii-1,i]+white[ii]
-        }
+      for (ii in 2:npts) { red[ii,i] <- rho*red[ii-1,i]+white[ii] }
 ### standardize to specified mean and variance
 ###  note, first mean is function call, second instance is desired mean value
        red[, i] = red[, i] - mean(red[, i])
        red[, i] = red[, i] * sdev/sd(red[, i])
        red[, i] = red[, i] + mean
-     }   
+     }
     
    if(nsim==1)
      {     
+       if(verbose)
+        {
 ### what is the estimated AR1 coefficient?
-       lag0 <- red[1:(npts-1)]
-       lag1 <- red[2:npts]
-       rho = cor(lag0,lag1)
-       if(verbose) cat(" * Estimated AR1 coefficient =",rho,"\n")
+# npts is the length of vector 'red', ensure mean value is zero
+         d0=red-mean(red)
+         rho=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
+         cat("\n * Estimated AR1 coefficient=",rho,"\n")
 # derived from EQ 2.45 of Mulelsee book, page 57
-       rho_unbias= (rho*(npts-1) + 1 ) / (npts - 4)
-       if(verbose) cat(" * Unbiased AR1 =",rho_unbias,"\n") 
+         rho_unbias= (rho*(npts-1) + 1 ) / (npts - 4)
+         if(verbose) cat(" * Unbiased AR1 =",rho_unbias,"\n") 
+        }
 ### generate time axis
        ta <- 1:npts
 ### change time axis from unit spacing of 1 to desired value

@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2022 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function periodogram - (SRM: January 26, 2012; April 28, 2012; 
@@ -9,7 +9,8 @@
 ###                         October 18, 2014; October 22, 2014; January 21, 2015;
 ###                         September 10, 2015; November 20-29, 2017; 
 ###                         January 14, 2021; October 4, 2021; May 26, 2022; 
-###                         June 18-19, 2022; July 28-31, 2022; August 18, 2022)
+###                         June 18-19, 2022; July 28-31, 2022; August 18, 2022;
+###                         November 6, 2024; January 4, 2025)
 ###
 ### simple unwindowed periodogram
 ###########################################################################
@@ -144,10 +145,11 @@ if(verbose)
 # AR(1) noise model spectrum
    if(background==1)
     {
-### what is the estimated AR1 coefficient?
-      lag0 <- d[1:(npts-1),2]
-      lag1 <- d[2:npts,2]
-      rho <- cor(lag0,lag1)
+### what is the estimated conventional AR1 coefficient?
+# npts is the length of data vector 'd', which may or may not have been
+# detrended/demeaned, so ensure mean value is zero
+      d0=d[,2]-mean(d[,2])
+      rho=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
       if(verbose) cat(" * Estimated AR1 coefficient =",rho,"\n")
 ### Calculate Raw red noise spectrum
 ### "So" is the average power. This can be determined from the white noise variance
@@ -248,9 +250,10 @@ if(verbose)
            rhospec=So * (1-rho^2)/(1 - (2*rho*cos(pi*fft.out[,1]/Nyq)) + rho^2)
            sum((log(pwrMedian)-log(rhospec))^2)
          }
-       lag0 <- d[1:(npts-1),2]
-       lag1 <- d[2:npts,2]
-       rho_raw <- cor(lag0,lag1)  
+# npts is the length of data vector 'd', which may or may not have been
+# detrended/demeaned, so ensure mean value is zero
+       d0=d[,2]-mean(d[,2])
+       rho_raw=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
        if(verbose) cat(" * Calculating analytic fit of AR1 to median smoothed spectrum using Brent's method\n")
        rho=optim(par=rho_raw,rednoise1,method="Brent",lower=0,upper=1)$par    
        if(verbose) cat(" * Estimated Robust AR1 coefficient =",rho,"\n")
@@ -278,7 +281,22 @@ if(verbose)
       colnames(fc.out)[3] <- 'Imag. Coeff.'
      }
 
-   if(genplot && output <= 1)
+### output the noise coefficients if desired
+# conventional AR1 and robust AR1
+if (background == 1 || background == 3) 
+      {
+        ncoeffs.out=data.frame(cbind(rho,So))
+        rownames(ncoeffs.out)[1] <- c("AR1_fit")
+      }  
+# power law fit
+    if(background == 2) 
+      {
+        ncoeffs.out=data.frame(cbind(beta,logN,bias))
+        rownames(ncoeffs.out)[1] <- c("PL_fit")   
+      }    
+
+
+   if(genplot && output != 2)
     {
       dev.new(title = "Periodogram results", height = 7, width = 9)
       par(mfrow=c(2,2))
@@ -325,6 +343,9 @@ if(verbose)
    
 if (output==1)  return(fft.out)
 if (output==2)  return(fc.out)
-   
+if (output==3 && background != 0) return(ncoeffs.out)
+if (output==4 && background != 0) return( list(fft.out,ncoeffs.out) )
+
+ 
 #### END function periodogram
 }

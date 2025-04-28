@@ -20,7 +20,7 @@ mtmML96(dat,tbw=3,ntap=NULL,padfac=5,demean=T,detrend=F,medsmooth=0.2,
   \item{opt}{Optimization method for robust AR1 model estimation (1=Brent's method:fast, 2=Gauss-Newton:fast, 3=grid search:slow)}
   \item{linLog}{Optimize AR1 model fit using (1) linear power or (2) log(power)?}
   \item{siglevel}{Significance level for peak identification. (0-1)}
-  \item{output}{What should be returned as a data frame? (0=nothing; 1= power spectrum + harmonic CL + AR1 CL + AR1 fit + 90\%-99\% AR1 power levels + median smoothed spectrum; 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL)}
+  \item{output}{What should be returned as a data frame? (0=nothing; 1= power spectrum + harmonic CL + AR1 CL + AR1 fit + 90\%-99\% AR1 power levels + median smoothed spectrum; 2=significant peak frequencies; 3=significant peak frequencies + harmonic CL); 4= Robust AR1 noise model coefficients; 5= option 1+4}
   \item{CLpwr}{Plot ML96 AR(1) noise confidence levels on power spectrum? (T or F)}
   \item{xmin}{Smallest frequency for plotting.}
   \item{xmax}{Largest frequency for plotting.}

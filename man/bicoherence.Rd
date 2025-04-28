@@ -31,7 +31,7 @@ bicoherence(dat,overlap=50,segments=8,CF=0,CL=95,padfac=2,demean=T,detrend=T,
 }
 
 \details{
-This function accompanies the publication Sullivan et al. (in press 2023, PNAS): "Bicoherence is a higher-order statistic, which 
+This function accompanies the publication Sullivan et al. (2023, PNAS): "Bicoherence is a higher-order statistic, which 
 quantifies coupling of individual frequencies (as combination and difference tones). For three frequencies, f1, f2 and f3, 
 high bicoherence indicates that f1 + f2 = f3, with the additional property that their phases are also coupled in the data 
 series. We employ the bicoherence approach of Choudhury, Shah and Thornhill (2008), which uses Welch Overlapping Spectral 
@@ -46,8 +46,8 @@ Choudhury, A.A.S., Shah, S.L., and Thornhill, N.F. (2008),
 Kim, Y.C., and Powers, E.J. (1979), 
 \emph{Digital Bispectral Analysis and Its Applications to Nonlinear Wave Interactions}: IEEE Transactions on Plasma Science, v. PS-7, 120-131.
 
-Sullivan, N.B., Meyers, S.R., Levy, R.H., McKay, R.M., Golledge, N.R., Cortese, G. (in press 2023),
-\emph{Millennial-scale variability of the Antarctic Ice Sheet during the Early Miocene}: Proceedings of the National Academy of Sciences.
+Sullivan, N.B., Meyers, S.R., Levy, R.H., McKay, R.M., Golledge, N.R., Cortese, G. (2023),
+\emph{Millennial-scale variability of the Antarctic Ice Sheet during the Early Miocene}: Proceedings of the National Academy of Sciences, https://doi.org/10.1073/pnas.2304152120.
 
 Welch, P.D. (1967),
 \emph{The use of Fast Fourier Tranform for the estimation of power spectra: A method based on time averaging over short, modified periodograms}: IEEE Transactions on Audio and Electroacoustics, AU-5 (2): 70-73.

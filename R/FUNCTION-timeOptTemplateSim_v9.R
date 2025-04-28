@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function timeOptTemplateSim - (SRM: May 28, 2012; Oct. 14, 2014; Oct. 17, 2014;
@@ -9,7 +9,8 @@
 ###                             December 17, 2015; February 7, 2016; 
 ###                             February 25, 2016; October 18-26, 2016;
 ###                             December 13-21, 2017; January 1, 2018; 
-###                             November 24, 2018; January 14, 2021)
+###                             November 24, 2018; January 14, 2021;
+###                             January 12, 2025)
 ###########################################################################
 
 timeOptTemplateSim <- function (dat,template=NULL,corVal=NULL,numsim=2000,rho=NULL,sedmin=0.5,sedmax=5,difmin=NULL,difmax=NULL,fac=NULL,numsed=50,linLog=1,limit=T,fit=1,fitModPwr=T,iopt=3,flow=NULL,fhigh=NULL,roll=NULL,targetE=NULL,targetP=NULL,cormethod=1,detrend=T,detrendTemplate=F,flipTemplate=F,ncores=1,output=0,genplot=T,check=T,verbose=T)
@@ -82,13 +83,12 @@ if (detrend)
    dat[2]=dat[2]/sapply(dat[2],sd)
 
 ### what is the estimated AR1 coefficient?
-   if(is.null(rho))
-    {
-      lag0 <- dat[1:(npts-1),2]
-      lag1 <- dat[2:npts,2]
-      rho <- cor(lag0,lag1)
-      if(verbose) cat(" * Raw AR1 =",rho,"\n")
-    }  
+# npts is the length of data vector 'dat', mean of dat is already zero
+   if(is.null(rho)) 
+    { 
+      rho=sum(dat[1:(npts-1),2] * dat[2:npts,2]) / sum(dat[,2]^2)  
+      if(verbose) cat("\n * Estimated AR1 coefficient=",rho,"\n")
+    }
 
 if(verbose) 
   {

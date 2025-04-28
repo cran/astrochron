@@ -6,7 +6,7 @@ An implementation of the Imbrie and Imbrie (1980) ice sheet model
 }
 \usage{
 imbrie(insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,standardize=T,
-       output=T,genplot=1,verbose=T)
+       output=T,genplot=1,check=T,verbose=T)
 }
 \arguments{
   \item{insolation}{Insolation, in ka (negative for future, positive for past). Default is insolation over the past 1000 ka from 65 deg. North, 21 June.}
@@ -18,6 +18,7 @@ imbrie(insolation=NULL,Tm=17,b=0.6,times=NULL,initial=0,burnin=100,standardize=T
   \item{standardize}{Standardize model output to maximum value of one and minimum value of zero? (T or F)}  
   \item{output}{Output model results? (T or F)}
   \item{genplot}{Generate summary plots? (1) plot insolation and ice volume series, (2) plot animated insolation, ice volume and phase portrait.)}
+  \item{check}{Conduct compliance checks before processing? (T or F). In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (T or F)}
 }
 

@@ -38,7 +38,7 @@ timeOptTemplateSim(dat,template=NULL,corVal=NULL,numsim=2000,rho=NULL,sedmin=0.5
   \item{detrendTemplate}{Remove linear trend from sedimentation rate template? (T or F)}
   \item{flipTemplate}{Flip direction of sedimentation rate template? (T or F)}
   \item{ncores}{Number of cores to use for parallel processing}
-  \item{output}{Which results you like to return to console? (0) no output; (1) return sedimentation rate grid, p, r, r*p; (2) return optimal time series, bandpassed series, Hilbert and fitted periods}
+  \item{output}{Which results you like to return to console? (0) no output; (1) p-value; (2) simulation r2 results}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{check}{Conduct compliance checks before processing? (T or F) In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (T or F)}
@@ -54,17 +54,6 @@ examples.
 The statistical significance of the r^2_opt is determined via Monte Carlo simulation 
 (see timeOptSim). See timeOpt for more information on the basic methodology.
 }
-
-\value{
-QUESTION: is this correct?
-
-if output = 1, a data frame containing the following will be returned:
-Sedimentation rate (cm/ka), r-squared value for instantaneous amplitude vs. fitted periods, r-squared value for fit to specified periods, r-squared*r-squared.
-
-if output = 2, a data frame containing the following will be returned:
-Time (ka), tuned time series, bandpassed series, instantaneous amplitude, fitted periods.
-}
-
 
 \references{
 S.R. Meyers, 2015,

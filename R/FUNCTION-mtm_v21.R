@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### MTM function - (SRM: February 28, 2012; March 29, 2012; 
@@ -10,7 +10,7 @@
 ###                      February 26, 2015; March 6, 2015; June 30, 2015; Sept. 10, 2015;
 ###                      December 14, 2015; May 20, 2016; August 22, 2016; Oct. 4, 2016;
 ###                      March 20, 2017; November 20, 2017; August 17, 2018; 
-###                      January 14, 2021)
+###                      January 14, 2021; January 4, 2025)
 ###
 ### uses multitaper library and built in functions from R
 ###########################################################################
@@ -128,9 +128,11 @@ FtestRaw <- spec$mtm$Ftest[1:nfreq]
 if(ar1)
  {
 ### what is the estimated AR1 coefficient?
-    lag0 <- dat[1:(npts-1),2]
-    lag1 <- dat[2:npts,2]
-    rho_raw <- cor(lag0,lag1)
+# npts is the length of data vector 'dat', which may or may not have been 
+# detrended/demeaned, so ensure mean value is zero
+    d0=dat[,2]-mean(dat[,2])
+    rho_raw=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
+    if(verbose) cat(" * Estimated AR1 coefficient =",rho_raw,"\n")
 ### Calculate Raw red noise spectrum
 ### "So" is the average power. This can be determined from the white noise variance
 ###  as So = var/(1-rho^2), where rho is the lag-1 coeff

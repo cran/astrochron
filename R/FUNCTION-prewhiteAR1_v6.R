@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2016 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function prewhiteAR1 - (SRM: January 28, 2012; March 1, 2012; Feb. 27, 2013;
 ###                          June 27, 2013; Sept. 25, 2013; Sept. 10, 2015; 
-###                          July 22, 2016)
+###                          July 22, 2016; January 4, 2025)
 ###
 ### prewhiten with AR1 filter
 ###########################################################################
@@ -36,10 +36,10 @@ prewhiteAR1 <- function (dat,setrho=NULL,bias=F,genplot=T,verbose=T)
 ### what is the estimated AR1 coefficient?
    if(is.null(setrho))
     {
-      lag0 <- dat[1:(npts-1),2]
-      lag1 <- dat[2:npts,2]
-      rho <- cor(lag0,lag1)
-      if(verbose) cat("\n * Raw AR1 =",rho,"\n")
+# npts is the length of data vector 'dat', ensure mean value is zero
+      d0=dat[,2]-mean(dat[,2])
+      rho=sum(d0[1:(npts-1)] * d0[2:npts]) / sum(d0^2)
+      if(verbose) cat("\n * Estimated AR1 coefficient=",rho,"\n")
 
       if(bias) 
        { 
@@ -50,24 +50,14 @@ prewhiteAR1 <- function (dat,setrho=NULL,bias=F,genplot=T,verbose=T)
       setrho=rho
     }
    
-   prewhite <- double(npts-1)
-   j=1
-   for (i in 2:npts )
-        { 
-          prewhite[j]=dat[i,2]-setrho*dat[i-1,2]
-          j=j+1
-        } 
-    ipts=j-1
-
+### now prewhiten
+    prewhite=dat[2:npts,2] - setrho * dat[1:(npts-1),2]
+    ipts=npts-1
 ### what is the new raw estimate for the AR(1) coefficient?
-   if(verbose)
-     {  
-       lag0 <- prewhite[1:(ipts-1)]
-       lag1 <- prewhite[2:ipts]      
-       coeff_est_prewhite <- cor(lag0,lag1)
-       cat(" * Prewhitened AR1 =",coeff_est_prewhite,"\n")
-     }
-     
+    d0=prewhite-mean(prewhite)
+    coeff_est_prewhite=sum(d0[1:(ipts-1)] * d0[2:ipts]) / sum(d0^2)
+    if(verbose) cat(" * Prewhitened AR1 coefficient=",coeff_est_prewhite,"\n")
+         
     out <- data.frame(cbind(dat[1:ipts,1],prewhite))
 
 ### plot data

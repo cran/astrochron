@@ -4,7 +4,8 @@
 ###########################################################################
 ### linterpLH13: linearly interpolate data using approach of Laepple and Huybers (2013)
 ###                                    (SRM: Nov 3-5, 2015; Aug 25-26, 2023; 
-###                                     Sept 26-27, 2023; Sept 3, 2024; Sept 16, 2024)
+###                                     Sept 26-27, 2023; Sept 3, 2024; Sept 16, 2024;
+###                                     Nov 10, 2024)
 ### (1) generate 1/f stochastic signal (Laepple and Huybers use beta=1)
 ### (2) subsample 1/f noise on dataset sampling grid
 ### (3) interpolate 1/f noise to finest sample step of dataset (default) or specified fine grid
@@ -17,7 +18,7 @@
 ### Option to conduct nsim simulations
 ###########################################################################
 
-linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw=20,smooth=0.05,logF=F,antialias=T,roll=10^10,nsim=1,ncores=2,output=T,maxF=NULL,pl=1,genplot=T,verbose=1)
+linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw=20,smooth=0.05,logF=F,antialias=T,roll=10^10,nsim=1,ncores=2,output=T,maxF=NULL,pl=1,genplot=T,check=T,verbose=1)
 {
   if(verbose==0) 
     {
@@ -40,19 +41,22 @@ linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw
       cat("              USING THE APPROACH OF LAEPPLE AND HUYBERS (2013) \n")
     }  
   dat <- data.frame(dat)
-  dt2 <- dat[2,1]-dat[1,1]
-      
-  if(dt2<0)
-    { 
+
+  if(check)
+   {
+    dt2 <- dat[2,1]-dat[1,1]     
+    if(dt2<0)
+     { 
       if (verbose1) cat("\n * Sorting data into increasing height/depth/time, removing empty entries\n")
       dat <- dat[order(dat[1], na.last = NA, decreasing = F), ]
-    }
+     }
+   }
      
   npts <- length(dat[,1]) 
   if(verbose1) cat("\n * Number of samples=", npts,"\n")
  
   dt3=dat[2:npts,1]-dat[1:(npts-1),1] 
-  if(length(unique(dt3)) == 1)
+  if(check && length(unique(dt3)) == 1)
     {
       cat("\n**** ERROR: Data series is already on an even sample grid\n")
       stop("**** TERMINATING NOW!")
@@ -80,7 +84,7 @@ linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw
            noise=pwrLaw(dt=dtMin,npts=npts2,beta=beta,genplot=F,verbose=verbose2)
            noise[1]=noise[1]+min(dat[,1])
 # (2) subsample 1/f noise on dataset sampling grid
-           noiseR=resample(noise,dat[,1],genplot=F,verbose=verbose2)
+           noiseR=resample(noise,dat[,1],genplot=F,check=F,verbose=verbose2)
 # (3) interpolate 1/f noise to finest sample step of dataset
            noiseR2=linterp(noiseR,dt=dtMin,genplot=F,verbose=verbose2)
 # (4) Divide resampled power spectrum by theoretical spectrum
@@ -92,7 +96,7 @@ linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw
            mtmNoiseR=mtm(noiseR2,padfac=1,tbw=tbw,output=1,genplot=F,verbose=F)
            pwrNoiseR=data.frame(cbind(mtmNoiseR[,1],mtmNoiseR[,2]))
 # resample theoretical signal on frequency grid from noiseR, for ratio estimate
-           theoryPwr=resample(pwrNoise,pwrNoiseR[,1],genplot=F,verbose=verbose2)
+           theoryPwr=resample(pwrNoise,pwrNoiseR[,1],genplot=F,check=F,verbose=verbose2)
 # calculate ratio
            ratio=pwrNoiseR
            ratio[2]=pwrNoiseR[2]/theoryPwr[2]
@@ -140,7 +144,7 @@ linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw
            noise=pwrLaw(dt=dtMin,npts=npts2,beta=beta,genplot=F,verbose=verbose2)
            noise[1]=noise[1]+min(dat[,1])
 # (2) subsample 1/f noise on dataset sampling grid
-           noiseR=resample(noise,dat[,1],genplot=F,verbose=verbose2)
+           noiseR=resample(noise,dat[,1],genplot=F,check=F,verbose=verbose2)
 # (3) interpolate 1/f noise to finest sample step of dataset
            noiseR2=linterp(noiseR,dt=dtMin,genplot=F,verbose=verbose2)
 # (4) Divide resampled power spectrum by theoretical spectrum
@@ -151,7 +155,7 @@ linterpLH13 <- function (dat,dt=NULL,start=NULL,dtMin=NULL,thresh=0.7,beta=1,tbw
            mtmNoiseR=mtm(noiseR2,padfac=1,tbw=tbw,output=1,genplot=F,verbose=F)
            pwrNoiseR=data.frame(cbind(mtmNoiseR[,1],mtmNoiseR[,2]))
 # resample theoretical signal on frequency grid from noiseR, for ratio estimate
-           theoryPwr=resample(pwrNoise,pwrNoiseR[,1],genplot=F,verbose=verbose2)
+           theoryPwr=resample(pwrNoise,pwrNoiseR[,1],genplot=F,check=F,verbose=verbose2)
 # calculate ratio
            ratio=pwrNoiseR
            ratio[2]=pwrNoiseR[2]/theoryPwr[2]

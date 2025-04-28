@@ -2,13 +2,14 @@
 ### Copyright (C) 2024 Stephen R. Meyers
 ###
 ###########################################################################
-### function accum - (SRM: January 15, 2014; April 6, 2024; June 10, 2024; Sept. 4 2024)
+### function accum - (SRM: January 15, 2014; April 6, 2024; June 10, 2024; 
+###                        Sept. 4 2024; November 10, 2024)
 ###
 ### calculate accumulation rates
 ###########################################################################
 
 
-accum <- function (dat,sedrate=NULL,density=NULL,genplot=T,verbose=T)
+accum <- function (dat,sedrate=NULL,density=NULL,genplot=T,check=T,verbose=T)
 {
 
 if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
@@ -45,21 +46,23 @@ if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
    if(verbose) cat(" * Number of density measurements=", numDen,"\n")
    
 ### sort to ensure increasing depth/height/time
-   if(verbose) cat(" * Sorting datasets into ensure increasing order, removing empty entries\n")
-   dat <- dat[order(dat[,1],na.last=NA,decreasing=F),]
-   if(numSed >1) sedrate <- sedrate[order(sedrate[,1],na.last=NA,decreasing=F),]
-   if(numDen >1) density <- density[order(density[,1],na.last=NA,decreasing=F),]
+   if(check)
+    { 
+     if(verbose) cat(" * Sorting datasets into ensure increasing order, removing empty entries\n")
+     dat <- dat[order(dat[,1],na.last=NA,decreasing=F),]
+     if(numSed >1) sedrate <- sedrate[order(sedrate[,1],na.last=NA,decreasing=F),]
+     if(numDen >1) density <- density[order(density[,1],na.last=NA,decreasing=F),]
    
 ### check for duplicate depths/heights in dat
-   dx1=dat[2:npts,1]-dat[1:(npts-1),1]
-   if(min(dx1) == 0)
-     {
+     dx1=dat[2:npts,1]-dat[1:(npts-1),1]
+     if(min(dx1) == 0)
+      {
        cat("\n**** WARNING: duplicate depth/height datum found in dat\n")
-     }  
+      }  
 
 ### check for duplicate depths/heights in sedrate
-   if(numSed >1) 
-     {
+     if(numSed >1) 
+      {
        dx2=sedrate[2:numSed,1]-sedrate[1:(numSed-1),1]
        if(min(dx2) == 0)
         {
@@ -69,18 +72,18 @@ if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
       }    
 
 ### check for duplicate depths/heights in density
-   if (numDen > 1) 
-    {
-      dx3=density[2:numDen,1]-density[1:(numDen-1),1]
-      if(min(dx3) == 0)
-       {
+     if (numDen > 1) 
+      {
+       dx3=density[2:numDen,1]-density[1:(numDen-1),1]
+       if(min(dx3) == 0)
+        {
          cat("\n**** ERROR: duplicate depth/height datum found in density measurements\n")
          stop("**** TERMINATING NOW!")
-       } 
-     }   
-
-    if(numSed == 1) cat("\n**** WARNING: one sedimentation rate applied to entire record\n")
-    if(numDen == 1) cat("\n**** WARNING: one bulk density applied to entire record\n")
+        } 
+      }   
+     if(numSed == 1) cat("\n**** WARNING: one sedimentation rate applied to entire record\n")
+     if(numDen == 1) cat("\n**** WARNING: one bulk density applied to entire record\n")
+    }
 
 ### if only one sedimentation rate and bulk density are supplied
     if(numSed == 1 && numDen == 1)
@@ -95,9 +98,9 @@ if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
 
 ### use piecewise linear interpolation to estimate sedimentation rate and bulk density
 # resample density on dat[,1]
-      if(numDen > 1) density<-resample(density,dat[,1],genplot=F,verbose=F)
+      if(numDen > 1) density<-resample(density,dat[,1],genplot=F,check=F,verbose=F)
 # resample sedrates on dat[,1]      
-      if(numSed > 1) sedrate<-resample(sedrate,dat[,1],genplot=F,verbose=F)
+      if(numSed > 1) sedrate<-resample(sedrate,dat[,1],genplot=F,check=F,verbose=F)
 
 # find min and max depth that are present in all data sets
       minDat=min(dat[,1])

@@ -1,11 +1,12 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function ar1etp - (SRM: March 21, 2012; May 3, 2012; Aug 2, 2012; 
 ###                         Oct. 8, 2012; Jan. 23, 2013; April 29, 2013; 
 ###                         May 20, 2013; June 21, 2013; Sept. 25, 2013; 
-###                         Jan. 30, 2015; February 1, 2015; October 20, 2018)
+###                         Jan. 30, 2015; February 1, 2015; October 20, 2018;
+###                         Jan. 4, 2025)
 ###
 ### Run an ensemble of AR1 + signal simulations
 ###########################################################################
@@ -90,10 +91,8 @@ if(wtAR>=0) ar1=ar1*wtAR
 noise <- as.data.frame(cbind(ta,ar1))
 
 ### what is the estimated AR1 coefficient?
-    lag0 <- ar1[1:(npts-1)]
-    lag1 <- ar1[2:npts]
-
-rho_raw <- cor(lag0,lag1)
+# npts is the length of vector 'ar1', which has mean of zero
+    rho_raw=sum(ar1[1:(npts-1)] * ar1[2:npts]) / sum(ar1^2)
 
 ###########################################################################
 ### 2. sum ETP and AR1 noise
@@ -103,10 +102,8 @@ if(wtAR>=0) signal <- as.data.frame(cbind(ta,etpdat[,2] + ar1))
 if(wtAR<0) signal <- noise
 
 ### what is the estimated AR1 coefficient for the combined signal?
-    lag0 <- signal[1:(npts-1),2]
-    lag1 <- signal[2:npts,2]
-
-rho_raw_sig <- cor(lag0,lag1)
+# npts is the length of vector 'signal', which has mean of zero
+    rho_raw_sig=sum(signal[1:(npts-1),2] * signal[2:npts,2]) / sum(signal[,2]^2)
 
 ###########################################################################
 ### 3. MTM Power spectrum using 'multitaper' library

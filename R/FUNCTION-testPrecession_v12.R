@@ -1,5 +1,5 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function testPrecession - (SRM: July 10, 2013; August 9, 2013; August 14, 2013;
@@ -7,7 +7,7 @@
 ###                         Jan. 29, 2015; February 4, 2015; February 23, 2015;
 ###                         March 11, 2015; September 10, 2015; July 22, 2016;
 ###                         October 26, 2016; June 7-8, 2017; June 20, 2018;
-###                         June 24, 2018; January 14, 2021)
+###                         June 24, 2018; January 14, 2021; January 12, 2025)
 ###
 ### Perform astrochonologic testing as in Zeeden et al. (2015).
 ###########################################################################
@@ -23,7 +23,7 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
    dat <- dat[order(dat[,1],na.last=NA,decreasing=F),]
    npts <- length(dat[,1]) 
 
-# standardize
+# standardize dat
    dat[2] <- dat[2] - mean(dat[,2])
    dat[2] <- dat[2]/sd(dat[,2])
         
@@ -101,11 +101,11 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
 ### determine eccentricity signal for time interval
 ###########################################################################
 # bandpass filter to be consistent with tuned data processing
-   precT_BP=taner(precT,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,verbose=F)
+   precT_BP=taner(precT,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   precT_BP_Hil=hilbert(precT_BP,padfac=2,demean=T,detrend=F,genplot=F,verbose=F)
+   precT_BP_Hil=hilbert(precT_BP,padfac=2,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   ecc=taner(precT_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,detrend=F,genplot=F,verbose=F)
+   ecc=taner(precT_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,detrend=F,genplot=F,check=F,verbose=F)
    if(detrendEnv) ecc=detrend(ecc,genplot=F,verbose=F)
 
 ###########################################################################
@@ -119,11 +119,11 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
 ### with full eccentricity signal modulation
 ###########################################################################
 # bandpass filter to be consistent with tuned data processing
-   axial_BP=taner(axial,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   axial_BP=taner(axial,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   axial_BP_Hil=hilbert(axial_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   axial_BP_Hil=hilbert(axial_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   axial_amp=taner(axial_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)   
+   axial_amp=taner(axial_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)   
    if(detrendEnv) axial_amp=detrend(axial_amp,genplot=F,verbose=F)
 # calculate spearman correlation. remove edge effects using 'ii' indices
    axialCor=cor(axial_amp[ii,2],ecc[ii,2],method=c("spearman"))
@@ -138,18 +138,18 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
 ### residual imposed modulation, then add it to original stratigraphic
 ### series
 ###########################################################################
-# switch to indentify if noise addition simulations were performed
+# switch to identify if noise addition simulations were performed
    inoise=F
    dat2=dat
 
  # calculate rho for noise addition simulations and/or Monte Carlo if selected
    if(axialCor>0 || gen == 2)
     {
+# npts is the length of data vector 'dat', mean of dat is already zero
       if(is.null(rho)) 
-       {
-        lag0 <- dat[1:(npts-1),2]
-        lag1 <- dat[2:npts,2]
-        rho = cor(lag0,lag1)
+       { 
+         rho=sum(dat[1:(npts-1),2] * dat[2:npts,2]) / sum(dat[,2]^2)  
+         if(verbose) cat("\n * Estimated AR1 coefficient=",rho,"\n")
        }
     }
 
@@ -167,11 +167,11 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
          ar1Now=ar1(npts=npts,dt=dt,rho=rho,mean=0,sdev=maxNoise*i/1000,nsim=1,genplot=F,verbose=F)
          axialNow[2]=axialNow[2]+ar1Now[2]
 # bandpass filter to be consistent with tuned data processing
-         axialNow_BP=taner(axialNow,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+         axialNow_BP=taner(axialNow,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-         axialNow_BP_Hil=hilbert(axialNow_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+         axialNow_BP_Hil=hilbert(axialNow_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-         axialNow_amp=taner(axialNow_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)   
+         axialNow_amp=taner(axialNow_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)   
          if(detrendEnv) axialNow_amp=detrend(axialNow_amp,genplot=F,verbose=F)
 # calculate spearman correlation. remove edge effects using 'ii' indices
          axialCorNoise=cor(axialNow_amp[ii,2],ecc[ii,2],method=c("spearman"))
@@ -197,11 +197,11 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
 ### process tuned data series WITHOUT noise addition
 ###########################################################################    
 # bandpass
-   prec_BP_noNoise=taner(dat,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,verbose=F)
+   prec_BP_noNoise=taner(dat,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   prec_BP_Hil_noNoise=hilbert(prec_BP_noNoise,padfac=2,demean=T,detrend=F,genplot=F,verbose=F)
+   prec_BP_Hil_noNoise=hilbert(prec_BP_noNoise,padfac=2,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   prec_BP_Hil_Lowpass_noNoise=taner(prec_BP_Hil_noNoise,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,detrend=F,genplot=F,verbose=F)
+   prec_BP_Hil_Lowpass_noNoise=taner(prec_BP_Hil_noNoise,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # save a copy for plotting later...
    plotSeries=prec_BP_Hil_Lowpass_noNoise
    if(detrendEnv) prec_BP_Hil_Lowpass_noNoise=detrend(prec_BP_Hil_Lowpass_noNoise,genplot=F,verbose=F)
@@ -217,11 +217,11 @@ testPrecession <- function(dat,nsim=1000,gen=1,edge=0.025,maxNoise=1,rho=NULL,de
 ### process tuned stratigraphic series WITH noise addition
 ###########################################################################    
 # bandpass
-   prec_BP=taner(dat2,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   prec_BP=taner(dat2,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   prec_BP_Hil=hilbert(prec_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   prec_BP_Hil=hilbert(prec_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   prec_BP_Hil_Lowpass=taner(prec_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   prec_BP_Hil_Lowpass=taner(prec_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,roll=10^4,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
    if(detrendEnv) prec_BP_Hil_Lowpass=detrend(prec_BP_Hil_Lowpass,genplot=F,verbose=F)
 # calculate spearman correlation. remove edge effects using 'ii' indices 
    datCor=cor(prec_BP_Hil_Lowpass[ii,2],ecc[ii,2],method=c("spearman"))
@@ -311,11 +311,11 @@ if(nsim>0)
     {
       if(verbose) utils::setTxtProgressBar(progress, i)
       surdat=data.frame(cbind(dat[,1],sur[,i]))
-      sur_BP=taner(surdat,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,verbose=F)
+      sur_BP=taner(surdat,padfac=2,flow=0.029,fhigh=0.12,roll=10^3,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-      sur_BP_Hil=hilbert(sur_BP,padfac=2,demean=T,detrend=F,genplot=F,verbose=F)
+      sur_BP_Hil=hilbert(sur_BP,padfac=2,demean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-      sur_BP_Hil_Lowpass=taner(sur_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,xmax=.1,roll=10^4,demean=T,detrend=F,genplot=F,verbose=F)
+      sur_BP_Hil_Lowpass=taner(sur_BP_Hil,padfac=2,fhigh=0.013,flow=-0.013,xmax=.1,roll=10^4,demean=T,detrend=F,genplot=F,check=F,verbose=F)
       if(detrendEnv) sur_BP_Hil_Lowpass=detrend(sur_BP_Hil_Lowpass,genplot=F,verbose=F)
 # calculate spearman rank correlation coefficient 
       simcor[i]=cor(sur_BP_Hil_Lowpass[,2],ecc[,2],method=c("spearman"))

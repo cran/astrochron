@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2021 Stephen R. Meyers
+### Copyright (C) 2025 Stephen R. Meyers
 ###
 ###########################################################################
 ### function testTilt - (SRM: December 27, 2015; January 5-6, 2016; 
 ###                           June 1-8, 2017; June 20, 2018; June 22, 2018;
-###                           June 24, 2018; January 14, 2021)
+###                           June 24, 2018; January 14, 2021; January 12, 2025)
 ###
 ### Perform astrochonologic testing using obliquity modulations
 ### as in Zeeden et al. (2019).
@@ -21,7 +21,7 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
    dat <- dat[order(dat[,1],na.last=NA,decreasing=F),]
    npts <- length(dat[,1]) 
 
-# standardize
+# standardize dat
    dat[2] <- dat[2] - mean(dat[,2])
    dat[2] <- dat[2]/sd(dat[,2])
          
@@ -83,17 +83,17 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
    demod <- oblT
    demod[2]= demod[2]-mean(demod[,2])
    demod[2]= demod[2]/sd(demod[,2]) 
-   demod[2]=demod[2]/hilbert(demod,verbose=F,genplot=F)[2]
+   demod[2]=demod[2]/hilbert(demod,genplot=F,check=F,verbose=F)[2]
 
 ###########################################################################
 ### process obliquity target
 ###########################################################################
 # bandpass filter to be consistent with tuned data processing
-   oblT_BP=taner(oblT,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   oblT_BP=taner(oblT,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   oblT_BP_Hil=hilbert(oblT_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   oblT_BP_Hil=hilbert(oblT_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   oblT_amp=taner(oblT_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F) 
+   oblT_amp=taner(oblT_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F) 
    if(detrendEnv) oblT_amp=detrend(oblT_amp,genplot=F,verbose=F)
 
 ###########################################################################
@@ -107,11 +107,11 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
 ### full obliquity signal modulation
 ###########################################################################
 # bandpass filter to be consistent with tuned data processing
-   demod_BP=taner(demod,padfac=2,flow=0.015,fhigh=0.038,,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   demod_BP=taner(demod,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   demod_BP_Hil=hilbert(demod_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   demod_BP_Hil=hilbert(demod_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   demod_amp=taner(demod_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)   
+   demod_amp=taner(demod_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)   
    if(detrendEnv) demod_amp=detrend(demod_amp,genplot=F,verbose=F)
 # calculate spearman correlation. remove edge effects using 'ii' indices
    demodCor=cor(demod_amp[ii,2],oblT_amp[ii,2],method=c("spearman"))
@@ -134,11 +134,11 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
  # calculate rho for noise addition simulations and/or Monte Carlo if selected
    if(demodCor>0 || gen == 2)
     {
+# npts is the length of data vector 'dat', mean of dat is already zero
       if(is.null(rho)) 
-       {
-        lag0 <- dat[1:(npts-1),2]
-        lag1 <- dat[2:npts,2]
-        rho = cor(lag0,lag1)
+       { 
+         rho=sum(dat[1:(npts-1),2] * dat[2:npts,2]) / sum(dat[,2]^2)  
+         if(verbose) cat("\n * Estimated AR1 coefficient=",rho,"\n")
        }
     }
 
@@ -160,11 +160,11 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
          ar1Now=ar1(npts=npts,dt=dt,rho=rho,mean=0,sdev=maxNoise*i/1000,nsim=1,genplot=F,verbose=F)
          demodNow[2]=demodNow[2]+ar1Now[2]
 # bandpass filter to be consistent with tuned data processing
-         demodNow_BP=taner(demodNow,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+         demodNow_BP=taner(demodNow,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-         demodNow_BP_Hil=hilbert(demodNow_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+         demodNow_BP_Hil=hilbert(demodNow_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-         demodNow_amp=taner(demodNow_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)   
+         demodNow_amp=taner(demodNow_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)   
          if(detrendEnv) demodNow_amp=detrend(demodNow_amp,genplot=F,verbose=F)
 # calculate spearman correlation. remove edge effects using 'ii' indices
          demodCorNoise=cor(demodNow_amp[ii,2],oblT_amp[ii,2],method=c("spearman"))
@@ -192,11 +192,11 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
 ### process tuned stratigraphic series WITHOUT noise addition
 ###########################################################################    
 # bandpass
-   obl_BP_noNoise=taner(dat,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   obl_BP_noNoise=taner(dat,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   obl_BP_Hil_noNoise=hilbert(obl_BP_noNoise,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   obl_BP_Hil_noNoise=hilbert(obl_BP_noNoise,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   obl_BP_Hil_Lowpass_noNoise=taner(obl_BP_Hil_noNoise,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   obl_BP_Hil_Lowpass_noNoise=taner(obl_BP_Hil_noNoise,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # save a copy for plotting later...
    plotSeries=obl_BP_Hil_Lowpass_noNoise
    if(detrendEnv) obl_BP_Hil_Lowpass_noNoise=detrend(obl_BP_Hil_Lowpass_noNoise,genplot=F,verbose=F)
@@ -212,11 +212,11 @@ testTilt <- function(dat,nsim=1000,gen=1,edge=0.025,cutoff=1/150,maxNoise=0.25,r
 ### process tuned stratigraphic series WITH noise addition
 ###########################################################################    
 # bandpass
-   obl_BP=taner(dat2,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   obl_BP=taner(dat2,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-   obl_BP_Hil=hilbert(obl_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   obl_BP_Hil=hilbert(obl_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-   obl_BP_Hil_Lowpass=taner(obl_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+   obl_BP_Hil_Lowpass=taner(obl_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
    if(detrendEnv) obl_BP_Hil_Lowpass=detrend(obl_BP_Hil_Lowpass,genplot=F,verbose=F)
 # calculate spearman correlation. remove edge effects using 'ii' indices 
    datCor=cor(obl_BP_Hil_Lowpass[ii,2],oblT_amp[ii,2],method=c("spearman"))
@@ -305,11 +305,11 @@ if(nsim>0)
     {
       if(verbose) utils::setTxtProgressBar(progress, i)
       surdat=data.frame(cbind(dat2[,1],sur[,i]))
-      sur_BP=taner(surdat,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+      sur_BP=taner(surdat,padfac=2,flow=0.015,fhigh=0.038,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # determine instantaneous amplitude
-      sur_BP_Hil=hilbert(sur_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+      sur_BP_Hil=hilbert(sur_BP,padfac=2,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
 # lowpass instantaneous amplitude
-      sur_BP_Hil_Lowpass=taner(sur_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,verbose=F)
+      sur_BP_Hil_Lowpass=taner(sur_BP_Hil,padfac=2,fhigh=cutoff,roll=10^20,demean=T,addmean=T,detrend=F,genplot=F,check=F,verbose=F)
       if(detrendEnv) sur_BP_Hil_Lowpass=detrend(sur_BP_Hil_Lowpass,genplot=F,verbose=F)
 # calculate spearman rank correlation coefficient. remove edge effects using 'ii' indices
       simcor[i]=cor(sur_BP_Hil_Lowpass[ii,2],oblT_amp[ii,2],method=c("spearman"))
