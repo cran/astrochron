@@ -1,9 +1,26 @@
+astrochron v1.6 (Release date: 2026-02-24)
+================
+
+New functions:
+
+* function timeOptB
+* function timeOptBSim
+* function timeOptMCMC
+* function timeOptBMCMCplot
+
+Changes:
+
+* function calcPeriods: modified s-frequency input and output options
+* function getData: added U1558-XRF data set (Villa and Meyers, PNAS)
+
+
+
 astrochron v1.5 (Release date: 2025-04-28)
 ================
 
 Changes:
 
-* assorted functions: AR1 coefficient estimates updated to be consistent with R base function 'acf' (ar1, ar1etp,  lowspec, mtm,  mtmML96,  periodogram, prewhiteAR1, testPrecession, testTilt, timeOptSim, timeOptTemplateSim)
+* assorted functions: AR1 coefficient estimates updated to be consistent with R base function 'acf' (ar1, ar1etp, lowspec, mtm, mtmML96, periodogram, prewhiteAR1, testPrecession, testTilt, timeOptSim, timeOptTemplateSim)
 * function imbrie: new fortran code and wrapper to speed up calculations
 * function periodogram: added option to return noise model coefficients (output=3)
 * function mtmML96: added option to return noise model coefficients (output=4)
@@ -12,6 +29,7 @@ Changes:
 * function accum: added compliance check option
 * function surrogateCor: edits made to resample function call
 * function getData: added U1521A clast data
+
 
 
 astrochron v1.4 (Release date: 2024-09-17)
@@ -53,6 +71,7 @@ Other changes:
 * function strats: fixed so no plot initiated when 'genplot' = 0
 * function autoPlot: minor edits
 * function insoMap: minor edits
+
 
 
 astrochron v1.2 (Release date: 2023-08-25)

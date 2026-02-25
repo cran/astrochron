@@ -1,11 +1,11 @@
 \name{timeOptMCMC}
 \alias{timeOptMCMC}
-\title{TimeOptMCMC: Evaluation of eccentricity-related amplitude modulation and bundling 
-in paleoclimate data ("TimeOpt"), with uncertainties via Markov-Chain Monte Carlo}
+\title{TimeOptMCMC: A Bayesian implementation of TimeOpt that evaluates eccentricity-related amplitude 
+modulation and bundling in paleoclimate data, with uncertainties via Markov-Chain Monte Carlo}
 \description{
 TimeOptMCMC: Evaluation of eccentricity-related amplitude modulation and bundling in 
-paleoclimate data ("TimeOpt"; Meyers, 2015), with uncertainties on all fitting parameters 
-via Markov-Chain Monte Carlo (MCMC). This function follows the approach of 
+paleoclimate data ("TimeOpt"; Meyers, 2015), using a Bayesian algorithm, with uncertainties on 
+all fitting parameters via Markov-Chain Monte Carlo (MCMC). This function follows the approach of 
 Meyers and Malinverno (2018).  MCMC is implemented using the Metropolis-Hastings algorithm.  
 Optimization is conducted upon the sedimentation rate (constant within the study interval), 
 the fundamental frequencies g1-g5, the precession constant k, and four hyperparameters 

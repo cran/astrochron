@@ -13,8 +13,8 @@ to time scale development and paleoclimate analysis.
 \tabular{ll}{
 Package: \tab astrochron\cr
 Type: \tab Package\cr
-Version: \tab 1.5\cr
-Date: \tab 2025-04-28\cr
+Version: \tab 1.6\cr
+Date: \tab 2026-02-24\cr
 License: \tab GPL-3\cr
 }
 %%~~ An overview of how to use the package ~~

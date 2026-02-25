@@ -1,8 +1,8 @@
 Package: astrochron
 Type: Package
 Title: A Computational Tool for Astrochronology
-Version: 1.5
-Date: 2025-04-28
+Version: 1.6
+Date: 2026-02-24
 Authors@R: c(person(given = "Stephen", family = "Meyers", role = c("aut", "cre"),
             email = "smeyers@geology.wisc.edu"),
             person(given = "Alberto", family = "Malinverno", role = "ctb"),
@@ -17,7 +17,7 @@ Imports: multitaper, parallel, doParallel,foreach, iterators, IDPmisc,
         fields, viridisLite, palinsol
 License: GPL-3
 NeedsCompilation: yes
-Packaged: 2025-04-28 16:21:16 UTC; smeyers
+Packaged: 2026-02-25 01:44:22 UTC; srmeyers2
 Author: Stephen Meyers [aut, cre],
   Alberto Malinverno [ctb],
   Linda Hinnov [ctb],
@@ -26,4 +26,4 @@ Author: Stephen Meyers [aut, cre],
   Vincent Moron [ctb],
   Michel Crucifix [ctb]
 Repository: CRAN
-Date/Publication: 2025-04-28 17:20:01 UTC
+Date/Publication: 2026-02-25 06:31:10 UTC

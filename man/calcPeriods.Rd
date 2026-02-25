@@ -5,12 +5,13 @@
 Calculate eccentricity, obliquity and precession periods in ka, given g, s and k in arcsec/yr.
 }
 \usage{
-calcPeriods(g,s=NULL,k,output=1)
+calcPeriods(g,s=NULL,k,opt=1,output=1)
 }
 \arguments{
-  \item{g}{Required Data frame or matrix with columns representing the fundamental frequencies: g1, g2, g3, g4, g5. Frequencies must be in arcsec/yr.}
-  \item{s}{Optional data frame or matrix with columns representing the fundamental frequencies: s1, s2, s3, s4, s5, s6. Frequencies must be in arcsec/yr. This is only required if you want to calculate obliquity periods.}
+  \item{g}{Required data frame or matrix with five columns representing the g-fundamental frequencies (g1, g2, g3, g4, g5). Frequencies must be in arcsec/yr.}
+  \item{s}{Optional data frame or matrix with five or six columns representing the s-fundamental frequencies (five columns = s1, s2, s3, s4, s6; six columns = s1, s2, s3, s4, s5, s6). Frequencies must be in arcsec/yr. This is only required if you want to calculate obliquity periods.}
   \item{k}{Required data frame or vector with precession constant (frequency). Frequencies must be in arcsec/yr.}
+  \item{opt}{(1) Calculate obliquity periods as in Laskar (1999, Table 6) (2) Calculate obliquity periods as in Malinverno and Meyers (2024, Table 1).}
   \item{output}{(1) return results as data frame, (2) return results as a numeric vector.}
 }
 \examples{
@@ -27,4 +28,12 @@ gVal= matrix(c(5.579378,7.456665,17.366595,17.910194,4.257564,5.494302,7.452619,
 kVal= c(50.475838,51.280910,85.790450)
 
 calcPeriods(g=gVal, k=kVal)
+}
+
+\references{
+Laskar, J., 1999,
+\emph{The limits of Earth orbital calculations for geological time-scale use}: Philosophical Transactions, Mathematical, Physical and Engineering Sciences, 357, 1735-1759. 
+
+Malinverno, A. and Meyers, S.R., 2024,
+\emph{Bayesian estimation of past astronomical frequencies, lunar distance, and length of day from sediment cycles}: Geochemistry, Geophysics, Geosystems, 25, e2023GC011176.
 }

@@ -8,7 +8,7 @@ Apply Taner bandpass or lowpass filter to Fourier coefficients.
 tanerFC(fc,npts,flow=NULL,fhigh=NULL,roll=10^3,output=1,genplot=T,verbose=T)
 }
 \arguments{
-  \item{fc}{Fourier coefficients, as output by the function 'periodogram'. The first column is frequency, the second column contains the real coefficients, and the third column contains the imaginary coefficients.}
+  \item{fc}{Fourier coefficients, as output by the function 'periodogram'. The coefficients should have no normalization applied (nrm=0 in 'periodogram'). The first column is frequency, the second column contains the real coefficients, and the third column contains the imaginary coefficients.}
   \item{npts}{The number of points in the stratigraphic series used to estimate the Fourier coefficients.}
   \item{flow}{Low frequency cut-off for Taner filter (half power point). If this value is not set (NULL), it will default to -1*fhigh, which will create a lowpass filter.}
   \item{fhigh}{High frequency cut-off for Taner filter (half power point).}

@@ -17,6 +17,9 @@ importFrom("foreach", "foreach", "%dopar%")
 importFrom("palinsol", "la04", "calins", "Insol", "Insol_l1l2", "thrins", "Milankovitch")
 importFrom("grDevices", "colorRamp", "rgb")
 importFrom("stats", "promax", "varimax")
+importFrom("stats", "acf", "ar.burg")
+importFrom("utils", "tail")
+importFrom("graphics", "legend", "pairs", "box")
 
 export(accum,
        anchorTime,
@@ -124,6 +127,10 @@ export(accum,
        testTilt,
        timeOpt,
        timeOptMCMC,
+       timeOptB,
+       timeOptBSim,
+       timeOptBMCMC,
+       timeOptBMCMCplot,
        timeOptPlot,
        timeOptSim,
        timeOptSimPwrLaw,

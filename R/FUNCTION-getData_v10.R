@@ -1,11 +1,11 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2025 Stephen R. Meyers
+### Copyright (C) 2026 Stephen R. Meyers
 ###
 ###########################################################################
 ### getData: download data from astrochon server. 
 ###          (SRM: October 21, 2015; April 13, 2018; June 3, 2018; 
 ###                November 27, 2018; December 14, 2018, January 7, 2019;
-###                July 25, 2023; January 27, 2025)
+###                July 25, 2023; January 27, 2025; February 24, 2026)
 ###
 ###########################################################################
 
@@ -38,7 +38,8 @@ getData <- function (dat="1262-a*")
           cat(" * Downloading graptolite Hidden Markov Model turnover probability series\n\n")
           cat("   Please cite: Crampton, J.S., Meyers, S.R., Cooper, R.A., et al., 2018,\n") 
           cat("   Pacing of Paleozoic Macroevolutionary Rates by Milankovitch Grand\n")
-          cat("   Cycles, PNAS.\n")
+          cat("   Cycles: Proceedings of the National Academy of Science,\n")
+          cat("   www.pnas.org/cgi/doi/10.1073/pnas.1714342115.\n")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/graptolite.txt.bz2",tempDat)
         }
 
@@ -46,7 +47,8 @@ getData <- function (dat="1262-a*")
         {
           cat(" * Downloading Cu/Al data series from the Xiamaling Formation\n\n")
           cat("   Please cite: Zhang, S., Wang, X., Hammarlund, E.U., et al., 2015,\n") 
-          cat("   Orbital forcing of climate 1.4 billion years ago, PNAS,\n")
+          cat("   Orbital forcing of climate 1.4 billion years ago,\n")
+          cat("   Proceedings of the National Academy of Science,\n")
           cat("   www.pnas.org/cgi/doi/10.1073/pnas.1502239112.\n")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/Xiamaling-CuAl.txt.bz2",tempDat)
         }
@@ -118,6 +120,16 @@ getData <- function (dat="1262-a*")
           cat("   IODP Expedition 374, Ross Sea: Proceedings of the International\n")
           cat("   Ocean Discovery Program, 374.\n")
           download.file("http://www.geology.wisc.edu/~smeyers/astrochron/U1521A-clast.txt.bz2",tempDat)
+        }
+
+        if(dat=="U1558-XRF")
+        {
+          cat(" * Downloading U1558 XRF data\n\n")
+          cat("   Please cite: Villa, A., Meyers, S.R., 2026,\n") 
+          cat("   High-latitude teleconnections drive subtropical marine\n")
+          cat("   bioproductivity at the dawn of the Antarctic ice sheet:\n")
+          cat("   Proceedings of the National Academy of Science.\n")
+          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/U1558-XRF.txt.bz2",tempDat)
         }
 
         cat(" * Decompressing\n")
