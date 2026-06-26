@@ -2,7 +2,7 @@
 ### Copyright (C) 2026 Stephen R. Meyers
 ###
 ###########################################################################
-### function timeOptB - (SRM: Feb. 24, 2026)
+### function timeOptB - (SRM: Feb. 24, 2026; April 15, 2026)
 ###########################################################################
 timeOptB <- function (dat,age=NULL,env=TRUE,mvopt=0,sedmin=0.5,sedmax=5,numsed=120,
             kmin=NULL,kmax=NULL,numk=120,ftol=0.005,roll=10^7,detrend=TRUE,
@@ -604,6 +604,26 @@ timeOptB <- function (dat,age=NULL,env=TRUE,mvopt=0,sedmin=0.5,sedmax=5,numsed=1
 
 # Figure 3: fit to the data for MAP value of u and k
    .plotmvdatafit(dat,fc_dat,mvmap,mvopt,iu,roll,pdfpara['deltafp'],pdfpara['nolikfdenv'])
+
+   if(verbose)
+    {
+     cat('\n========= Astronomical periods used in MAP data fit plots ======\n')
+     cat("Eccentricity (kyr):\n")
+     cat(1/(ev*fconv), sep=" , ")
+     cat("\n")
+     if (nov>0) 
+      {
+       cat("Obliquity (kyr):\n")
+       cat(1/(ov*fconv),sep=" , ")
+       cat("\n")
+      }      
+     if (npv>0)
+      {
+       cat("Climatic Precession (kyr):\n")
+       cat(1/(pv*fconv),sep=" , ")
+       cat("\n\n")
+      } 
+    }
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # Figure 4: AR(2) process fitted to the data

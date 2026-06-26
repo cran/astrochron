@@ -5,12 +5,13 @@
 Calculate geochemical proxy accumulation rates using defined sedimentation rate and dry bulk density. Sedimentation rate and dry bulk density data are piecewise linearly interpolated to data locations, to estimate bulk accumulation rate.
 }
 \usage{
-accum(dat,sedrate=NULL,density=NULL,genplot=T,check=T,verbose=T)
+accum(dat,sedrate=NULL,density=NULL,output=1,genplot=T,check=T,verbose=T)
 }
 \arguments{
   \item{dat}{Stratigraphic series containing geochemical proxy data. First column should be location (e.g., depth), second column should be geochemical concentration in weight percent (0-100).}
   \item{sedrate}{Sedimentation rate. First column should be location (e.g., depth), second column should be sedimentation rate (cm/ka). Alternatively, if a single value is given, a constant sedimentation rate is applied.}
   \item{density}{Dry bulk density. First column should be location (e.g., depth), second column should be dry bulk density (g/cm3/ka). Alternatively, if a single value is given, a constant bulk density is applied.}
+  \item{output}{Return output as new data frame? (0) no; (1) location, component accumulation rate; (2) location, component accumulation rate, linear sedimentation rate, bulk density, bulk accumulation rate.}
   \item{genplot}{Generate summary plots? (T or F)}
   \item{check}{Conduct compliance checks before processing? (T or F). In general this should be activated; the option is included for Monte Carlo simulation.}
   \item{verbose}{Verbose output? (T or F)}

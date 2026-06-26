@@ -36,6 +36,10 @@ For additional guidance on the application of TimeOptBMCMC, please see Malinvern
 }
 
 \references{
+Farhat, M., Auclair-Desrotour, P., Boue, G., Laskar, J., 2022,
+\emph{The resonant tidal evolution of the Earth-Moon distance}:
+Astronomy & Astrophysics, 665, L1.
+
 Meyers, S.R., 2015,
 \emph{The evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data: An inverse approach for astrochronologic testing and time scale optimization}: Paleoceanography, 30, doi:10.1002/2015PA002850.
 
@@ -54,6 +58,7 @@ Waltham, 2015,
 
 \examples{
  \dontrun{
+# EXAMPLE 1: Xiamaling Cu/Al
 # Obtain the Xiamaling Cu/Al dataset from the Astrochron server
 CuAl=getData("Xiamaling-CuAl")
 
@@ -67,5 +72,21 @@ res = timeOptBMCMC(CuAl_0.012, sedmin=0.3, sedmax=0.4, age=1400, nsamples=50000)
 # was detrended (if selected) and standardized in timeOptBMCMC. Use res$dat, returned
 # from timeOptBMCMC
 timeOptBMCMCplot(res$dat,res$mcmcres,res$pdfpara)
+
+# EXAMPLE 2: Walvis Ridge a* 
+# Obtain the Walvis Ridge a* dataset from the Astrochron server
+a=getData("1262-a*")
+
+# Isolate interval of interest and interpolate the data to the median sampling interval of 0.02 m.
+a_0.02=linterp(iso(a,xmin=117.36,xmax=139.75))
+
+# Run timeOptBMCMC and plot results
+res=timeOptBMCMC(a_0.02, sedmin=1.2, sedmax=1.4, age=55, nsamples=50000)
+
+# Re-plot and return posterior distributions of astronomical periods (including grand cycles)
+res2=timeOptBMCMCplot(res$dat,res$mcmcres,res$pdfpara)
+
+# What fraction of the g4-g3 posterior samples exceed the modern grand cycle value of 2.4 Myr?
+sum(res2[,16]>2400)/length(res2[,16])
  }
 }

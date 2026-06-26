@@ -1,10 +1,10 @@
 ### This function is a component of astrochron: An R Package for Astrochronology
-### Copyright (C) 2018 Stephen R. Meyers
+### Copyright (C) 2026 Stephen R. Meyers
 ###
 ###########################################################################
 ### getLaskar: download Laskar et al. (2004; 2011) astronomical solutions. 
 ###          (SRM: January 22, 2015; January 4, 2016; February 7, 2017;
-###                June 19, 2018)
+###                June 19, 2018; June 23, 2026)
 ###
 ###########################################################################
 
@@ -30,7 +30,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   Correia, A.C.M., Levrard, B., 2004, A long term numerical solution \n")
              cat("   for the insolation quantities of the Earth: Astron. Astrophys., Volume 428, 261-285.\n")
            }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la04.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/la04.txt.bz2",tempLaskar,mode="wb")
         }
   
         if(sol=="la10a")
@@ -42,7 +42,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
            }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la10a.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/la10a.txt.bz2",tempLaskar,mode="wb")
         }
 
         if(sol=="la10b")
@@ -54,7 +54,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
            }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la10b.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/la10b.txt.bz2",tempLaskar,mode="wb")
         }
 
         if(sol=="la10c")
@@ -66,7 +66,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
            }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la10c.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/la10c.txt.bz2",tempLaskar,mode="wb")
         }
 
         if(sol=="la10d")
@@ -78,7 +78,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   La2010: A new orbital solution for the long-term motion of the Earth:\n")
              cat("   Astron. Astrophys., Volume 532, A89.\n")
            }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la10d.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/la10d.txt.bz2",tempLaskar,mode="wb")
         }
 
         if(sol=="la11")
@@ -94,7 +94,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   Strong chaos induced by close encounters with Ceres and Vesta:\n")
              cat("   Astron. Astrophys., Volume 532, L4.\n")
           }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/la11.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/la11.txt.bz2",tempLaskar,mode="wb")
         }
 
         if(sol=="insolation")
@@ -106,7 +106,7 @@ getLaskar <- function (sol="la04",verbose=T)
              cat("   Correia, A.C.M., Levrard, B., 2004, A long term numerical solution \n")
              cat("   for the insolation quantities of the Earth: Astron. Astrophys., Volume 428, 261-285.\n")
           }
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/insolation.txt.bz2",tempLaskar)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/insolation.txt.bz2",tempLaskar,mode="wb")
         }
 
 

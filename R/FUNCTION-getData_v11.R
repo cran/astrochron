@@ -5,7 +5,8 @@
 ### getData: download data from astrochon server. 
 ###          (SRM: October 21, 2015; April 13, 2018; June 3, 2018; 
 ###                November 27, 2018; December 14, 2018, January 7, 2019;
-###                July 25, 2023; January 27, 2025; February 24, 2026)
+###                July 25, 2023; January 27, 2025; February 24, 2026; 
+###                June 24, 2026)
 ###
 ###########################################################################
 
@@ -21,7 +22,7 @@ getData <- function (dat="1262-a*")
           cat("   Please cite: Paelike, H., Frazier, J., Zachos, J.C., 2006,\n") 
           cat("   Extended orbitally forced palaeoclimatic records from the  \n")
           cat("   equatorial Atlantic Ceara Rise: Quaternary Science Reviews, 25(23-24), 3138-3149\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/926B-18O.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/926B-18O.txt.bz2",tempDat,mode="wb")
         }
   
         if(dat=="1262-a*")
@@ -30,7 +31,7 @@ getData <- function (dat="1262-a*")
           cat("   Please cite: Zachos, J.C., Kroon, D., Blum, P., et al., 2004,\n") 
           cat("   Proc. ODP, Init. Repts., 208: College Station, TX (Ocean Drilling\n")
           cat("   Program). doi:10.2973/odp.proc.ir.208.2004\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/1262_a.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/1262_a.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="graptolite")
@@ -40,7 +41,7 @@ getData <- function (dat="1262-a*")
           cat("   Pacing of Paleozoic Macroevolutionary Rates by Milankovitch Grand\n")
           cat("   Cycles: Proceedings of the National Academy of Science,\n")
           cat("   www.pnas.org/cgi/doi/10.1073/pnas.1714342115.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/graptolite.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/graptolite.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="Xiamaling-CuAl")
@@ -50,7 +51,7 @@ getData <- function (dat="1262-a*")
           cat("   Orbital forcing of climate 1.4 billion years ago,\n")
           cat("   Proceedings of the National Academy of Science,\n")
           cat("   www.pnas.org/cgi/doi/10.1073/pnas.1502239112.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/Xiamaling-CuAl.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/Xiamaling-CuAl.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="607-18O")
@@ -60,7 +61,7 @@ getData <- function (dat="1262-a*")
           cat("   stack of 57 globally distributed d18O records, Paleoceanography, 20,\n")
           cat("   PA1003, doi:10.1029/2004PA001071.\n")
           cat("   [please also see additional references therein]\n") 
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/607-18O.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/607-18O.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="AEB-18O")
@@ -70,7 +71,7 @@ getData <- function (dat="1262-a*")
           cat("   E.,Gaboardi, S., Iaccarino, S., 2012, Astronomical forcing of Northwest\n")
           cat("   African climate and glacial history during the late Messinian (6.5-5.5 Ma):\n")
           cat("   Palaeogeography, Palaeoclimatology, Palaeoecology, 313-314, 107-126.\n") 
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/AEB-18O.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/AEB-18O.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="Newark-rank")
@@ -81,7 +82,7 @@ getData <- function (dat="1262-a*")
           cat("   of Eastern North America and their implications for the calibration\n")
           cat("   of the early Mesozoic time-scale and the long-term behavior of\n")
           cat("   the planets: Phil. Trans., 357, 1761-1787.\n") 
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/Newark-rank.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/Newark-rank.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="CDL-rank")
@@ -90,7 +91,7 @@ getData <- function (dat="1262-a*")
           cat("   Please cite: Preto, N., Hinnov, L.A., Hardie, L.A., De Zanche, V., 2001,\n") 
           cat("   Middle Triassic orbital signature recorded in the shallow-marine Latemar\n")
           cat("   carbonate buildup (Dolomites, Italy): Geology, 29, 1123-1126.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/CDL-rank.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/CDL-rank.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="DVCP2017-18O")
@@ -100,7 +101,7 @@ getData <- function (dat="1262-a*")
           cat("   Paelike, H., 2017, Alternating Southern and Northern Hemisphere climate\n")
           cat("   response to astronomical forcing during the past 35 m.y.: Geology, 45,\n")
           cat("   375-378.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/DVCP2017-18O.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/DVCP2017-18O.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="AND2A-clast")
@@ -109,7 +110,7 @@ getData <- function (dat="1262-a*")
           cat("   Please cite: Panter, K.S., Talarico, F.M, Basset, K., et al., 2009,\n") 
           cat("   Petrologic and geochemical composition of the AND-2A core, ANDRILL\n")
           cat("   Southern McMurdo Sound Project, Antarctica: Terra Antartica 15, 147-192.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/AND2A-clast.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/AND2A-clast.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="U1521A-clast")
@@ -119,7 +120,7 @@ getData <- function (dat="1262-a*")
           cat("   Data Report: petrology of gravel-sized clasts from Site U1521 core,\n")
           cat("   IODP Expedition 374, Ross Sea: Proceedings of the International\n")
           cat("   Ocean Discovery Program, 374.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/U1521A-clast.txt.bz2",tempDat)
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/U1521A-clast.txt.bz2",tempDat,mode="wb")
         }
 
         if(dat=="U1558-XRF")
@@ -129,7 +130,18 @@ getData <- function (dat="1262-a*")
           cat("   High-latitude teleconnections drive subtropical marine\n")
           cat("   bioproductivity at the dawn of the Antarctic ice sheet:\n")
           cat("   Proceedings of the National Academy of Science.\n")
-          download.file("http://www.geology.wisc.edu/~smeyers/astrochron/U1558-XRF.txt.bz2",tempDat)
+          cat("   www.pnas.org/cgi/doi/10.1073/pnas.2424082123\n")
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/U1558-XRF.txt.bz2",tempDat,mode="wb")
+        }
+
+        if(dat=="LR04stack")
+        {
+          cat(" * Downloading LR04 stack data\n\n")
+          cat("   Please cite: Lisiecki, L. E., and M. E. Raymo (2005),\n")
+          cat("   A Pliocene-Pleistocene stack of 57 globally distributed\n")
+          cat("   benthic d18O records, Paleoceanography,20, PA1003,\n")
+          cat("   doi:10.1029/2004PA001071.\n")	
+          download.file("https://raw.githubusercontent.com/srmeyers2/getData/main/LR04stack.txt.bz2",tempDat,mode="wb")
         }
 
         cat(" * Decompressing\n")

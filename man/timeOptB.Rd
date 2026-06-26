@@ -48,6 +48,10 @@ For additional guidance on the application of TimeOptB, please see Malinverno & 
 \seealso{ \code{\link{timeOpt}}, \code{\link{timeOptBSim}}, \code{\link{timeOptMCMC}}, \code{\link{timeOptBMCMC}} }
 
 \references{
+Farhat, M., Auclair-Desrotour, P., Boue, G., Laskar, J., 2022,
+\emph{The resonant tidal evolution of the Earth-Moon distance}:
+Astronomy & Astrophysics, 665, L1.
+
 Meyers, S.R., 2015,
 \emph{The evaluation of eccentricity-related amplitude modulation and bundling in paleoclimate data: An inverse approach for astrochronologic testing and time scale optimization}: Paleoceanography, 30, doi:10.1002/2015PA002850.
 
@@ -63,6 +67,7 @@ Waltham, 2015,
 
 \examples{
  \dontrun{
+# EXAMPLE 1: Xiamaling Cu/Al
 # Obtain the Xiamaling Cu/Al dataset from the Astrochron server
 CuAl=getData("Xiamaling-CuAl")
 
@@ -71,6 +76,19 @@ CuAl_0.012=linterp(iso(CuAl,xmin=263.42,xmax=265.496,genplot=FALSE))
 
 # Run timeOptB
 res = timeOptB(CuAl_0.012, sedmin=0.3, sedmax=0.4, age=1400, kmin=78, kmax=94)
+
+# Run timeOptBSim
+timeOptBSim(res,Nsim=1000)
+
+# EXAMPLE 2: Walvis Ridge a* 
+# Obtain the Walvis Ridge a* dataset from the Astrochron server
+a=getData("1262-a*")
+
+# Isolate interval of interest and interpolate the data to the median sampling interval of 0.02 m.
+a_0.02=linterp(iso(a,xmin=117.36,xmax=139.75))
+
+# Run timeOptB
+res = timeOptB(a_0.02, sedmin=1.2, sedmax=1.4, age=55, kmin=49, kmax=53)
 
 # Run timeOptBSim
 timeOptBSim(res,Nsim=1000)

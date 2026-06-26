@@ -1,15 +1,15 @@
 ### This function is a component of astro: An R Package for Astrochronology
-### Copyright (C) 2024 Stephen R. Meyers
+### Copyright (C) 2026 Stephen R. Meyers
 ###
 ###########################################################################
 ### function accum - (SRM: January 15, 2014; April 6, 2024; June 10, 2024; 
-###                        Sept. 4 2024; November 10, 2024)
+###                        Sept. 4 2024; November 10, 2024; May 15, 2026)
 ###
 ### calculate accumulation rates
 ###########################################################################
 
 
-accum <- function (dat,sedrate=NULL,density=NULL,genplot=T,check=T,verbose=T)
+accum <- function (dat,sedrate=NULL,density=NULL,output=1,genplot=T,check=T,verbose=T)
 {
 
 if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
@@ -90,6 +90,7 @@ if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
      {
        bulk=sedrate[1,1]*density[1,1]
        out[2] <- (out[2]/100)*bulk   
+       outAll <- cbind(sedrate[1,1],density[1,1],bulk)
 # now redefine bulk for plotting
        b1=c(min(out[,1]),max(out[,1]))
        b2=c(bulk,bulk)
@@ -123,14 +124,29 @@ if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
       if(numDen ==1) density2=density
       if(numSed ==1) sedrate2=sedrate
         
-# calculate accumulation rates
+# calculate bulk accumulation rates
       if(numSed>1 || numDen >1) 
        {
-         if(numSed>1 && numDen >1) bulk= sedrate2[2]*density2[2] 
-         if(numSed==1 && numDen >1) bulk= sedrate2[1,1]*density2[2] 
-         if(numSed>1 && numDen ==1) bulk= sedrate2[2]*density2[1,1]
+         if(numSed>1 && numDen >1) 
+          { 
+           bulk= sedrate2[2]*density2[2] 
+           outAll <- cbind(sedrate2[,2],density2[,2],bulk)
+          }        
+         if(numSed==1 && numDen >1)
+          {         
+            bulk= sedrate2[1,1]*density2[2] 
+            outAll <- cbind(sedrate2[1,1],density2[,2],bulk)
+          }  
+         if(numSed>1 && numDen ==1) 
+          {
+           bulk= sedrate2[2]*density2[1,1]
+           outAll <- cbind(sedrate2[,2],density2[1,1],bulk)
+          } 
+
+# calculate component accumulation rates
          out[2] <- (out[2]/100)*bulk[1]      
-# now define bulk for plotting
+
+# now convert bulk to dataframe for plotting
          bulk <- data.frame(cbind(out[,1],bulk[,1]))
        }     
             
@@ -145,7 +161,18 @@ if(verbose) cat("\n----- CALCULATING ACCUMULATION RATES -----\n")
        lines(out)
       }
      
-     return(data.frame(out))
-
+     if(output==1) 
+      {
+       out=data.frame(out)
+       colnames(out) <- c("Location","ComponentAR")
+       return(out)
+      }
+     if(output==2) 
+      {
+       outAll=data.frame(cbind(out,outAll))
+       colnames(outAll) <- c("Location","ComponentAR","SR","BulkDen","BulkAR")
+       return(outAll)
+      }
+      
 ### END function accum
 }

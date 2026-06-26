@@ -2,7 +2,8 @@
 ### Copyright (C) 2026 Stephen R. Meyers
 ###
 ##################################################################################
-### function timeOptBMCMCplot - (SRM: Feb. 21, 2026)
+### function timeOptBMCMCplot - (SRM: Feb. 21, 2026; March 24, 2026; 
+###                                   April 19, 2026)
 ##################################################################################
 
 ### NOTE: if you aren't calling this function from within timeOptBMCMC, you will need
@@ -350,10 +351,61 @@ timeOptBMCMCplot <- function(dat,mcmcres,pdfpara,nburnin=NULL,fc_dat=NULL)
   pairs(mcmcres$mv[seq(nburnin,niter,by=ceiling((niter-nburnin)/2000)),2:(nmv+1)],upper.panel=panel.cor,gap=0.5,col="#0000001E",pch=19,cex=.3,cex.labels=1.2,xaxt="n",yaxt="n",row1attop=T)
   
   
-  
 # PLOT 5: plot fit to the data for MAP sampled value of mv
 # note that in mcmcres$mv, the mvs start with second column  
   .plotmvdatafit(dat,fc_dat,mvmap[2:(nmv+1)],pdfpara["mvopt"],iu-1,pdfpara['roll'],pdfpara['deltafp'],pdfpara['nolikfdenv'])
 
+  cat('\n========= Astronomical periods used in MAP data fit plots ======\n')
+  cat("Eccentricity (kyr):\n")
+  cat(ap[(itermax-nburnin+1),1:5], sep=" , ")
+  cat("\n")
+  if(mvopt==0) 
+   {
+    cat("Obliquity (kyr):\n")
+    cat(ap[(itermax-nburnin+1),6:10],sep=" , ")
+    cat("\n")
+    cat("Climatic Precession (kyr):\n")
+    cat(ap[(itermax-nburnin+1),11:15],sep=" , ")
+    cat("\n\n")
+   }      
+  if(mvopt==1) 
+   {
+    cat("Obliquity (kyr):\n")
+    cat(ap[(itermax-nburnin+1),6:7],sep=" , ")
+    cat("\n")
+    cat("Climatic Precession (kyr):\n")
+    cat(ap[(itermax-nburnin+1),8:12],sep=" , ")
+    cat("\n\n")
+   }    
+  if(mvopt==2)
+   {
+    cat("Climatic Precession (kyr):\n")
+    cat(ap[(itermax-nburnin + 1),6:10],sep=" , ")
+    cat("\n\n")
+   } 
+
+  if(mvopt == 0 || mvopt == 1) 
+   {
+# all results are in kyr
+    out=cbind(ap,g4mg3*1000,s4ms3*1000)
+    if(mvopt==0)
+     {
+      colnames(out)[16]=c("g4-g3")
+      colnames(out)[17]=c("s4-s3")
+     }
+    if(mvopt==1)
+     {
+      colnames(out)[13]=c("g4-g3")
+      colnames(out)[14]=c("s4-s3")
+     }   
+   }
+  if(mvopt == 2) 
+   {
+# all results are in kyr
+    out=cbind(ap,g4mg3*1000)
+    colnames(out)[11]=c("g4-g3")
+   }
+ 
+  return(invisible(out))
 # end function timeOptBMCMCplot
  }

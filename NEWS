@@ -1,3 +1,21 @@
+astrochron v1.7 (Release date: 2026-06-25)
+================
+
+New functions:
+
+* function hoangPriors
+
+Changes:
+
+* function timeOptBMCMCplot: now outputs posterior samples of astronomical cycles (including grand cycles), post burn-in
+* function timeOptB: now returns astronomical periods used in MAP fit plots when verbose=T and genplot=T
+* function timeOptBMCMCplot: now returns astronomical periods used in MAP fit plots
+* function getData: updated data server address, added LR04 stack
+* function getLaskar: updated data server address
+* function accum: now has option to return linear sedimentation rate, bulk density and bulk accumulation rate
+
+
+
 astrochron v1.6 (Release date: 2026-02-24)
 ================
 
@@ -5,7 +23,7 @@ New functions:
 
 * function timeOptB
 * function timeOptBSim
-* function timeOptMCMC
+* function timeOptBMCMC
 * function timeOptBMCMCplot
 
 Changes:
